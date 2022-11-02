@@ -1,10 +1,10 @@
 [Unit]
-Description=DeckDealer Database GitHub Sync
+Description=CrimeMap Database GitHub Sync
 After=network.target
 
 [Service]
 User=katayama
-WorkingDirectory=/home/katayama/Documents/DeckDealer/deckdealer/systemd
+WorkingDirectory=/home/katayama/Documents/CrimeMap/crimemap/systemd
 ExecStart=/bin/bash git_db.sh
 RestartSec=10
 

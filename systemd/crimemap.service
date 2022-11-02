@@ -1,0 +1,13 @@
+[Unit]
+Description=CrimeMap BackEnd Web Framework
+After=network.target
+
+[Service]
+User=katayama
+WorkingDirectory=/home/katayama/Documents/CrimeMap/crimemap
+ExecStart=/usr/bin/python3 server.py
+EnvironmentFile=/home/katayama/Documents/CrimeMap/crimemap/systemd/crimemap_service.conf
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
