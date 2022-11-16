@@ -159,8 +159,8 @@ Response:
 
 ### When using `curl`, add `-b` and `-c` to save and read session cookies
 ``` ruby
-curl -XPOST -b cookie.txt -c cookie.txt 'http://deckdealer.hopto.org/login' -d '{"username": "admin", "password": "admin"}'
-curl -b cookie.txt -c cookie.txt 'http://deckdealer.hopto.org/get/users'
+curl -XPOST -b cookie.txt -c cookie.txt 'http://crimemap.hopto.org/login' -d '{"username": "admin", "password": "admin"}'
+curl -b cookie.txt -c cookie.txt 'http://crimemap.hopto.org/get/users'
 ```
 </p>
 </details>
@@ -663,7 +663,7 @@ Response:
 
 <details><summary> (click here to expand) </summary>
 
-### Let's create a few users by registering them: `alice`, `bob`, `anna`, `steve`, `ellan`, `jimmy`
+### Let's create a few users by registering them: `alice`, `bob`, `anna`, `steve`
 ---
 
 Arguments:
@@ -1015,181 +1015,62 @@ Response:
 
 <details><summary> (click here to expand) </summary>
 
-### Existing tables!
-<table>
-<tr><td> Table Name </td><td> Table Description </td><td> Column Names </td></tr><tr><td>
-
-```rexx
-users
-```
-</td><td>
-
-```css
-all registered users
-```
-</td><td>
-
-
-```jq
-["user_id", "username", "password", "create_time"]
-```
-</td></tr><tr></tr><tr><td>
-
-```rexx
-cards
-```
-</td><td>
-
-```css
-all 52 cards in a deck
-```
-</td><td>
-
-
-```jq
-["card_id", "key", "name", "suit", "description", "entry_time"]
-```
-</td></tr><tr></tr><tr><td>
-
-```rexx
-deck
-```
-</td><td>
-
-```css
-52 shuffeled cards (for testing)
-```
-</td><td>
-
-
-```jq
-["card_id", "key", "name", "suit", "description", "entry_time"]
-```
-</td></tr>
-</table>
-
-The `cards` and `deck` tables have been created for **convenience**. <br />
-It contains all `52` cards in a standard `deck`. <br />
-In [Workflow 5 - Requesting Data](#Workflow-5---Requesting-Data) you will learn the `/get/<table_name>/<param_key>/<param_value>` endpoint. <br />
-Making a request to `/get/cards/name/ACE` will return with all of the `ACE` cards:
-
-Arguments:
-```rexx
-name = ACE
-```
-
-Request:
-```jq
-https://crimemap.hopto.org/get/cards/name/ACE
-```
-
-Response:
-```json
-{
-  "message": "found 4 card entries",
-  "data": [
-    {"card_id": 49, "key": "AC", "name": "ACE", "suit": "CLUBS", "description": "ace_of_clubs", "file_name": "AC.png", "entry_time": "2022-11-01 13:05:10.839"},
-    {"card_id": 50, "key": "AD", "name": "ACE", "suit": "DIAMONDS", "description": "ace_of_diamonds", "file_name": "AD.png", "entry_time": "2022-11-01 13:05:11.490"},
-    {"card_id": 51, "key": "AH", "name": "ACE", "suit": "HEARTS", "description": "ace_of_hearts", "file_name": "AH.png", "entry_time": "2022-11-01 13:05:12.118"},
-    {"card_id": 52, "key": "AS", "name": "ACE", "suit": "SPADES", "description": "ace_of_spades", "file_name": "AS.png", "entry_time": "2022-11-01 13:05:12.745"},
-  ],
-}
-```
-
-To view the pictures for each card, make a request to `/<file_name>` <br />
-| https://crimemap.hopto.org/AC.png  | https://crimemap.hopto.org/AD.png  | https://crimemap.hopto.org/AH.png  | https://crimemap.hopto.org/AS.png  |
-|:-:|:-:|:-:|:-:|
-| ![AC.png](https://crimemap.hopto.org/AC.png) | ![AD.png](https://crimemap.hopto.org/AD.png) | ![AH.png](https://crimemap.hopto.org/AH.png) | ![AS.png](https://crimemap.hopto.org/AS.png) |
-
-
 ### Let's create a few tables!<br />
 <table>
 <tr><td> Table Name </td><td> Table Description </td><td> Column Names </td></tr><tr><td>
 
 ```rexx
-players
+incidents
 ```
 </td><td>
 
 ```css
-users playing an active game
+incidents scraped from www.crimemapping.com
 ```
 </td><td>
 
 ```jq
-["player_id", "user_id", "game_id", "name", "email", "entry_time"]
+["entry_id", "tier", "type", "type_img", "description", "location", "latitude", "longitude", "agency", "report_date", "entry_time"]
 ```
 </td></tr><tr></tr><tr><td>
 
 ```rexx
-spectators
+sex_offenders
 ```
 </td><td>
 
 ```css
-users watching an active game
+offenders scraped from sexoffender.dsp.delaware.gov
 ```
 </td><td>
 
 ```jq
-["spectator_id", "user_id", "game_id", "name", "email", "entry_time"]
-```
-</td></tr><tr></tr><tr><td>
-
-```rexx
-games
-```
-</td><td>
-
-```css
-game config and card values
-```
-</td><td>
-
-```jq
-["game_id", "name", "min_players", "max_players", "min_decks", "max_decks", "player_actions", "rules", "entry_time"]
-```
-</td></tr><tr></tr><tr><td>
-
-
-```rexx
-active_game
-```
-</td><td>
-
-```css
-log for game in play
-```
-</td><td>
-
-```jq
-["entry_id", "game_id", "user_id", "player_id", "player_hand", "player_action", "entry_time"]
-```
-</td></tr><tr></tr><tr><td>
-
-
-```rexx
-score_board
-```
-</td><td>
-
-```css
-score for completed games
-```
-</td><td>
-
-```jq
-["score_id", "game_id", "user_id", "player_id", "winner", "winner_hand", "winner_score", "players", "player_hands", "player_scores", "spectators", "entry_time"]
+["entry_id", "tier", "name", "dob", "TEXT", "TEXT", "DATETIME", "TEXT", "TEXT", "DOUBLE", "DOUBLE", "TEXT", "TEXT", "DOUBLE", "DOUBLE", "DATETIME"]
 ```
 </td></tr>
 </table>
 
 ---
 
-### Creating the Table `players`:
+### Creating the Table `incidents`:
+Arguments:
+```rexx
+entry_id = INTEGER
+tier = INTEGER
+type = TEXT
+type_img = TEXT
+description = TEXT
+location = TEXT
+latitude = DOUBLE
+longitude = DOUBLE
+agency = TEXT
+report_date = DATETIME
+entry_time = DATETIME
+```
+
 Request:
 ```jq
-https://crimemap.hopto.org/createTable/players/player_id/INTEGER/user_id/INTEGER/game_id/INTEGER/name/TEXT/email/TEXT/entry_time/DATETIME
+https://crimemap.hopto.org/createTable/incidents/entry_id/INTEGER/tier/INTEGER/type/TEXT/type_img/TEXT/description/TEXT/location/TEXT/latitude/DOUBLE/longitude/DOUBLE/agency/TEXT/report_date/DATETIME/entry_time/DATETIME
 ```
 
 Response:
@@ -1197,22 +1078,35 @@ Response:
 
 {
   "message": "1 table created",
-  "table": "players",
+  "table": "incidents",
   "columns": [
-    "player_id INTEGER PRIMARY KEY",
-    "user_id INTEGER NOT NULL",
-    "game_id INTEGER NOT NULL",
-    "name TEXT NOT NULL",
-    "email TEXT NOT NULL",
-    "entry_time DATETIME NOT NULL DEFAULT (strftime(\"%Y-%m-%d %H:%M:%f\", \"now\", \"localtime\"))"
+    "entry_id INTEGER PRIMARY KEY",
+    "tier INTEGER NOT NULL",
+    "type TEXT NOT NULL",
+    "type_img TEXT NOT NULL",
+    "description TEXT NOT NULL",
+    "location TEXT NOT NULL",
+    "latitude DOUBLE NOT NULL",
+    "longitude DOUBLE NOT NULL",
+    "agency TEXT NOT NULL",
+    "report_date DATETIME NOT NULL",
+    "entry_time DATETIME NOT NULL DEFAULT (strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime'))"
   ]
 }
 ```
 
 ### Creating the Table `spectators`:
+Arguments:
+```rexx
+entry_id = INTEGER
+tier = INTEGER
+name = TEXT
+dob = DATETIME/TEXT/TEXT/DATETIME/TEXT/TEXT/DOUBLE/DOUBLE/TEXT/TEXT/DOUBLE/DOUBLE/DATETIME
+```
+
 Request:
 ```jq
-https://crimemap.hopto.org/createTable/spectators/spectator_id/INTEGER/user_id/INTEGER/game_id/INTEGER/name/TEXT/email/TEXT/entry_time/DATETIME
+https://crimemap.hopto.org/createTable/sex_offenders/entry_id/INTEGER/tier/INTEGER/name/TEXT/dob/DATETIME/TEXT/arrest_description/TEXT/arrest_date/DATETIME/victim_age/TEXT/home_address/TEXT/home_latitude/DOUBLE/home_longitude/DOUBLE/work_name/TEXT/work_address/TEXT/work_latitude/DOUBLE/work_longitude/DOUBLE/entry_time/DATETIME
 ```
 
 Response:
@@ -1220,94 +1114,15 @@ Response:
 
 {
   "message": "1 table created",
-  "table": "spectators",
-  "columns": [
-    "spectator_id INTEGER PRIMARY KEY",
-    "user_id INTEGER NOT NULL",
-    "game_id INTEGER NOT NULL",
-    "name TEXT NOT NULL",
-    "email TEXT NOT NULL",
-    "entry_time DATETIME NOT NULL DEFAULT (strftime(\"%Y-%m-%d %H:%M:%f\", \"now\", \"localtime\"))"
-  ]
-}
-```
-
-### Creating the Table `games`:
-Request:
-```jq
-https://crimemap.hopto.org/createTable/games/game_id/INTEGER/name/TEXT/min_players/TEXT/max_players/TEXT/min_decks/TEXT/max_decks/TEXT/player_actions/TEXT/rules/TEXT/entry_time/DATETIME
-```
-
-Response:
-```json
-
-{
-  "message": "1 table created",
-  "table": "games",
-  "columns": [
-    "game_id INTEGER PRIMARY KEY",
-    "name TEXT NOT NULL",
-    "min_players TEXT NOT NULL",
-    "max_players TEXT NOT NULL",
-    "min_decks TEXT NOT NULL",
-    "max_decks TEXT NOT NULL",
-    "player_actions TEXT NOT NULL",
-    "rules TEXT NOT NULL",
-    "entry_time DATETIME NOT NULL DEFAULT (strftime(\"%Y-%m-%d %H:%M:%f\", \"now\", \"localtime\"))"
-  ]
-}
-```
-
-### Creating the Table `active_game`:
-Request:
-```jq
-https://crimemap.hopto.org/createTable/active_game/entry_id/INTEGER/game_id/INTEGER/user_id/INTEGER/player_id/INTEGER/player_hand/TEXT/player_action/TEXT/entry_time/DATETIME
-```
-
-Response:
-```json
-
-{
-  "message": "1 table created",
-  "table": "active_game",
+  "table": "sex_offenders",
   "columns": [
     "entry_id INTEGER PRIMARY KEY",
-    "game_id INTEGER NOT NULL",
-    "user_id INTEGER NOT NULL",
-    "player_id INTEGER NOT NULL",
-    "player_hand TEXT NOT NULL",
-    "player_action TEXT NOT NULL",
-    "entry_time DATETIME NOT NULL DEFAULT (strftime(\"%Y-%m-%d %H:%M:%f\", \"now\", \"localtime\"))"
-  ]
-}
-```
-
-### Creting the Table `score_board`:
-Request:
-```jq
-https://crimemap.hopto.org/createTable/score_board/score_id/INTEGER/game_id/INTEGER/user_id/INTEGER/player_id/INTEGER/winner/TEXT/winner_email/TEXT/winner_hand/TEXT/winner_score/INTEGER/players/TEXT/player_hands/TEXT/player_scores/TEXT/spectators/TEXT/entry_time/DATETIME
-```
-
-Response:
-```json
-
-{
-  "message": "1 table created",
-  "table": "score_board",
-  "columns": [
-    "score_id INTEGER PRIMARY KEY",
-    "game_id INTEGER NOT NULL",
-    "user_id INTEGER NOT NULL",
-    "player_id INTEGER NOT NULL",
-    "winner TEXT NOT NULL",
-    "winner_email TEXT NOT NULL",
-    "winner_hand TEXT NOT NULL",
-    "winner_score INTEGER NOT NULL",
-    "players TEXT NOT NULL",
-    "player_hands TEXT NOT NULL",
-    "player_scores TEXT NOT NULL",
-    "spectators TEXT NOT NULL",
-    "entry_time DATETIME NOT NULL DEFAULT (strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime'))"
+    "tier INTEGER NOT NULL",
+    "name TEXT NOT NULL",
+    "dob DATETIME NOT NULL",
+    "text WORK_LATITUDE NOT NULL",
+    "datetime VICTIM_AGE NOT NULL",
+    "double ENTRY_TIME NOT NULL"
   ]
 }
 ```

@@ -50,6 +50,12 @@ def createTables():
             q += '/entry_id/INTEGER/tier/INTEGER/name/TEXT/dob/DATETIME/TEXT/arrest_description/TEXT/arrest_date/DATETIME/victim_age/TEXT/home_address/TEXT/home_latitude/DOUBLE/home_longitude/DOUBLE/work_name/TEXT/work_address/TEXT/work_latitude/DOUBLE/work_longitude/DOUBLE/entry_time/DATETIME'
         query.executeQuery(base_url=base_url, query=q, short=True)
 
+def uploadPics():
+    for i in range(1, 19):
+        url = f'https://ocpd-content.azureedge.net/cdn/images/IncidentType/Identify/{i}.svg'
+        q = f'/uploadImageUrl?url={url}'
+        query.executeQuery(base_url=base_url, query=q, short=True)
+
 if __name__ == '__main__':
     domain = re.search(r'[a-z]+', get_py_path().parent.name).group().replace('bartend', 'bartender')
     base_url = f'https://{domain}.hopto.org'
@@ -61,6 +67,7 @@ if __name__ == '__main__':
     ap.add_argument('--users', required=False, action="store_true", help="table to perform action on")
     ap.add_argument('--createTables', required=False, action="store_true", help='call /createTables')
     ap.add_argument('--deleteTables', required=False, action="store_true", help='call /deleteTables')
+    ap.add_argument('--uploadPics', required=False, action="store_true", help='call /uploadPics')
     args = ap.parse_args()
 
     if args.register:
@@ -73,3 +80,5 @@ if __name__ == '__main__':
         createTables()
     if args.deleteTables:
         deleteTables()
+    if args.uploadPics:
+        uploadPics()
