@@ -549,6 +549,7 @@ def clean(data):
     # if checkUserAgent():
     #     return template("templates/prettify.tpl", data=str_data)
     cleaned = json.loads(str_data)
+    logger.info('FROM: clean()')
     logger.info(cleaned)
     # print(cleaned)
     return cleaned
@@ -560,6 +561,7 @@ def clean2(data):
                 data.update({k: dict(v)})
 
     str_data = json.dumps(data, default=str, indent=2)
+    logger.info('FROM: clean2()')
     logger.info(str_data)
     # print(str_data)
     return str_data
@@ -754,6 +756,7 @@ def log_to_logger(fn):
                 logger.info(json.dumps({"request.params": dict(request.params)}))
                 logger.info(json.dumps(actual_response, default=str, indent=2))
         else:
+            logger.info(' === ERROR: actual_response is not dict() === ')
             try:
                 soup = BeautifulSoup(actual_response, 'html5lib')
                 logger.info(json.dumps(json.loads(soup.select_one("pre").getText()), indent=2))
