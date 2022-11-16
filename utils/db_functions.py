@@ -805,7 +805,7 @@ class ErrorsRestPlugin(object):
             # if checkUserAgent():
             #     res.content_type = "text/html; charset=UTF-8"
 
-            return self.json_dumps(clean2(dict(**{'message': str(res.body)}, **err)))
+            return self.json_dumps(clean(dict(**{'message': str(res.body)}, **err)))
 
         app.default_error_handler = default_error_handler
 
