@@ -59,8 +59,6 @@ if __name__ == '__main__':
     ap.add_argument('--delete', default=False, action="store_true", help="call /delete")
     ap.add_argument('--examine', default=False, action="store_true", help="call /get")
     ap.add_argument('--users', required=False, action="store_true", help="table to perform action on")
-    ap.add_argument('--createDeck', required=False, action="store_true", help='call /createDeck')
-    ap.add_argument('--shuffleDeck', required=False, action="store_true", help='call /shuffleDeck')
     ap.add_argument('--createTables', required=False, action="store_true", help='call /createTables')
     ap.add_argument('--deleteTables', required=False, action="store_true", help='call /deleteTables')
     args = ap.parse_args()
@@ -71,11 +69,6 @@ if __name__ == '__main__':
         delete(users=args.users)
     if args.examine:
         examine()
-    if args.createDeck:
-        createDeck(create=True)
-    if args.shuffleDeck:
-        deck = createDeck(create=False)
-        shuffleDeck(deck)
     if args.createTables:
         createTables()
     if args.deleteTables:
