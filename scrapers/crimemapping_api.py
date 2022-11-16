@@ -184,6 +184,7 @@ class CrimeMappingAPI(object):
         info_type = LEGEND[int(info_all['LegendID'])]
         info_date = str(datetime.strptime(info_all["CrimeReportDate"], '%m-%d-%Y @ %I:%M %p'))
         info = {
+            'incident_id': info_all["CrimeCaseNumber"],
             'type': info_type["na"],
             'type_img': f'{info_type["id"]}.svg',
             'description': info_all["CrimeDescription"],
@@ -191,7 +192,7 @@ class CrimeMappingAPI(object):
             'latitude': lat,
             'longitude': lon,
             'agency': info_all['OrganizationName'],
-            'report_date': info_date
+            'report_date': info_date,
         }
         return info
 
