@@ -516,57 +516,6 @@ def checkPassword(plaintext, hex_pass):
         return True
     return False
 
-def checkUserAgent():
-    user_agent = request.environ["HTTP_USER_AGENT"] if request.environ.get("HTTP_USER_AGENT") else ""
-    browser_agents = [
-        "Mozilla",
-        "Firefox",
-        "Seamonkey",
-        "Chrome",
-        "Chromium",
-        "Safari",
-        "OPR",
-        "Opera",
-        "MSIE",
-        "Trident",
-    ]
-    print(f'user_agent = {user_agent}')
-    regex = r"({})".format("|".join(browser_agents))
-
-    if re.search(regex, user_agent):
-        # print({"user-agent": user_agent})
-        return True
-    return False
-
-
-def clean(data):
-    if isinstance(data, dict):
-        for k, v in data.items():
-            if isinstance(v, FormsDict) or isinstance(v, WSGIHeaderDict):
-                data.update({k: dict(v)})
-
-    str_data = json.dumps(data, default=str, indent=2)
-    # if checkUserAgent():
-    #     return template("templates/prettify.tpl", data=str_data)
-    cleaned = json.loads(str_data)
-    logger.info('FROM: clean()')
-    logger.info(cleaned)
-    # print(cleaned)
-    return cleaned
-
-def clean2(data):
-    if isinstance(data, dict):
-        for k, v in data.items():
-            if isinstance(v, FormsDict) or isinstance(v, WSGIHeaderDict):
-                data.update({k: dict(v)})
-
-    str_data = json.dumps(data, default=str, indent=2)
-    logger.info('FROM: clean2()')
-    logger.info(str_data)
-    # print(str_data)
-    return str_data
-
-
 # Parsers #####################################################################
 def extract(info, cols):
     return{k: v for k, v in {c.values() for c in info} if k in cols}
@@ -721,6 +670,55 @@ def genToken(name='', value='', secret_key=Path.cwd().parent.name):
     return b64encode(cookie_encode((name, value), secret_key)).decode()
 
 # Logging #####################################################################
+def checkUserAgent():
+    user_agent = request.environ["HTTP_USER_AGENT"] if request.environ.get("HTTP_USER_AGENT") else ""
+    browser_agents = [
+        "Mozilla",
+        "Firefox",
+        "Seamonkey",
+        "Chrome",
+        "Chromium",
+        "Safari",
+        "OPR",
+        "Opera",
+        "MSIE",
+        "Trident",
+    ]
+    print(f'user_agent = {user_agent}')
+    regex = r"({})".format("|".join(browser_agents))
+
+    if re.search(regex, user_agent):
+        # print({"user-agent": user_agent})
+        return True
+    return False
+
+def clean(data):
+    if isinstance(data, dict):
+        for k, v in data.items():
+            if isinstance(v, FormsDict) or isinstance(v, WSGIHeaderDict):
+                data.update({k: dict(v)})
+
+    str_data = json.dumps(data, default=str, indent=2)
+    # if checkUserAgent():
+    #     return template("templates/prettify.tpl", data=str_data)
+    cleaned = json.loads(str_data)
+    logger.info('FROM: clean()')
+    logger.info(cleaned)
+    # print(cleaned)
+    return cleaned
+
+def clean2(data):
+    if isinstance(data, dict):
+        for k, v in data.items():
+            if isinstance(v, FormsDict) or isinstance(v, WSGIHeaderDict):
+                data.update({k: dict(v)})
+
+    str_data = json.dumps(data, default=str, indent=2)
+    logger.info('FROM: clean2()')
+    logger.info(str_data)
+    # print(str_data)
+    return str_data
+
 # -- https://stackoverflow.com/questions/31080214/python-bottle-always-logs-to-console-no-logging-to-file
 def getLogger():
     project = Path.cwd().parent.name
@@ -807,7 +805,7 @@ class ErrorsRestPlugin(object):
             # if checkUserAgent():
             #     res.content_type = "text/html; charset=UTF-8"
 
-            return clean(dict(**{'message': str(res.body)}, **err))
+            return self.json_dumps(clean2(dict(**{'message': str(res.body)}, **err)))
 
         app.default_error_handler = default_error_handler
 
