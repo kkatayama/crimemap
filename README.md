@@ -1045,7 +1045,7 @@ offenders scraped from sexoffender.dsp.delaware.gov
 </td><td>
 
 ```jq
-["entry_id", "tier", "name", "dob", "TEXT", "TEXT", "DATETIME", "TEXT", "TEXT", "DOUBLE", "DOUBLE", "TEXT", "TEXT", "DOUBLE", "DOUBLE", "DATETIME"]
+["entry_id", "tier", "name", "dob", "arrest_description", "arrest_date", "victim_age", "home_address", "home_latitude", "home_longitude", "work_name", "work_address", "work_latitude", "work_longitude", "entry_time"]
 ```
 </td></tr>
 </table>
@@ -1095,18 +1095,30 @@ Response:
 }
 ```
 
-### Creating the Table `spectators`:
+### Creating the Table `sex_offenders`:
 Arguments:
 ```rexx
 entry_id = INTEGER
 tier = INTEGER
 name = TEXT
-dob = DATETIME/TEXT/TEXT/DATETIME/TEXT/TEXT/DOUBLE/DOUBLE/TEXT/TEXT/DOUBLE/DOUBLE/DATETIME
+dob = DATETIME
+arrest_description = TEXT
+arrest_date = DATETIME
+victim_age = TEXT
+home_address = TEXT
+home_latitude = DOUBLE
+home_longitude = DOUBLE
+work_name = TEXT
+work_address = TEXT
+work_latitude = DOUBLE
+work_longitude = DOUBLE
+entry_time = DATETIME
 ```
 
 Request:
 ```jq
-https://crimemap.hopto.org/createTable/sex_offenders/entry_id/INTEGER/tier/INTEGER/name/TEXT/dob/DATETIME/TEXT/arrest_description/TEXT/arrest_date/DATETIME/victim_age/TEXT/home_address/TEXT/home_latitude/DOUBLE/home_longitude/DOUBLE/work_name/TEXT/work_address/TEXT/work_latitude/DOUBLE/work_longitude/DOUBLE/entry_time/DATETIME
+https://crimemap.hopto.org/createTable/sex_offenders/entry_id/INTEGER/tier/INTEGER/name/TEXT/dob/DATETIME/arrest_description/TEXT/arrest_date/DATETIME/victim_age/TEXT/home_address/TEXT/home_latitude/DOUBLE/home_longitude/DOUBLE/work_nam
+e/TEXT/work_address/TEXT/work_latitude/DOUBLE/work_longitude/DOUBLE/entry_time/DATETIME
 ```
 
 Response:
@@ -1120,9 +1132,17 @@ Response:
     "tier INTEGER NOT NULL",
     "name TEXT NOT NULL",
     "dob DATETIME NOT NULL",
-    "text WORK_LATITUDE NOT NULL",
-    "datetime VICTIM_AGE NOT NULL",
-    "double ENTRY_TIME NOT NULL"
+    "arrest_description TEXT NOT NULL",
+    "arrest_date DATETIME NOT NULL",
+    "victim_age TEXT NOT NULL",
+    "home_address TEXT NOT NULL",
+    "home_latitude DOUBLE NOT NULL",
+    "home_longitude DOUBLE NOT NULL",
+    "work_name TEXT NOT NULL",
+    "work_address TEXT NOT NULL",
+    "work_latitude DOUBLE NOT NULL",
+    "work_longitude DOUBLE NOT NULL",
+    "entry_time DATETIME NOT NULL DEFAULT (strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime'))"
   ]
 }
 ```
@@ -1520,6 +1540,12 @@ Response:
 ## [Workflow 4 - Inserting Data](#Workflow-Example-4---Inserting-Data)
 
 <details><summary> (click here to expand) </summary>
+
+
+
+
+
+
 
 We would like to add the game `Blackjack` to the `games` table. <br />
 

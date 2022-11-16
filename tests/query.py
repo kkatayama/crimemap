@@ -33,19 +33,19 @@ from utils.paths import get_py_path
 from rich import print, print_json
 
 
-def export_cookies(session='', cookie_file="cookies.pickle", py_path=''):
+def export_cookies(session='', cookie_file="cookies.pickle", py_path=get_py_path()):
     """Export Session Cookies"""
     pickle.dump(session.cookies, py_path.joinpath(cookie_file).open('wb'))
 
-def export_headers(session='', header_file="headers.pickle", py_path=''):
+def export_headers(session='', header_file="headers.pickle", py_path=get_py_path()):
     """Export Session Headers"""
     pickle.dump(session.headers, py_path.joinpath(header_file).open('wb'))
 
-def load_cookies(cookie_file="cookies.pickle", py_path=''):
+def load_cookies(cookie_file="cookies.pickle", py_path=get_py_path()):
     """Load External Cookies"""
     return pickle.load(py_path.joinpath(cookie_file).open('rb'))
 
-def load_headers(header_file="headers.pickle", py_path=''):
+def load_headers(header_file="headers.pickle", py_path=get_py_path()):
     """Load External Headers"""
     return pickle.load(py_path.joinpath(header_file).open('rb'))
 

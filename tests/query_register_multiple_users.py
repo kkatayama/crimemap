@@ -47,8 +47,17 @@ def createTables():
         if name == "incidents":
             q += '/entry_id/INTEGER/tier/INTEGER/type/TEXT/type_img/TEXT/description/TEXT/location/TEXT/latitude/DOUBLE/longitude/DOUBLE/agency/TEXT/report_date/DATETIME/entry_time/DATETIME'
         if name == "sex_offenders":
-            q += '/entry_id/INTEGER/tier/INTEGER/name/TEXT/dob/DATETIME/TEXT/arrest_description/TEXT/arrest_date/DATETIME/victim_age/TEXT/home_address/TEXT/home_latitude/DOUBLE/home_longitude/DOUBLE/work_name/TEXT/work_address/TEXT/work_latitude/DOUBLE/work_longitude/DOUBLE/entry_time/DATETIME'
+            q += '/entry_id/INTEGER/tier/INTEGER/name/TEXT/dob/DATETIME/arrest_description/TEXT/arrest_date/DATETIME/victim_age/TEXT/home_address/TEXT/home_latitude/DOUBLE/home_longitude/DOUBLE/work_name/TEXT/work_address/TEXT/work_latitude/DOUBLE/work_longitude/DOUBLE/entry_time/DATETIME'
         query.executeQuery(base_url=base_url, query=q, short=True)
+
+def printTables():
+    print('\n<table>\n')
+    for table in query.executeQuery(base_url=base_url, query='/get', stdout=False)["tables"]:
+        name = table["name"]
+        cols = [t["name"] for t in table["columns"]]
+        print('<tr><td> Table Name </td><td> Column Names </td></tr>')
+        print(f'<tr><td>\n\n```rexx\n{name}\n```\n\n</td><td>\n\n```jq\n{cols}\n```\n\n</td></tr>'.replace("'", '"'))
+    print('</table>')
 
 def uploadPics():
     for i in range(1, 19):
@@ -67,6 +76,7 @@ if __name__ == '__main__':
     ap.add_argument('--users', required=False, action="store_true", help="table to perform action on")
     ap.add_argument('--createTables', required=False, action="store_true", help='call /createTables')
     ap.add_argument('--deleteTables', required=False, action="store_true", help='call /deleteTables')
+    ap.add_argument('--printTables', required=False, action="store_true", help='call /printTables')
     ap.add_argument('--uploadPics', required=False, action="store_true", help='call /uploadPics')
     args = ap.parse_args()
 
@@ -82,3 +92,5 @@ if __name__ == '__main__':
         deleteTables()
     if args.uploadPics:
         uploadPics()
+    if args.printTables:
+        printTables()
