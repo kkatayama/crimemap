@@ -156,6 +156,10 @@ Response:
         print_json(data=res)
         print('```')
     else:
+        if isinstance(res, str):
+            print('[red]ERROR response is TEXT, not JSON[/red]')
+            print(res)
+            return
         tables = False
         if query in {'/get', '/add', '/edit', '/delete', '/createTable', '/deleteTable'}:
             tables = True
