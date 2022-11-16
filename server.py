@@ -82,8 +82,8 @@ def usage():
 ###############################################################################
 #                      User's Table: Additional Functions                     #
 ###############################################################################
-@route("/status", method=["GET", "POST", "PUT", "DELETE"])
-@route("/status/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE"])
+@route("/status", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+@route("/status/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 def getStatus(db, url_paths=""):
     user_id = request.get_cookie("user_id", secret=secret_key)
     if not user_id:
@@ -92,8 +92,8 @@ def getStatus(db, url_paths=""):
     res = {"message": "user is logged in with valid session cookie", "user_id": user_id, "cookies": dict(request.cookies)}
     return clean(res)
 
-@route("/register", method=["GET", "POST", "PUT", "DELETE"])
-@route("/register/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE"])
+@route("/register", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+@route("/register/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 def register(db, url_paths=""):
     # -- usage info
     if url_paths == 'usage':
@@ -141,8 +141,8 @@ def register(db, url_paths=""):
     # res.update({"token": genToken("user_id", str(user_id), secret_key)})
     return clean(res)
 
-@route("/login", method=["GET", "POST", "PUT", "DELETE"])
-@route("/login/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE"])
+@route("/login", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+@route("/login/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 def login(db, url_paths=""):
     # -- usage info
     if url_paths == 'usage':
@@ -176,15 +176,15 @@ def login(db, url_paths=""):
     res.update({"token": genToken("user_id", str(row["user_id"]), secret_key)})
     return clean(res)
 
-@route("/logout", method=["GET", "POST", "PUT", "DELETE"])
+@route("/logout", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 def logout(db):
     user_id = request.get_cookie("user_id", secret=secret_key)
     res = {"message": "user logged out", "user_id": user_id}
     response.delete_cookie("user_id")
     return clean(res)
 
-@route("/uploadImageUrl", method=["GET", "POST", "PUT", "DELETE"])
-@route("/uploadImageUrl/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE"])
+@route("/uploadImageUrl", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+@route("/uploadImageUrl/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 def uploadImageUrl(url_paths=""):
     # -- usage info
     if url_paths == 'usage':
@@ -228,7 +228,7 @@ def uploadImageUrl(url_paths=""):
 ###############################################################################
 @route("/createTable")
 @route("/createTable/<table_name>")
-@route("/createTable/<table_name>/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE"])
+@route("/createTable/<table_name>/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 def createTable(db, table_name="", url_paths=""):
     # -- usage info
     if table_name == 'usage':
@@ -289,9 +289,9 @@ def dropTable(db, table_name=""):
 ###############################################################################
 #                   Core Function /add - Add Data to a Table                  #
 ###############################################################################
-@route("/add", method=["GET", "POST", "PUT", "DELETE"])
-@route("/add/<table_name>", method=["GET", "POST", "PUT", "DELETE"])
-@route("/add/<table_name>/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE"])
+@route("/add", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+@route("/add/<table_name>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+@route("/add/<table_name>/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 def add(db, table_name="", url_paths=""):
     # -- usage info
     if table_name == 'usage':
@@ -350,9 +350,9 @@ def add(db, table_name="", url_paths=""):
 ###############################################################################
 #                 Core Function /get - Fetch Data From a Table                #
 ###############################################################################
-@route("/get", method=["GET", "POST", "PUT", "DELETE"])
-@route("/get/<table_name>", method=["GET", "POST", "PUT", "DELETE"])
-@route("/get/<table_name>/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE"])
+@route("/get", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+@route("/get/<table_name>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+@route("/get/<table_name>/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 def get(db, table_name="", url_paths=""):
     # -- usage info
     if table_name == 'usage':
@@ -398,9 +398,9 @@ def get(db, table_name="", url_paths=""):
 ###############################################################################
 #                  Core Function /edit - Edit Data in a Table                 #
 ###############################################################################
-@route("/edit", method=["GET", "POST", "PUT", "DELETE"])
-@route("/edit/<table_name>", method=["GET", "POST", "PUT", "DELETE"])
-@route("/edit/<table_name>/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE"])
+@route("/edit", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+@route("/edit/<table_name>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+@route("/edit/<table_name>/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 def edit(db, table_name="", url_paths=""):
     # -- usage info
     if table_name == 'usage':
@@ -477,9 +477,9 @@ def edit(db, table_name="", url_paths=""):
 ###############################################################################
 #             Core Function /delete - Delete Data from a Table                #
 ###############################################################################
-@route("/delete", method=["GET", "POST", "PUT", "DELETE"])
-@route("/delete/<table_name>", method=["GET", "POST", "PUT", "DELETE"])
-@route("/delete/<table_name>/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE"])
+@route("/delete", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+@route("/delete/<table_name>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+@route("/delete/<table_name>/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 def delete(db, table_name="", url_paths=""):
     # -- usage info
     if table_name == 'usage':
