@@ -71,6 +71,8 @@ def parseQuery(query):
         "uploadImageUrl"
     ]
     tables = [
+        "incidents",
+        "sex_offenders",
         "cards", "deck", "players", "spectators", "games", "active_game", "score_board",
         "users",
         "stuff",
