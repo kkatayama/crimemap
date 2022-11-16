@@ -1,4 +1,4 @@
-# coding: utf-8
+#!/usr/bin/env python3
 from utils import getSession, base_url
 import pandas as pd
 

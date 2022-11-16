@@ -747,7 +747,7 @@ def log_to_logger(fn):
             or request.remote_addr
         )
         logger.info('%s %s %s %s %s' % (ip_address, request_time, request.method, request.url, response.status))
-        print('%s %s %s %s %s' % (ip_address, request_time, request.method, request.url, response.status))
+        # print('%s %s %s %s %s' % (ip_address, request_time, request.method, request.url, response.status))
 
         if isinstance(actual_response, dict):
             if not actual_response.get("message") == "available commands":
@@ -759,7 +759,8 @@ def log_to_logger(fn):
                 logger.info(json.dumps(json.loads(soup.select_one("pre").getText()), indent=2))
                 # logger.info(json.dumps({'msg': }, default=str, indent=2))
                 # logger.info(actual_response)
-            except Exception:
+            except Exception as e:
+                logger.info(e)
                 logger.info(actual_response)
         return actual_response
     return _log_to_logger

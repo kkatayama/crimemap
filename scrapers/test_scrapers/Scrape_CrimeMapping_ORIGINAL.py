@@ -1,4 +1,4 @@
-# coding: utf-8
+#!/usr/bin/env python3
 from pyproj import Transformer
 from bs4 import BeautifulSoup
 from rich import print

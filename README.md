@@ -1030,7 +1030,7 @@ incidents scraped from www.crimemapping.com
 </td><td>
 
 ```jq
-["entry_id", "incident_id", "tier", "type", "type_img", "description", "location", "latitude", "longitude", "agency", "report_date", "entry_time"]
+["entry_id", "tier", "type", "type_img", "description", "location", "latitude", "longitude", "agency", "report_date", "entry_time"]
 ```
 </td></tr><tr></tr><tr><td>
 
@@ -1056,7 +1056,6 @@ offenders scraped from sexoffender.dsp.delaware.gov
 Arguments:
 ```rexx
 entry_id = INTEGER
-incident_id = INTEGER
 tier = INTEGER
 type = TEXT
 type_img = TEXT
@@ -1071,7 +1070,7 @@ entry_time = DATETIME
 
 Request:
 ```jq
-https://crimemap.hopto.org/createTable/incidents/entry_id/INTEGER/incident_id/INTEGER/tier/INTEGER/type/TEXT/type_img/TEXT/description/TEXT/location/TEXT/latitude/DOUBLE/longitude/DOUBLE/agency/TEXT/report_date/DATETIME/entry_time/DATET
+https://crimemap.hopto.org/createTable/incidents/entry_id/INTEGER/tier/INTEGER/type/TEXT/type_img/TEXT/description/TEXT/location/TEXT/latitude/DOUBLE/longitude/DOUBLE/agency/TEXT/report_date/DATETIME/entry_time/DATET
 IME
 ```
 
@@ -1083,7 +1082,6 @@ Response:
   "table": "incidents",
   "columns": [
     "entry_id INTEGER PRIMARY KEY",
-    "incident_id INTEGER NOT NULL",
     "tier INTEGER NOT NULL",
     "type TEXT NOT NULL",
     "type_img TEXT NOT NULL",
