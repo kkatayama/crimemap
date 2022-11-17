@@ -792,7 +792,7 @@ class ErrorsRestPlugin(object):
         def default_error_handler(res):
             logger.info(f'\n\nErrorsRestPlugin(): {res.content_type}')
             logger.info('===res===')
-            logger.info(dict(res))
+            logger.info(inspect(res))
             logger.info('\n\n')
             if res.content_type == "application/json":
                 return res.body
@@ -811,7 +811,7 @@ class ErrorsRestPlugin(object):
 
             res.body = clean(dict(**{'message': str(res.body)}, **err))
             logger.info('\n\n===res===\n\n')
-            logger.debug(dict(res))
+            logger.debug(inspect(res))
             return res.body
 
         app.default_error_handler = default_error_handler
