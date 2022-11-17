@@ -791,7 +791,7 @@ class ErrorsRestPlugin(object):
         if not self.json_dumps:
             self.json_dumps = json_dumps
 
-        @wraps(fn)
+        @wraps(object)
         def default_error_handler(res):
             if res.content_type == "application/json":
                 logger.info('\n\n=== actual_response ===\n\n')
