@@ -714,9 +714,6 @@ def clean2(data):
                 data.update({k: dict(v)})
 
     str_data = json.dumps(data, default=str, indent=2)
-
-
-    logger.info('FROM: clean2()')
     logger.info(str_data)
     # print(str_data)
     return str_data
@@ -794,6 +791,8 @@ class ErrorsRestPlugin(object):
         def default_error_handler(res):
             if res.content_type == "application/json":
                 logger.info('\n\n=== actual_response ===\n\n')
+                logger.debug('\n\n=== actual_response ===\n\n')
+                print('\n\n=== actual_response ===\n\n')
                 return res.body
             res.content_type = "application/json"
 
@@ -812,7 +811,7 @@ class ErrorsRestPlugin(object):
                 or request.remote_addr
             )
             logger.info('%s %s %s %s %s' % (ip_address, request_time, request.method, request.url, response.status))
-            return json_dumps(clean2(dict(**{'message': str(res.body)}, **err)))
+            return clean2(dict(**{'message': str(res.body)}, **err))
 
         app.default_error_handler = default_error_handler
 
