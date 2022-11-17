@@ -162,7 +162,7 @@ def login(db, url_paths=""):
         return clean(res)
 
     # -- send response message
-    response.set_cookie("user_id", str(row["user_id"]), secret=secret_key)
+    response.set_cookie("user_id", str(row["user_id"]), secret=secret_key, max_age=60*60*24*7)
     res = {"message": "user login success", "user_id": row["user_id"], "username": row["username"]}
     res.update({"token": genToken("user_id", str(row["user_id"]), secret_key)})
     return clean(res)

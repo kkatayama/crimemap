@@ -789,7 +789,6 @@ class ErrorsRestPlugin(object):
             self.json_dumps = json_dumps
 
         def default_error_handler(res):
-            log_to_logger(self)
             request_time = datetime.now()
             ip_address = (
                 request.environ.get('HTTP_X_FORWARDED_FOR')
