@@ -34,11 +34,6 @@ import re
 
 # -- app setup
 app = bottle.app()
-db_file = Path.cwd().joinpath('db', 'backend.db')
-plugin = SQLitePlugin(dbfile=db_file, detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES)
-app.install(plugin)
-app.install(log_to_logger)
-app.install(ErrorsRestPlugin())
 
 # -- sessions
 session_opts = {
@@ -49,6 +44,12 @@ session_opts = {
     'session.auto': True,
 }
 app = SessionMiddleware(app, session_opts)
+
+db_file = Path.cwd().joinpath('db', 'backend.db')
+plugin = SQLitePlugin(dbfile=db_file, detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES)
+app.install(plugin)
+app.install(log_to_logger)
+app.install(ErrorsRestPlugin())
 
 
 # -- hook to strip trailing slash
