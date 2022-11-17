@@ -743,7 +743,7 @@ def log_to_logger(fn):
                 res = actual_response.__dict__
                 if not res.get('body'):
                     res["body"] = res.get("_status_line'")
-                logger.info(ares)
+                logger.info(res)
                 err = ErrorsRestPlugin(json_dumps)
                 err.cleanError(res)
             except Exception as e:
