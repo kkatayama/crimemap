@@ -128,7 +128,7 @@ def executeQuery(base_url, query, short=True, stdout=True):
     s.headers.update(load_headers(py_path=py_path))
     s.cookies.update(load_cookies(py_path=py_path))
     r = s.get(url)
-    res = r.json() if r.status_code == 200 else r.text
+    res = r.json() if r.status_code == 200 or 'json' in r.headers.get('Content-Type') else r.text
 
     if '/usage' in query:
         print(res)
