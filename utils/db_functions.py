@@ -23,7 +23,7 @@ These functions
 # -- clean()            - sanitize data for json delivery
 """
 
-from bottle import request, response, FormsDict, WSGIHeaderDict, template, json_dumps, JSONPlugin, cookie_decode, cookie_encode
+from bottle import request, response, FormsDict, WSGIHeaderDict, template, json_dumps, JSONPlugin, cookie_decode, cookie_encode, HTTPERROR
 from datetime import datetime
 from base64 import b64decode, b64encode
 
