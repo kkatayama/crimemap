@@ -157,7 +157,7 @@ def custom_auth_basic(check, realm="private", text="Access denied"):
     return decorator
 
 
-def check_credentials(db, url_paths, user, pw):
+def check_credentials(user, pw):
     if auth_enabled:
         username = "admin"
         password = "admin"
@@ -170,7 +170,7 @@ def check_credentials(db, url_paths, user, pw):
 @route("/login", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @route("/login/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @custom_auth_basic(check_credentials)
-def login(db, url_paths="", user="", pw=""):
+def login(db="", url_paths=""):
     logger.info('=== AUTH ===')
     logger.info(request.auth)
 
