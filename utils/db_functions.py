@@ -740,11 +740,12 @@ def log_to_logger(fn):
         else:
             try:
                 logger.info("=== ATTEMPT TO CLEAN ERROR ===")
-                res = actual_response.__dict__
+                ares = actual_response.__dict__
                 if not res.get('body'):
-                    res["body"] = res.get("_status_line'")
+                    ares["body"] = ares.get("_status_line'")
+                logger.info(ares)
                 err = ErrorsRestPlugin()
-                err.cleanError(res)
+                err.cleanError(ares)
             except Exception as e:
                 logger.info("=== FAILED TO CLEAN ERROR ===")
                 exc_type, exc_value, exc_tb = sys.exc_info()
