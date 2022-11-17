@@ -741,8 +741,6 @@ def log_to_logger(fn):
     def _log_to_logger(*args, **kwargs):
         request_time = datetime.now()
         actual_response = fn(*args, **kwargs)
-        logger.info('\n\n=== actual_response ===\n\n')
-        logger.debug(actual_response)
         ip_address = (
             request.environ.get('HTTP_X_FORWARDED_FOR')
             or request.environ.get('REMOTE_ADDR')
@@ -793,6 +791,9 @@ class ErrorsRestPlugin(object):
 
         def default_error_handler(res):
             if res.content_type == "application/json":
+                actual_response = fn(*args, **kwargs)
+                logger.info('\n\n=== actual_response ===\n\n')
+                logger.debug(actual_response)
                 return res.body
             res.content_type = "application/json"
 
