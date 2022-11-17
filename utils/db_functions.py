@@ -730,9 +730,7 @@ def log_to_logger(fn):
         request_time = datetime.now()
         actual_response = fn(*args, **kwargs)
         ip_address = request.environ.get('HTTP_X_FORWARDED_FOR') or request.environ.get('REMOTE_ADDR') or request.remote_addr
-        if actual_response.status_code != 200:
-            raise HTTPError(actual_response.status_code, actual_response.__dict__)
-
+        status = response.status if actual_response.status_code == 200 else actual_response.status
         logger.info('%s %s %s %s %s' % (ip_address, request_time, request.method, request.url, response.status))
 
         if isinstance(actual_response, dict):
