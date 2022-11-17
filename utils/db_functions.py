@@ -737,9 +737,10 @@ def log_to_logger(fn):
                 logger.info(json.dumps({"request.params": dict(request.params)}))
                 logger.info(json.dumps(actual_response, default=str, indent=2))
         else:
+            if
             logger.info(' === ERROR: actual_response is not dict() === ')
             logger.info(actual_response.__dict__)
-            logger.info(dict(response))
+            logger.info(dict(actual_response))
             logger.info(inspect(response))
             try:
                 soup = BeautifulSoup(actual_response, 'html5lib')
