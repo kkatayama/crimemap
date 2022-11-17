@@ -134,7 +134,7 @@ def register(db, url_paths=""):
 
 auth_enabled = True
 
-def checkAuth(username, password):
+def checkAuth(db, user, password):
     logger.info(f'username = {username}')
     logger.info(f'password = {password}')
     return True
