@@ -1,6 +1,5 @@
 # -- bottle framework & plugins
 from bottle import hook, route, run, request, response, redirect, urlencode, template, static_file
-from beaker.middleware import SessionMiddleware
 from bottle_sqlite import SQLitePlugin, sqlite3
 import bottle
 import requests
@@ -39,16 +38,6 @@ plugin = SQLitePlugin(dbfile=db_file, detect_types=sqlite3.PARSE_DECLTYPES|sqlit
 app.install(plugin)
 app.install(log_to_logger)
 app.install(ErrorsRestPlugin())
-
-# -- sessions
-session_opts = {
-    'session.cookie_expires': None,
-    'session.type': 'file',
-    'session.auto': True,
-    'session.data_dir': './sessions',
-}
-app = SessionMiddleware(app, session_opts)
-
 
 
 # -- hook to strip trailing slash
@@ -96,14 +85,6 @@ def usage():
 @route("/status", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @route("/status/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 def getStatus(db, url_paths=""):
-    # -- test request hack
-    session = request.environ.get('beaker.session')
-    logger.info(f'session: user_id={session.get("user_id")}')
-    logger.info('\n\n=== session info ===\n\n')
-    logger.info(dict(request.environ))
-    logger.info(dict(request.cookies))
-    logger.info(dict(session))
-
     user_id = request.get_cookie("user_id", secret=secret_key)
     if not user_id:
         res = {"message": "user is not logged in (no session found); try appending the token to the request..."}
@@ -179,16 +160,6 @@ def login(db, url_paths=""):
     if not checkPassword(params["password"], row["password"]):
         res = {"message": "incorrect password", "password": params["password"]}
         return clean(res)
-
-    # -- test request hack
-    session = request.environ.get('beaker.session')
-    session['user_id'] = str(row["user_id"])
-    session.save()
-
-    logger.info('\n\n=== session info ===\n\n')
-    logger.info(dict(request.environ))
-    logger.info(dict(request.cookies))
-    logger.info(dict(session))
 
     # -- send response message
     response.set_cookie("user_id", str(row["user_id"]), secret=secret_key)
