@@ -738,7 +738,7 @@ def log_to_logger(fn):
                 logger.info(json.dumps(actual_response, default=str, indent=2))
         else:
             if actual_response.status_code != 200:
-                return
+                return HTTPError(actual_response.status_code, actual_response.__dict__)
             try:
                 logger.info(json.dumps({'msg': actual_response.data}, default=str, indent=2))
             except Exception as e:
