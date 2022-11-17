@@ -97,7 +97,7 @@ def usage():
 @route("/status/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 def getStatus(db, url_paths=""):
     # -- test request hack
-    session = bottle.request.environ.get('beaker.session')
+    session = request.environ.get('beaker.session')
     logger.info(f'session: user_id={session.get("user_id")}')
     logger.info('\n\n=== request ===\n\n')
     logger.info(inspect(request))
@@ -179,7 +179,7 @@ def login(db, url_paths=""):
         return clean(res)
 
     # -- test request hack
-    session = bottle.request.environ.get('beaker.session')
+    session = request.environ.get('beaker.session')
     session['user_id'] = session.get('user_id', genToken("user_id", secret=secret_key))
     logger.info('\n\n=== request ===\n\n')
     logger.info(inspect(request))
