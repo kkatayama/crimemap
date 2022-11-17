@@ -744,7 +744,7 @@ def log_to_logger(fn):
                 if not res.get('body'):
                     res["body"] = res.get("_status_line'")
                 err = ErrorsRestPlugin()
-                err.cleanError(err)
+                err.cleanError(res)
             except Exception as e:
                 logger.info("=== FAILED TO CLEAN ERROR ===")
                 exc_type, exc_value, exc_tb = sys.exc_info()
