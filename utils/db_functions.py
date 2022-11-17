@@ -743,8 +743,10 @@ def log_to_logger(fn):
                 res = actual_response.__dict__
                 if not res.get('body'):
                     res["body"] = res.get("_status_line'")
+                if not res.get('_headers'):
+                    res["headers"].update(response.headers)
                 logger.info(res)
-                err = ErrorsRestPlugin(json_dumps)
+                err = ErrorsRestPlugin()
                 err.cleanError(res)
             except Exception as e:
                 logger.info("=== FAILED TO CLEAN ERROR ===")
@@ -783,7 +785,8 @@ class ErrorsRestPlugin(object):
     def log(self, error_log):
         request_time = datetime.now()
         ip_address = request.environ.get('HTTP_X_FORWARDED_FOR') or request.environ.get('REMOTE_ADDR') or request.remote_addr
-        logger.info('%s %s %s %s %s' % (ip_address, request_time, request.method, request.url, response.status))
+        status = error_log.get('_status_line') if error_log.get('_status_code') != response.status_code else response.status
+        logger.info('%s %s %s %s %s' % (ip_address, request_time, request.method, request.url, status))
         logger.error(self.json_dumps(error_log, default=str, indent=2))
 
     def cleanError(self, data):
@@ -796,7 +799,7 @@ class ErrorsRestPlugin(object):
             data["traceback"] = data["traceback"].splitlines()
             traceback = data["traceback"][-1]
         error_key = "Python_Error" if data.get('_status_code') == 500 else "Error"
-        error_msg = data.pop('body')
+        error_msg = data.get('body')
         error_log = {"message": error_msg, error_key: data}
         self.log(error_log)
 
