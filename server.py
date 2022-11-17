@@ -169,7 +169,7 @@ def check_credentials(user, pw):
 
 @route("/login", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @route("/login/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
-@custom_auth_basic(check_credentials)
+@custom_auth_basic(check_credentials, db)
 def login(db, url_paths=""):
     logger.info('=== AUTH ===')
     logger.info(request.auth)
