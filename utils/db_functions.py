@@ -809,10 +809,11 @@ class ErrorsRestPlugin(object):
             # if checkUserAgent():
             #     res.content_type = "text/html; charset=UTF-8"
 
-            res.body = clean(dict(**{'message': str(res.body)}, **err))
+            logger.info('\n\n===err===\n\n')
+            logger.error(err)
             logger.info('\n\n===res===\n\n')
             logger.debug(inspect(res))
-            return res.body
+            return clean2(dict(**{'message': str(res.body)}, **err))
 
         app.default_error_handler = default_error_handler
 
