@@ -788,7 +788,7 @@ class ErrorsRestPlugin(object):
         self.log(error_log)
 
         data.update({'traceback': traceback})
-        error = {"message": error_msg. error_key: data}
+        error = {"message": error_msg, error_key: data}
         return self.json_dumps(error, default=str, indent=2)
 
     def setup(self, app):
