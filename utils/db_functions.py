@@ -739,7 +739,7 @@ def log_to_logger(fn):
                 logger.info(json.dumps(actual_response, default=str, indent=2))
         else:
             try:
-                logger.info(json.dumps({'msg': actual_response.__dict__.get("data")}, default=str, indent=2))
+                logger.info(json.dumps({'msg': actual_response.__dict__}, default=str, indent=2))
             except Exception as e:
                 logger.info(e)
                 logger.info(actual_response)
