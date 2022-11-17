@@ -791,8 +791,8 @@ class ErrorsRestPlugin(object):
 
         def default_error_handler(res):
             if res.content_type == "application/json":
-                actual_response = fn(*args, **kwargs)
                 logger.info('\n\n=== actual_response ===\n\n')
+                actual_response = fn(*args, **kwargs)
                 logger.debug(actual_response)
                 return res.body
             res.content_type = "application/json"
