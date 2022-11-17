@@ -40,6 +40,41 @@ app.install(log_to_logger)
 app.install(ErrorsRestPlugin())
 
 
+auth_enabled = True
+
+
+def custom_auth_basic(check, realm="private", text="Access denied"):
+    ''' Callback decorator to require HTTP auth (basic).
+        TODO: Add route(check_auth=...) parameter. '''
+    def decorator(func):
+        def wrapper(*a, **ka):
+            if auth_enabled:
+                user, password = request.auth or (None, None)
+                if user is None or not check(user, password):
+                    err = HTTPError(401, text)
+                    err.add_header('WWW-Authenticate', 'Basic realm="%s"' % realm)
+                    return err
+                return func(*a, **ka)
+            else:
+                return func(*a, **ka)
+
+        return wrapper
+    return decorator
+
+
+def check_credentials(user, pw):
+    if auth_enabled:
+        username = "admin"
+        password = "admin"
+        if pw == password and user == username:
+            return True
+        return False
+    else:
+        return True
+
+
+
+
 # -- hook to strip trailing slash
 @hook('before_request')
 def strip_path():
@@ -55,6 +90,7 @@ def enable_cors():
 
 # -- index - response: running
 @route("/", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+@custom_auth_basic(check_credentials)
 def index():
     res = {"message": "running..."}
     return clean(res)
@@ -132,44 +168,8 @@ def register(db, url_paths=""):
     res = {"message": "new user created", "user_id": user_id, "username": username}
     return clean(res)
 
-
-
-
-auth_enabled = True
-
-
-def custom_auth_basic(check, realm="private", text="Access denied"):
-    ''' Callback decorator to require HTTP auth (basic).
-        TODO: Add route(check_auth=...) parameter. '''
-    def decorator(func):
-        def wrapper(*a, **ka):
-            if auth_enabled:
-                user, password = request.auth or (None, None)
-                if user is None or not check(user, password):
-                    err = HTTPError(401, text)
-                    err.add_header('WWW-Authenticate', 'Basic realm="%s"' % realm)
-                    return err
-                return func(*a, **ka)
-            else:
-                return func(*a, **ka)
-
-        return wrapper
-    return decorator
-
-
-def check_credentials(user, pw):
-    if auth_enabled:
-        username = "admin"
-        password = "admin"
-        if pw == password and user == username:
-            return True
-        return False
-    else:
-        return True
-
 @route("/login", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @route("/login/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
-@custom_auth_basic(check_credentials, db)
 def login(db, url_paths=""):
     logger.info('=== AUTH ===')
     logger.info(request.auth)
