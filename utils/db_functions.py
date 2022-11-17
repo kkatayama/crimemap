@@ -801,7 +801,7 @@ class ErrorsRestPlugin(object):
                 return res.body
             res.content_type = "application/json"
 
-            clean2(dict(**{'message': str(res.boty)}, res.__dict__)
+            clean2(dict(**{'message': str(res.boty)}, **res.__dict__))
 
             err_res = res.__dict__
             if isinstance(err_res.get("traceback"), str):
