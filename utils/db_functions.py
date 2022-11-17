@@ -730,6 +730,9 @@ def log_to_logger(fn):
         request_time = datetime.now()
         actual_response = fn(*args, **kwargs)
         ip_address = request.environ.get('HTTP_X_FORWARDED_FOR') or request.environ.get('REMOTE_ADDR') or request.remote_addr
+        if actual_response.status_code != 200:
+            raise HTTPError(actual_response.status_code, actual_response.__dict__)
+
         logger.info('%s %s %s %s %s' % (ip_address, request_time, request.method, request.url, response.status))
 
         if isinstance(actual_response, dict):
@@ -737,8 +740,6 @@ def log_to_logger(fn):
                 logger.info(json.dumps({"request.params": dict(request.params)}))
                 logger.info(json.dumps(actual_response, default=str, indent=2))
         else:
-            if actual_response.status_code != 200:
-                return HTTPError(actual_response.status_code, actual_response.__dict__)
             try:
                 logger.info(json.dumps({'msg': actual_response.data}, default=str, indent=2))
             except Exception as e:
