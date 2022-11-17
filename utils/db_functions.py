@@ -801,8 +801,9 @@ class ErrorsRestPlugin(object):
                 return res.body
             res.content_type = "application/json"
 
+            clean2(dict(**{'message': str(res.body)}, **res.__dict__))
+
             err_res = res.__dict__
-            clean2(dict(**{'message': str(res.body)}, **err_res))
             if isinstance(err_res.get("traceback"), str):
                 err_res["traceback"] = err_res["traceback"].splitlines()
             if res.status_code == 500:
