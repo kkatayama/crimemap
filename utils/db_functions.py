@@ -707,17 +707,6 @@ def clean(data):
     # print(cleaned)
     return cleaned
 
-def clean2(data):
-    if isinstance(data, dict):
-        for k, v in data.items():
-            if isinstance(v, FormsDict) or isinstance(v, WSGIHeaderDict):
-                data.update({k: dict(v)})
-
-    str_data = json.dumps(data, default=str, indent=2)
-    logger.info(str_data)
-    # print(str_data)
-    return str_data
-
 # -- https://stackoverflow.com/questions/31080214/python-bottle-always-logs-to-console-no-logging-to-file
 def getLogger():
     project = Path.cwd().parent.name
@@ -778,6 +767,30 @@ class ErrorsRestPlugin(object):
         """init()"""
         self.json_dumps = dumps
 
+    def log(self, error_log):
+        request_time = datetime.now()
+        ip_address = request.environ.get('HTTP_X_FORWARDED_FOR') or request.environ.get('REMOTE_ADDR') or request.remote_addr
+        logger.info('%s %s %s %s %s' % (ip_address, request_time, request.method, request.url, response.status))
+        logger.error(self.json_dumps(error_log, default=str, indent=2))
+
+    def cleanError(self, data):
+        for k, v in data.items():
+            if isinstance(v, FormsDict) or isinstance(v, WSGIHeaderDict):
+                data.update({k: dict(v)})
+
+        traceback = ""
+        if isinstance(data.get("traceback"), str):
+            data["traceback"] = data["traceback"].splitlines()
+            traceback = data["traceback"][-1]
+        error_key = "Python_Error" if data.get('_status_code') == 500 else "Error"
+        error_msg = data.pop('body')
+        error_log = {"message": error_msg, error_key: data}
+        self.log(error_log)
+
+        data.update({'traceback': traceback})
+        error = {"message": error_msg. error_key: data}
+        return self.json_dumps(error, default=str, indent=2)
+
     def setup(self, app):
         """Initialize Handler"""
         for plugin in app.plugins:
@@ -789,29 +802,11 @@ class ErrorsRestPlugin(object):
             self.json_dumps = json_dumps
 
         def default_error_handler(res):
-            request_time = datetime.now()
-            ip_address = (
-                request.environ.get('HTTP_X_FORWARDED_FOR')
-                or request.environ.get('REMOTE_ADDR')
-                or request.remote_addr
-            )
-            logger.info('%s %s %s %s %s' % (ip_address, request_time, request.method, request.url, response.status))
-
             if res.content_type == "application/json":
                 return res.body
             res.content_type = "application/json"
 
-            clean2(dict(**{'message': str(res.body)}, **res.__dict__))
-
-            err_res = res.__dict__
-            if isinstance(err_res.get("traceback"), str):
-                err_res["traceback"] = err_res["traceback"].splitlines()
-            if res.status_code == 500:
-                err = {"Python Error": err_res}
-            else:
-                err = {"Error": err_res}
-
-            return clean2(dict(**{'message': str(res.body)}, **err))
+            return self.cleanError(res.__dict__)
 
         app.default_error_handler = default_error_handler
 
