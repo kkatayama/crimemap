@@ -182,7 +182,7 @@ def login(db, url_paths=""):
 
     # -- test request hack
     session = request.environ.get('beaker.session')
-    session['user_id'] = session.get('user_id', genToken("user_id", secret=secret_key))
+    session['user_id'] = session.get('user_id', genToken("user_id", str(row["user_id"]), secret_key))
     logger.info('\n\n=== request ===\n\n')
     logger.info(inspect(request))
 
