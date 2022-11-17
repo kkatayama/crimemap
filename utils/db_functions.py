@@ -744,6 +744,7 @@ def log_to_logger(fn):
                 if not res.get('body'):
                     res["body"] = res.get("_status_line'")
                 if not res.get('_headers'):
+                    logger.info(response.get_header())
                     res["headers"].update(response.headers)
                 logger.info(res)
                 err = ErrorsRestPlugin()
