@@ -739,7 +739,6 @@ def log_to_logger(fn):
         else:
             logger.info(' === ERROR: actual_response is not dict() === ')
             logger.error(actual_response.__dict__)
-            logger.error(dict(actual_response))
             logger.debug(dict(response))
             try:
                 soup = BeautifulSoup(actual_response, 'html5lib')
