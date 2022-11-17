@@ -737,7 +737,7 @@ def log_to_logger(fn):
                 logger.info(json.dumps({"request.params": dict(request.params)}))
                 logger.info(json.dumps(actual_response, default=str, indent=2))
         else:
-            if
+            # if
             logger.info(' === ERROR: actual_response is not dict() === ')
             logger.info(actual_response.__dict__)
             logger.info(dict(actual_response))
