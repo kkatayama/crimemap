@@ -101,8 +101,10 @@ def getStatus(db, url_paths=""):
     # -- test request hack
     session = request.environ.get('beaker.session')
     logger.info(f'session: user_id={session.get("user_id")}')
-    logger.info('\n\n=== request ===\n\n')
-    logger.info(inspect(request))
+    logger.info('\n\n=== session info ===\n\n')
+    logger.info(inspect(dict(request.environ)))
+    logger.info(inspect(dict(request.cookies)))
+    logger.info(inspect(dict(session)))
 
     user_id = request.get_cookie("user_id", secret=secret_key)
     if not user_id:
@@ -183,8 +185,10 @@ def login(db, url_paths=""):
     # -- test request hack
     session = request.environ.get('beaker.session')
     session['user_id'] = session.get('user_id', genToken("user_id", str(row["user_id"]), secret_key))
-    logger.info('\n\n=== request ===\n\n')
-    logger.info(inspect(request))
+    logger.info('\n\n=== session info ===\n\n')
+    logger.info(inspect(dict(request.environ)))
+    logger.info(inspect(dict(request.cookies)))
+    logger.info(inspect(dict(session)))
 
     # -- send response message
     response.set_cookie("user_id", str(row["user_id"]), secret=secret_key)
