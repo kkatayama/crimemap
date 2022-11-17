@@ -801,6 +801,8 @@ class ErrorsRestPlugin(object):
                 return res.body
             res.content_type = "application/json"
 
+            clean2(dict(**{'message': str(res.boty)}, res.__dict__)
+
             err_res = res.__dict__
             if isinstance(err_res.get("traceback"), str):
                 err_res["traceback"] = err_res["traceback"].splitlines()
@@ -809,7 +811,7 @@ class ErrorsRestPlugin(object):
             else:
                 err = {"Error": err_res}
 
-            return self.json_dumps(clean2(dict(**{'message': str(res.body)}, **err)))
+            return clean2(dict(**{'message': str(res.body)}, **err))
 
         app.default_error_handler = default_error_handler
 
