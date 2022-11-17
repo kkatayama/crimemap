@@ -737,16 +737,10 @@ def log_to_logger(fn):
                 logger.info(json.dumps({"request.params": dict(request.params)}))
                 logger.info(json.dumps(actual_response, default=str, indent=2))
         else:
-            logger.info(' === ERROR: actual_response is not dict() === ')
-            logger.info(actual_response.__dict__)
-            logger.info(dir(actual_response))
-            logger.info(actual_response.status)
-            logger.info(actual_response.body)
+            if actual_response.status_code != 200:
+                return
             try:
-                soup = BeautifulSoup(actual_response, 'html5lib')
-                logger.info(json.dumps(json.loads(soup.select_one("pre").getText()), indent=2))
-                # logger.info(json.dumps({'msg': }, default=str, indent=2))
-                # logger.info(actual_response)
+                logger.info(json.dumps({'msg': actual_response.data}, default=str, indent=2))
             except Exception as e:
                 logger.info(e)
                 logger.info(actual_response)
