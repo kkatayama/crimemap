@@ -34,6 +34,11 @@ import re
 
 # -- app setup
 app = bottle.app()
+db_file = Path.cwd().joinpath('db', 'backend.db')
+plugin = SQLitePlugin(dbfile=db_file, detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES)
+app.install(plugin)
+app.install(log_to_logger)
+app.install(ErrorsRestPlugin())
 
 # -- sessions
 session_opts = {
@@ -45,11 +50,6 @@ session_opts = {
 }
 app = SessionMiddleware(app, session_opts)
 
-db_file = Path.cwd().joinpath('db', 'backend.db')
-plugin = SQLitePlugin(dbfile=db_file, detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES)
-app.install(plugin)
-app.install(log_to_logger)
-app.install(ErrorsRestPlugin())
 
 
 # -- hook to strip trailing slash
@@ -548,17 +548,17 @@ def delete(db, table_name="", url_paths=""):
 ###############################################################################
 #                                 Static Files                                #
 ###############################################################################
-@app.route('/static/css/<filename:re:.*\.css>')
+@route('/static/css/<filename:re:.*\.css>')
 def send_css(filename):
     dirname = sys.path[0]
     return static_file(filename, root=f'{dirname}/static/css/')
 
-@app.route('/static/img/<filename:re:.*\.*>')
+@route('/static/img/<filename:re:.*\.*>')
 def send_img(filename):
     dirname = sys.path[0]
     return static_file(filename, root=f'{dirname}/static/img/')
 
-@app.route(f"<filename:re:.*\.({'|'.join(m.strip('.') for m in mimetypes.types_map)})>")
+@route(f"<filename:re:.*\.({'|'.join(m.strip('.') for m in mimetypes.types_map)})>")
 def send_root_img(filename):
     dirname = sys.path[0]
     return static_file(filename, root=f'{dirname}/static/img/')
