@@ -792,7 +792,7 @@ class ErrorsRestPlugin(object):
         def default_error_handler(res):
             logger.info(f'\n\nErrorsRestPlugin(): {res.content_type}')
             logger.info('===res===')
-            logger.info(res)
+            logger.info(dict(res))
             logger.info('\n\n')
             if res.content_type == "application/json":
                 return res.body
@@ -809,10 +809,10 @@ class ErrorsRestPlugin(object):
             # if checkUserAgent():
             #     res.content_type = "text/html; charset=UTF-8"
 
-            info = clean(dict(**{'message': str(res.body)}, **err))
-            logger.info('\n\nr===res===\n\n')
-            logger.debug(res)
-            return info
+            res.body = clean(dict(**{'message': str(res.body)}, **err))
+            logger.info('\n\n===res===\n\n')
+            logger.debug(dict(res))
+            return res.body
 
         app.default_error_handler = default_error_handler
 
