@@ -120,14 +120,6 @@ def register(db, url_paths=""):
         return clean(res)
     params.update({"password": securePassword(params.pop("password"))})
 
-    # # -- check for required parameters
-    # missing_keys = (params.keys() ^ required_columns.keys())
-    # missing_params = {k: table["columns"][k] for k in required_columns if k in missing_keys}
-    # if missing_params:
-    #     res = {"message": "missing paramaters", "required": [required_columns],
-    #            "missing": [missing_params], "submitted": [params]}
-    #     return clean(res)
-
     # -- check if user exists
     if fetchRow(db, table=table, where="username=?", values=params["username"]):
         res = {"message": "user exists", "username": params["username"]}
@@ -138,7 +130,6 @@ def register(db, url_paths=""):
     columns, col_values = list(edit_items.keys()), list(edit_items.values())
     user_id = insertRow(db, table=table, columns=columns, col_values=col_values)
     res = {"message": "new user created", "user_id": user_id, "username": username}
-    # res.update({"token": genToken("user_id", str(user_id), secret_key)})
     return clean(res)
 
 @route("/login", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
@@ -202,7 +193,6 @@ def uploadImageUrl(url_paths=""):
     p = map(str, url_paths.split('/', maxsplit=1))
     params = dict(request.params)
     params.update(dict(zip(p, p)))
-    # print(f"params = {params}\nurl_paths = {url_paths}")
 
     # -- check for required parameters
     if any(k not in params.keys() for k in required_columns):
@@ -537,9 +527,6 @@ def delete(db, table_name="", url_paths=""):
 @app.route('/static/css/<filename:re:.*\.css>')
 def send_css(filename):
     dirname = sys.path[0]
-    print(f'dirname: {dirname}')
-    print(f'filename: {filename}')
-    print(f'sending: {filename}')
     return static_file(filename, root=f'{dirname}/static/css/')
 
 @app.route('/static/img/<filename:re:.*\.*>')
@@ -552,7 +539,9 @@ def send_root_img(filename):
     dirname = sys.path[0]
     return static_file(filename, root=f'{dirname}/static/img/')
 
-# -- Run Web Server
+###############################################################################
+#                                Run Web Server                               #
+###############################################################################
 mimetypes.init()
 port = int(os.environ.get("PORT", 8888))
 run(app, host="0.0.0.0", port=port, reloader=True, debug=False)

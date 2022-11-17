@@ -23,7 +23,7 @@ These functions
 # -- clean()            - sanitize data for json delivery
 """
 
-from bottle import request, response, FormsDict, WSGIHeaderDict, template, json_dumps, JSONPlugin, cookie_decode, cookie_encode, HTTPError
+from bottle import request, response, FormsDict, WSGIHeaderDict, template, json_dumps, JSONPlugin, cookie_decode, cookie_encode
 from datetime import datetime
 from base64 import b64decode, b64encode
 
@@ -789,6 +789,7 @@ class ErrorsRestPlugin(object):
             self.json_dumps = json_dumps
 
         def default_error_handler(res):
+            log_to_logger(self)
             request_time = datetime.now()
             ip_address = (
                 request.environ.get('HTTP_X_FORWARDED_FOR')
