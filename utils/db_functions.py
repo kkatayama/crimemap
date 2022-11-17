@@ -810,7 +810,7 @@ class ErrorsRestPlugin(object):
             res.body = clean(dict(**{'message': str(res.body)}, **err))
             logger.info('\n\n')
             logger.debug(res)
-            return HTTPError(500, res.body)
+            return res
 
         app.default_error_handler = default_error_handler
 
