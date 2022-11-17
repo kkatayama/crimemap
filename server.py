@@ -1,5 +1,5 @@
 # -- bottle framework & plugins
-from bottle import hook, route, run, request, response, redirect, urlencode, template, static_file
+from bottle import hook, route, run, request, response, template, static_file, auth_basic
 from bottle_sqlite import SQLitePlugin, sqlite3
 import bottle
 import requests
@@ -132,9 +132,18 @@ def register(db, url_paths=""):
     res = {"message": "new user created", "user_id": user_id, "username": username}
     return clean(res)
 
+def checkAuth(username, password):
+    logger.info(f'username = {username}')
+    logger.info(f'password = {password}')
+    return True
+
 @route("/login", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @route("/login/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+@auth_basic(checkAuth)
 def login(db, url_paths=""):
+    logger.info('=== AUTH ===')
+    logger.info(request.auth)
+
     # -- usage info
     if url_paths == 'usage':
         return usage_login
