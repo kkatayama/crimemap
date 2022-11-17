@@ -745,6 +745,7 @@ def log_to_logger(fn):
                 error = ErrorsRestPlugin()
                 error.cleanError()
             except Exception as e:
+                logger.info("=== FAILED TO CLEAN ERROR ===")
                 logger.info(e.__dict__)
                 logger.info(actual_response.__dict__)
         return actual_response
