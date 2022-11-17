@@ -132,7 +132,7 @@ def register(db, url_paths=""):
     res = {"message": "new user created", "user_id": user_id, "username": username}
     return clean(res)
 
-def checkAuth(db, username, password):
+def checkAuth(username, password, db):
     logger.info(f'username = {username}')
     logger.info(f'password = {password}')
     return True
@@ -140,7 +140,7 @@ def checkAuth(db, username, password):
 @route("/login", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @route("/login/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @auth_basic(checkAuth)
-def login(db, url_paths="", username="", password=""):
+def login(db, url_paths=""):
     logger.info('=== AUTH ===')
     logger.info(request.auth)
 
