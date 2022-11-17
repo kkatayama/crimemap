@@ -742,12 +742,26 @@ def log_to_logger(fn):
                 res = actual_response.__dict__
                 if not res.get('body'):
                     res["body"] = res.get("_status_line'")
-                error = ErrorsRestPlugin()
-                error.cleanError()
+                err = ErrorsRestPlugin()
+                err.cleanError()
             except Exception as e:
                 logger.info("=== FAILED TO CLEAN ERROR ===")
-                logger.info(e.__dict__)
-                logger.info(actual_response.__dict__)
+                exc_type, exc_value, exc_tb = sys.exc_info()
+                tb_msgs = traceback.format_exception(exc_type, exc_value, exc_tb)
+                if isinstance(tb_msgs, list):
+                    tb_msgs = ''.join(tb_msgs).splitlines()
+                err = {
+                    f'Error.{e.__class__.__name__}': f'{" ".join(e.args)}',
+                    'Debug_Info': {
+                        "ip_address": ip_address,
+                        "args": args,
+                        "kwargs": kwargs,
+                        "request_url": request.url,
+                    },
+                    'Traceback': tb_msgs
+                }
+                logger.error(err)
+            #return err
         return actual_response
     return _log_to_logger
 
