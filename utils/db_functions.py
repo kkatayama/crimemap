@@ -812,7 +812,7 @@ class ErrorsRestPlugin(object):
                 or request.remote_addr
             )
             logger.info('%s %s %s %s %s' % (ip_address, request_time, request.method, request.url, response.status))
-            return clean(dict(**{'message': str(res.body)}, **err))
+            return json_dumps(clean2(dict(**{'message': str(res.body)}, **err)))
 
         app.default_error_handler = default_error_handler
 
