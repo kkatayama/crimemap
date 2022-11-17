@@ -729,13 +729,8 @@ def log_to_logger(fn):
     def _log_to_logger(*args, **kwargs):
         request_time = datetime.now()
         actual_response = fn(*args, **kwargs)
-        ip_address = (
-            request.environ.get('HTTP_X_FORWARDED_FOR')
-            or request.environ.get('REMOTE_ADDR')
-            or request.remote_addr
-        )
+        ip_address = request.environ.get('HTTP_X_FORWARDED_FOR') or request.environ.get('REMOTE_ADDR') or request.remote_addr
         logger.info('%s %s %s %s %s' % (ip_address, request_time, request.method, request.url, response.status))
-        # print('%s %s %s %s %s' % (ip_address, request_time, request.method, request.url, response.status))
 
         if isinstance(actual_response, dict):
             if not actual_response.get("message") == "available commands":
