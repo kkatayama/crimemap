@@ -808,7 +808,9 @@ class ErrorsRestPlugin(object):
             #     res.content_type = "text/html; charset=UTF-8"
 
             res.body = clean(dict(**{'message': str(res.body)}, **err))
-            return res
+            logger.info('\n\n')
+            logger.debug(res)
+            return HTTPError(500, res.body)
 
         app.default_error_handler = default_error_handler
 
