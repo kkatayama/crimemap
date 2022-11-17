@@ -744,7 +744,7 @@ def log_to_logger(fn):
                 if not res.get('body'):
                     res["body"] = res.get("_status_line'")
                 err = ErrorsRestPlugin()
-                err.cleanError()
+                err.cleanError(err)
             except Exception as e:
                 logger.info("=== FAILED TO CLEAN ERROR ===")
                 exc_type, exc_value, exc_tb = sys.exc_info()
@@ -752,7 +752,7 @@ def log_to_logger(fn):
                 if isinstance(tb_msgs, list):
                     tb_msgs = ''.join(tb_msgs).splitlines()
                 err = {
-                    f'Error.{e.__class__.__name__}': f'{" ".join(e.args)}',
+                    f'{e.__class__.__name__}': f'{" ".join(e.args)}',
                     'Debug_Info': {
                         "ip_address": ip_address,
                         "args": args,
