@@ -140,7 +140,7 @@ def checkAuth(db, username, password):
 @route("/login", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @route("/login/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @auth_basic(checkAuth)
-def login(db, url_paths=""):
+def login(db, url_paths="", username="", password=""):
     logger.info('=== AUTH ===')
     logger.info(request.auth)
 
