@@ -808,8 +808,8 @@ class ErrorsRestPlugin(object):
 
             logger.info('\n\n===err===\n\n')
             logger.info(err)
-            logger.info('\n\n===res===\n\n')
-            logger.info(inspect(res))
+            logger.info('\n\n===app===\n\n')
+            logger.info(inspect(app))
             return clean2(dict(**{'message': str(res.body)}, **err))
 
         app.default_error_handler = default_error_handler
