@@ -742,7 +742,7 @@ def log_to_logger(fn):
                 logger.info("=== ATTEMPT TO CLEAN ERROR ===")
                 res = actual_response.__dict__
                 if not res.get('body'):
-                    res["body"] = ares.get("_status_line'")
+                    res["body"] = res.get("_status_line'")
                 logger.info(ares)
                 err = ErrorsRestPlugin(json_dumps)
                 err.cleanError(res)
