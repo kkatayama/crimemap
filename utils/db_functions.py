@@ -739,7 +739,7 @@ def log_to_logger(fn):
         else:
             logger.info(' === ERROR: actual_response is not dict() === ')
             logger.info(actual_response.__dict__)
-            logger.info(inspect(response.__dict__, all=True))
+            logger.info(inspect(response))
             logger.info(inspect(actual_response.get("status_code")))
             logger.info(inspect(response.get("status_code")))
             try:
