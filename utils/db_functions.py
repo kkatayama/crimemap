@@ -789,10 +789,15 @@ class ErrorsRestPlugin(object):
             self.json_dumps = json_dumps
 
         def default_error_handler(res):
+            request_time = datetime.now()
+            ip_address = (
+                request.environ.get('HTTP_X_FORWARDED_FOR')
+                or request.environ.get('REMOTE_ADDR')
+                or request.remote_addr
+            )
+            logger.info('%s %s %s %s %s' % (ip_address, request_time, request.method, request.url, response.status))
+
             if res.content_type == "application/json":
-                logger.info('\n\n=== actual_response ===\n\n')
-                logger.debug('\n\n=== actual_response ===\n\n')
-                print('\n\n=== actual_response ===\n\n')
                 return res.body
             res.content_type = "application/json"
 
@@ -804,14 +809,7 @@ class ErrorsRestPlugin(object):
             else:
                 err = {"Error": err_res}
 
-            request_time = datetime.now()
-            ip_address = (
-                request.environ.get('HTTP_X_FORWARDED_FOR')
-                or request.environ.get('REMOTE_ADDR')
-                or request.remote_addr
-            )
-            logger.info('%s %s %s %s %s' % (ip_address, request_time, request.method, request.url, response.status))
-            return clean2(dict(**{'message': str(res.body)}, **err))
+            return self.json_dumps(clean2(dict(**{'message': str(res.body)}, **err)))
 
         app.default_error_handler = default_error_handler
 
