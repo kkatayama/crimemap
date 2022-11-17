@@ -791,7 +791,6 @@ class ErrorsRestPlugin(object):
         if not self.json_dumps:
             self.json_dumps = json_dumps
 
-        @wraps(object)
         def default_error_handler(res):
             if res.content_type == "application/json":
                 logger.info('\n\n=== actual_response ===\n\n')
@@ -807,7 +806,6 @@ class ErrorsRestPlugin(object):
                 err = {"Error": err_res}
 
             request_time = datetime.now()
-            actual_response = fn(*args, **kwargs)
             ip_address = (
                 request.environ.get('HTTP_X_FORWARDED_FOR')
                 or request.environ.get('REMOTE_ADDR')
