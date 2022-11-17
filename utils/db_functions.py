@@ -739,9 +739,8 @@ def log_to_logger(fn):
         else:
             logger.info(' === ERROR: actual_response is not dict() === ')
             logger.info(actual_response.__dict__)
-            logger.info(inspect(response))
-            logger.info(inspect(actual_response.get("status_code")))
-            logger.info(inspect(response.get("status_code")))
+            logger.info(actual_response.get("status_code"))
+            logger.info(response.get("status_code"))
             try:
                 soup = BeautifulSoup(actual_response, 'html5lib')
                 logger.info(json.dumps(json.loads(soup.select_one("pre").getText()), indent=2))
