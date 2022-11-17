@@ -132,7 +132,9 @@ def register(db, url_paths=""):
     res = {"message": "new user created", "user_id": user_id, "username": username}
     return clean(res)
 
-def checkAuth(username, password, db):
+auth_enabled = True
+
+def checkAuth(username, password):
     logger.info(f'username = {username}')
     logger.info(f'password = {password}')
     return True
