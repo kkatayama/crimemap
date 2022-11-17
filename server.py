@@ -43,11 +43,9 @@ app.install(ErrorsRestPlugin())
 # -- sessions
 session_opts = {
     'session.cookie_expires': None,
-    'session.httponly': None,
-    'session.type': 'cookie',
-    'session.timeout': None,
+    'session.type': 'file',
     'session.auto': True,
-    'session.validate_key': False,
+    'session.data_dir': './sessions',
 }
 app = SessionMiddleware(app, session_opts)
 
