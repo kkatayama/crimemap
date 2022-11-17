@@ -25,7 +25,7 @@ from docs.usage import (
 
 # -- pretty parsing
 from pathlib import Path
-from rich import print
+from rich import print, inspect
 import json
 import sys
 import os
@@ -161,8 +161,11 @@ def login(db, url_paths=""):
         res = {"message": "incorrect password", "password": params["password"]}
         return clean(res)
 
+    # -- test request hack
+    logger.info('\n\n=== request ===\n\n')
+    logger.info(inspect(request))
     # -- send response message
-    response.set_cookie("user_id", str(row["user_id"]), secret=secret_key, max_age=60*60*24*7)
+    response.set_cookie("user_id", str(row["user_id"]), secret=secret_key)
     res = {"message": "user login success", "user_id": row["user_id"], "username": row["username"]}
     res.update({"token": genToken("user_id", str(row["user_id"]), secret_key)})
     return clean(res)
