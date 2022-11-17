@@ -47,6 +47,7 @@ session_opts = {
     'session.type': 'cookie',
     'session.timeout': None,
     'session.auto': True,
+    'session.validate_key': None,
 }
 app = SessionMiddleware(app, session_opts)
 
