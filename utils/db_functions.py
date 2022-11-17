@@ -730,15 +730,16 @@ def log_to_logger(fn):
         request_time = datetime.now()
         actual_response = fn(*args, **kwargs)
         ip_address = request.environ.get('HTTP_X_FORWARDED_FOR') or request.environ.get('REMOTE_ADDR') or request.remote_addr
-        status = response.status if actual_response.__dict__.get("_status_code") == 200 else actual_response.status
 
         if isinstance(actual_response, dict):
+            status = response.status if actual_response.get("status_code") == 200 else actual_response.get("status")
             logger.info('%s %s %s %s %s' % (ip_address, request_time, request.method, request.url, status))
             if not actual_response.get("message") == "available commands":
                 logger.info(json.dumps({"request.params": dict(request.params)}))
                 logger.info(json.dumps(actual_response, default=str, indent=2))
         else:
             try:
+                logger.info("=== ATTEMPT TO CLEAN ERROR ===")
                 res = actual_response.__dict__
                 if not res.get('body'):
                     res["body"] = res.get("_status_line'")
