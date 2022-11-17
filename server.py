@@ -145,7 +145,7 @@ def custom_auth_basic(check, realm="private", text="Access denied"):
         def wrapper(*a, **ka):
             if auth_enabled:
                 user, password = request.auth or (None, None)
-                if user is None or not check(user, password):
+                if user is None or not check(db, url_paths, user, password):
                     err = HTTPError(401, text)
                     err.add_header('WWW-Authenticate', 'Basic realm="%s"' % realm)
                     return err
@@ -157,7 +157,7 @@ def custom_auth_basic(check, realm="private", text="Access denied"):
     return decorator
 
 
-def check_credentials(user, pw):
+def check_credentials(db, url_paths, user, pw):
     if auth_enabled:
         username = "admin"
         password = "admin"
@@ -170,7 +170,7 @@ def check_credentials(user, pw):
 @route("/login", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @route("/login/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @custom_auth_basic(check_credentials)
-def login(db, url_paths=""):
+def login(db, url_paths="", user="", pw=""):
     logger.info('=== AUTH ===')
     logger.info(request.auth)
 
