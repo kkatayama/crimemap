@@ -714,6 +714,8 @@ def clean2(data):
                 data.update({k: dict(v)})
 
     str_data = json.dumps(data, default=str, indent=2)
+
+
     logger.info('FROM: clean2()')
     logger.info(str_data)
     # print(str_data)
@@ -789,6 +791,7 @@ class ErrorsRestPlugin(object):
         if not self.json_dumps:
             self.json_dumps = json_dumps
 
+        @wraps(fn)
         def default_error_handler(res):
             if res.content_type == "application/json":
                 logger.info('\n\n=== actual_response ===\n\n')
@@ -803,13 +806,14 @@ class ErrorsRestPlugin(object):
             else:
                 err = {"Error": err_res}
 
-            # if checkUserAgent():
-            #     res.content_type = "text/html; charset=UTF-8"
-
-            logger.info('\n\n===err===\n\n')
-            logger.info(err)
-            logger.info('\n\n===app===\n\n')
-            logger.info(inspect(app))
+            request_time = datetime.now()
+            actual_response = fn(*args, **kwargs)
+            ip_address = (
+                request.environ.get('HTTP_X_FORWARDED_FOR')
+                or request.environ.get('REMOTE_ADDR')
+                or request.remote_addr
+            )
+            logger.info('%s %s %s %s %s' % (ip_address, request_time, request.method, request.url, response.status))
             return clean2(dict(**{'message': str(res.body)}, **err))
 
         app.default_error_handler = default_error_handler
