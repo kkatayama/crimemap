@@ -1,5 +1,6 @@
 # -- bottle framework & plugins
 from bottle import hook, route, run, request, response, redirect, urlencode, template, static_file
+from beaker.middleware import SessionMiddleware
 from bottle_sqlite import SQLitePlugin, sqlite3
 import bottle
 import requests
@@ -38,6 +39,16 @@ plugin = SQLitePlugin(dbfile=db_file, detect_types=sqlite3.PARSE_DECLTYPES|sqlit
 app.install(plugin)
 app.install(log_to_logger)
 app.install(ErrorsRestPlugin())
+
+# -- sessions
+session_opts = {
+    'session.cookie_expires': None,
+    'session.httponly': None,
+    'session.type': 'cookie',
+    'session.timeout': None,
+    'session.auto': True,
+}
+app = SessionMiddleware(app, session_opts)
 
 
 # -- hook to strip trailing slash
@@ -85,6 +96,12 @@ def usage():
 @route("/status", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @route("/status/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 def getStatus(db, url_paths=""):
+    # -- test request hack
+    session = bottle.request.environ.get('beaker.session')
+    logger.info(f'session: user_id={session.get("user_id")}')
+    logger.info('\n\n=== request ===\n\n')
+    logger.info(inspect(request))
+
     user_id = request.get_cookie("user_id", secret=secret_key)
     if not user_id:
         res = {"message": "user is not logged in (no session found); try appending the token to the request..."}
@@ -162,8 +179,11 @@ def login(db, url_paths=""):
         return clean(res)
 
     # -- test request hack
+    session = bottle.request.environ.get('beaker.session')
+    session['user_id'] = session.get('user_id', genToken("user_id", secret=secret_key))
     logger.info('\n\n=== request ===\n\n')
     logger.info(inspect(request))
+
     # -- send response message
     response.set_cookie("user_id", str(row["user_id"]), secret=secret_key)
     res = {"message": "user login success", "user_id": row["user_id"], "username": row["username"]}
