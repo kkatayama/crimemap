@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from utils import getSession, base_url
+from utils.utils import getSession, base_url
 import pandas as pd
 
 
