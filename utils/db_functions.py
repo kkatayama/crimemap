@@ -681,6 +681,7 @@ def parseColumnValues(cols, vals):
 
 py_path = get_py_path()
 secret_key = py_path.parent.name
+print(f'py_path: {py_path}')
 def parseParams(secret_key):
     params = {}
     if request.json:
@@ -756,6 +757,8 @@ def clean(data):
 # -- https://stackoverflow.com/questions/31080214/python-bottle-always-logs-to-console-no-logging-to-file
 def getLogger():
     project = py_path.parent.name
+    print(f'project: {project}')
+
     logger = logging.getLogger(f'logs/{project}.py')
     logger.setLevel(logging.DEBUG)
     file_handler = TimedRotatingFileHandler(f'logs/{project}.log', when='midnight')

@@ -13,7 +13,7 @@ from utils.db_functions import (
     clean, extract, mapUrlPaths, uploadImage,
     getLogger, log_to_logger, logger, checkUserAgent,
     parseURI, parseUrlPaths, parseFilters, parseColumnValues,
-    parseParams, ErrorsRestPlugin, secret_key
+    parseParams, ErrorsRestPlugin, secret_key, get_py_path, py_path,
 )
 
 # -- /docs/usage.py
@@ -40,6 +40,9 @@ app.install(plugin)
 app.install(log_to_logger)
 app.install(ErrorsRestPlugin())
 #app.catchall = False
+
+print(f'py_path: {py_path}')
+print(f'get_py_path: {get_py_path()}')
 
 # -- hook to strip trailing slash
 @hook('before_request')
