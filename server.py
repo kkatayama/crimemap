@@ -1,5 +1,5 @@
 # -- bottle framework & plugins
-from bottle import hook, route, run, request, response, template, static_file
+from bottle import hook, route, run, request, response, template, static_file, HTTPError, json_dumps
 from bottle_sqlite import SQLitePlugin, sqlite3
 import bottle
 import requests
@@ -9,10 +9,11 @@ import mimetypes
 from utils.db_functions import (
     insertRow, fetchRow, fetchRows, updateRow, deleteRow,
     addTable, deleteTable, getTable, getTables, getColumns,
-    securePassword, checkPassword, checkUserAgent, clean,
-    extract, mapUrlPaths, getLogger, log_to_logger, logger,
+    securePassword, checkPassword, genToken, require_uid, User,
+    clean, extract, mapUrlPaths, uploadImage,
+    getLogger, log_to_logger, logger, checkUserAgent,
     parseURI, parseUrlPaths, parseFilters, parseColumnValues,
-    parseParams, genToken, ErrorsRestPlugin, secret_key
+    parseParams, ErrorsRestPlugin, secret_key
 )
 
 # -- /docs/usage.py
@@ -82,14 +83,21 @@ def usage():
 ###############################################################################
 #                      User's Table: Additional Functions                     #
 ###############################################################################
+@route("/invalidSession", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+def invalidSession():
+    res = {
+        "Unauthorized": "Please log in to use this service!",
+        "Note": "Attach your session cookie or token along with your request."
+    }
+    return clean({"message": res})
+
 @route("/status", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @route("/status/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+@require_uid
 def getStatus(db, url_paths=""):
-    user_id = request.get_cookie("user_id", secret=secret_key)
-    if not user_id:
-        res = {"message": "user is not logged in (no session found); try appending the token to the request..."}
-        return clean(res)
-    res = {"message": "user is logged in with valid session cookie", "user_id": user_id, "cookies": dict(request.cookies)}
+    user = User()
+    res = {"message": "Authorized: user is logged in with an active sessioin cookie",
+        "user_id": user.user_id, "cookie": user.cookiedata, }
     return clean(res)
 
 @route("/register", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
@@ -176,17 +184,18 @@ def logout(db):
 
 @route("/uploadImageUrl", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @route("/uploadImageUrl/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+@require_uid
 def uploadImageUrl(url_paths=""):
     # -- usage info
     if url_paths == 'usage':
         return usage_uploadImageUrl
 
-    # -- only logged in users can access this endpoint
-    user_id = request.get_cookie("user_id", secret=secret_key)
-    if not user_id:
-        return({'message': 'invalid token'})
-    if request.params.get('token'):
-        del request.params["token"]
+    # # -- only logged in users can access this endpoint
+    # user_id = request.get_cookie("user_id", secret=secret_key)
+    # if not user_id:
+    #     return({'message': 'invalid token'})
+    # if request.params.get('token'):
+    #     del request.params["token"]
 
     # -- parse "params" and "filters" from HTTP request
     required_columns = ["url"]
@@ -200,17 +209,7 @@ def uploadImageUrl(url_paths=""):
         return clean(res)
 
     # -- fetch raw image data and save image
-    mimetypes.init()
-    name = len(list(Path('static', 'img').iterdir())) + 1
-    url = params.get("url")
-    req = requests.get(url)
-    ext = mimetypes.guess_extension(req.headers["Content-Type"])
-    if not ext:
-        ext = next((m for m in mimetypes.guess_all_extensions(req.headers["Content-Type"])), ".image")
-    # ext = re.search(r'image/(?P<ext>[a-z]+)', req.headers["Content-Type"].replace('x-icon', 'ico')).groupdict().get('ext')
-    with open(str(Path('static', 'img', f'{name}{ext}')), 'wb') as f:
-        f.write(req.content)
-    res = {"message": "image url uploaded", "url": url, "full_path": '/' + str(Path('static', 'img', f'{name}{ext}')), 'file_name': f'{name}{ext}'}
+    res = uploadImage(url=params.get("url"))
     return clean(res)
 
 ###############################################################################
@@ -219,16 +218,18 @@ def uploadImageUrl(url_paths=""):
 @route("/createTable")
 @route("/createTable/<table_name>")
 @route("/createTable/<table_name>/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+@require_uid
 def createTable(db, table_name="", url_paths=""):
     # -- usage info
     if table_name == 'usage':
         return usage_create_table
 
-    user_id = request.get_cookie("user_id", secret=secret_key)
-    if not user_id:
-        return {'message': 'invalid token'}
-    if request.params.get('token'):
-        del request.params["token"]
+    # user_id = request.get_cookie("user_id", secret=secret_key)
+    # if not user_id:
+    #     return {'message': 'invalid token'}
+    # if request.params.get('token'):
+    #     del request.params["token"]
+
     required_columns = {"user_id": "INTEGER", "{ref}_id": "INTEGER", "{ref}_time": "DATETIME",
                         "column_name": "column_type",
                         "available_types": ["INTEGER", "DOUBLE", "TEXT", "DATETIME"]}
@@ -255,16 +256,17 @@ def createTable(db, table_name="", url_paths=""):
 
 @route("/deleteTable")
 @route("/deleteTable/<table_name>")
+@require_uid
 def dropTable(db, table_name=""):
     # -- usage info
     if table_name == 'usage':
         return usage_delete_table
 
-    user_id = request.get_cookie("user_id", secret=secret_key)
-    if not user_id:
-        return {'message': 'invalid token'}
-    if request.params.get('token'):
-        del request.params["token"]
+    # user_id = request.get_cookie("user_id", secret=secret_key)
+    # if not user_id:
+    #     return {'message': 'invalid token'}
+    # if request.params.get('token'):
+    #     del request.params["token"]
 
     tables = getTables(db)
     table = getTable(db, tables, table_name)
@@ -282,17 +284,18 @@ def dropTable(db, table_name=""):
 @route("/add", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @route("/add/<table_name>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @route("/add/<table_name>/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+@require_uid
 def add(db, table_name="", url_paths=""):
     # -- usage info
     if table_name == 'usage':
         return usage_add
 
-    # -- only logged in users can access this endpoint
-    user_id = request.get_cookie("user_id", secret=secret_key)
-    if not user_id:
-        return({'message': 'invalid token'})
-    if request.params.get('token'):
-        del request.params["token"]
+    # # -- only logged in users can access this endpoint
+    # user_id = request.get_cookie("user_id", secret=secret_key)
+    # if not user_id:
+    #     return({'message': 'invalid token'})
+    # if request.params.get('token'):
+    #     del request.params["token"]
 
     # -- if no table is supplied or the table does not exist, return all active tables
     tables = getTables(db)
@@ -343,17 +346,18 @@ def add(db, table_name="", url_paths=""):
 @route("/get", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @route("/get/<table_name>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @route("/get/<table_name>/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+@require_uid
 def get(db, table_name="", url_paths=""):
     # -- usage info
     if table_name == 'usage':
         return usage_get
 
-    # -- only logged in users can access this endpoint
-    user_id = request.get_cookie("user_id", secret=secret_key)
-    if not user_id:
-        return {'message': 'invalid token'}
-    if request.params.get('token'):
-        del request.params["token"]
+    # # -- only logged in users can access this endpoint
+    # user_id = request.get_cookie("user_id", secret=secret_key)
+    # if not user_id:
+    #     return {'message': 'invalid token'}
+    # if request.params.get('token'):
+    #     del request.params["token"]
 
     tables = getTables(db)
     table = getTable(db, tables, table_name)
@@ -391,17 +395,18 @@ def get(db, table_name="", url_paths=""):
 @route("/edit", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @route("/edit/<table_name>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @route("/edit/<table_name>/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+@require_uid
 def edit(db, table_name="", url_paths=""):
     # -- usage info
     if table_name == 'usage':
         return usage_edit
 
-    # -- only logged in users can access this endpoint
-    user_id = request.get_cookie("user_id", secret=secret_key)
-    if not user_id:
-        return {'message': 'invalid token'}
-    if request.params.get('token'):
-        del request.params["token"]
+    # # -- only logged in users can access this endpoint
+    # user_id = request.get_cookie("user_id", secret=secret_key)
+    # if not user_id:
+    #     return {'message': 'invalid token'}
+    # if request.params.get('token'):
+    #     del request.params["token"]
 
     tables = getTables(db)
     table = getTable(db, tables, table_name)
@@ -470,17 +475,18 @@ def edit(db, table_name="", url_paths=""):
 @route("/delete", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @route("/delete/<table_name>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @route("/delete/<table_name>/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+@require_uid
 def delete(db, table_name="", url_paths=""):
     # -- usage info
     if table_name == 'usage':
         return usage_delete
 
-    # -- only logged in users can access this endpoint
-    user_id = request.get_cookie("user_id", secret=secret_key)
-    if not user_id:
-        return {'message': 'invalid token'}
-    if request.params.get('token'):
-        del request.params["token"]
+    # # -- only logged in users can access this endpoint
+    # user_id = request.get_cookie("user_id", secret=secret_key)
+    # if not user_id:
+    #     return {'message': 'invalid token'}
+    # if request.params.get('token'):
+    #     del request.params["token"]
 
     tables = getTables(db)
     table = getTable(db, tables, table_name)

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.9
 """
 usage: query.py [-h] [-u URL] query
 
@@ -25,11 +25,11 @@ import sys
 import re
 
 # -- for importing parent module
-sys.path.append(str(Path(sys.path[0]).parent))
+# sys.path.append(str(Path(sys.path[0]).parent))
 
 # -- Helper Modules -- #
-from utils.db_functions import parseUrlPaths
-from utils.paths import get_py_path
+from utils import parseUrlPaths
+from utils import get_py_path
 from rich import print, print_json
 
 

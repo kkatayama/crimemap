@@ -23,16 +23,18 @@ These functions
 # -- clean()            - sanitize data for json delivery
 """
 
-from bottle import request, response, FormsDict, WSGIHeaderDict, template, json_dumps, JSONPlugin, cookie_decode, cookie_encode, HTTPError
-from datetime import datetime
+from bottle import (
+    request, response, redirect,
+    FormsDict, WSGIHeaderDict, json_dumps, JSONPlugin,
+    template, cookie_decode, cookie_encode, HTTPError
+)
 from base64 import b64decode, b64encode
+from datetime import datetime
+from bs4 import BeautifulSoup
 
 from logging.handlers import TimedRotatingFileHandler
 from functools import wraps
-from pathlib import Path
-
 from rich import print, inspect
-from bs4 import BeautifulSoup
 
 # import subprocess
 import traceback
@@ -41,11 +43,19 @@ import hashlib
 import codecs
 import sqlite3
 # import time
+
+from requests.exceptions import RequestException
+from utils.paths import get_py_path
+from pathlib import Path
+import mimetypes
+import requests
 import json
 import sys
 import os
 import re
 
+
+response.debug = []
 
 ###############################################################################
 #                              CREATE OPERATIONS                              #
@@ -94,7 +104,7 @@ def insertRow(db, query="", **kwargs):
         columns = kwargs["columns"]
         col_values = kwargs["col_values"]
         query = f"INSERT INTO {table} ({','.join(columns)}) VALUES ({', '.join(['?']*len(columns))});"
-    logger.debug(query), logger.debug(col_values) if col_values else logger.debug(query)
+    log_sqlite(query), log_sqlite(col_values) if col_values else log_sqlite(query)
 
     try:
         cur = db.execute(query, col_values) if col_values else db.execute(query)
@@ -112,7 +122,7 @@ def insertRow(db, query="", **kwargs):
             },
             'SQLite Traceback': tb_msgs
         }
-        logger.error(err)
+        # logger.error(err)
         return err
 
     return cur.lastrowid
@@ -165,7 +175,7 @@ def fetchRow(db, query="", **kwargs):
         condition = "1" if not kwargs.get("where") else f'{kwargs["where"]}'
         values = [kwargs.get("values")] if isinstance(kwargs.get("values"), str) else kwargs.get("values")
         query = f"SELECT {columns} FROM {table} WHERE {condition};"
-    logger.debug(query), logger.debug(values) if values else logger.debug(query)
+    log_sqlite(query), log_sqlite(values) if values else log_sqlite(query)
 
     try:
         row = db.execute(query, values).fetchone() if values else db.execute(query).fetchone()
@@ -183,7 +193,7 @@ def fetchRow(db, query="", **kwargs):
             },
             'SQLite Traceback': tb_msgs
         }
-        logger.error(err)
+        # logger.error(err)
         return err
 
     if row:
@@ -236,7 +246,7 @@ def fetchRows(db, query="", **kwargs):
         condition = "1" if not kwargs.get("where") else f'{kwargs["where"]}'
         values = [kwargs.get("values")] if isinstance(kwargs.get("values"), str) else kwargs.get("values")
         query = f"SELECT {columns} FROM {table} WHERE {condition};"
-    logger.debug(query), logger.debug(values) if values else logger.debug(query)
+    log_sqlite(query), log_sqlite(values) if values else log_sqlite(query)
 
     try:
         rows = db.execute(query, values).fetchall() if values else db.execute(query).fetchall()
@@ -254,7 +264,7 @@ def fetchRows(db, query="", **kwargs):
             },
             'SQLite Traceback': tb_msgs
         }
-        logger.error(err)
+        # logger.error(err)
         return err
 
     if rows:
@@ -317,7 +327,7 @@ def updateRow(db, query="", **kwargs):
         condition = f'({kwargs["where"]})'
         values = [kwargs["values"]] if isinstance(kwargs["values"], str) else kwargs["values"]
         query = f"UPDATE {table} SET {columns} WHERE {condition};"
-    logger.debug(query), logger.debug(col_values), logger.debug(values) if (col_values and values) else logger.debug(query)
+    log_sqlite(query), log_sqlite(col_values), log_sqlite(values) if (col_values and values) else log_sqlite(query)
 
     try:
         cur = db.execute(query, col_values+values) if (col_values or values) else db.execute(query)
@@ -338,7 +348,7 @@ def updateRow(db, query="", **kwargs):
             },
             'SQLite Traceback': tb_msgs
         }
-        logger.error(err)
+        # logger.error(err)
         return err
 
     return cur.rowcount
@@ -371,9 +381,7 @@ def deleteRow(db, query="", **kwargs):
     EXAMPLE: with [params] as (dict)
         user_id = 6
         params = {
-            "table": "users",
-            "where": "user_id=?",
-            "values": user_id,
+            "table": "users", "where": "user_id=?", "values": user_id,
         }
         num_deletes = deleteRow(db, **params)
     """
@@ -387,7 +395,7 @@ def deleteRow(db, query="", **kwargs):
         condition = f'({kwargs["where"]})'
         values = [kwargs["values"]] if isinstance(kwargs["values"], str) else kwargs["values"]
         query = f"DELETE FROM {table} WHERE {condition};"
-    logger.debug(query), logger.debug(values) if values else logger.debug(query)
+    log_sqlite(query), log_sqlite(values) if values else log_sqlite(query)
 
     try:
         cur = db.execute(query, values)
@@ -399,15 +407,13 @@ def deleteRow(db, query="", **kwargs):
         err = {
             f'SQLite.{e.__class__.__name__}': f'{" ".join(e.args)}',
             'Debug Info': {
-                "query": query,
-                "kwargs": kwargs,
-                "parsed": {
+                "query": query, "kwargs": kwargs, "parsed": {
                     "table": table, "condition": condition, "values": values
                 }
             },
             'SQLite Traceback': tb_msgs
         }
-        logger.error(err)
+        # logger.error(err)
         return err
 
     return cur.rowcount
@@ -418,35 +424,32 @@ def deleteRow(db, query="", **kwargs):
 # DB Functions ################################################################
 def addTable(db, query="", **kwargs):
     if not query:
-        # table = kwargs.get("table")
         table = kwargs["table"]["name"] if isinstance(kwargs.get("table"), dict) else kwargs.get("table")
         columns = kwargs.get("columns")
         query = f'CREATE TABLE {table} ({", ".join(columns)});'
-    logger.debug(query)
+    log_sqlite(query)
     try:
         cur = db.execute(query)
     except (sqlite3.ProgrammingError, sqlite3.OperationalError) as e:
-        logger.error(e.args)
+        # log_sqlite(e.args)
         return {"SQLite_Error": e.args, "query": query, "columns": columns, "kwargs": kwargs}
     return {"message": f"{abs(cur.rowcount)} table created", "table": table, "columns": columns}
 
 def deleteTable(db, query="", **kwargs):
     if not query:
-        # table = kwargs.get("table")
         table = kwargs["table"]["name"] if isinstance(kwargs.get("table"), dict) else kwargs.get("table")
         query = f"DROP TABLE {table};"
-    logger.debug(query)
+    log_sqlite(query)
     try:
         cur = db.execute(query)
     except (sqlite3.ProgrammingError, sqlite3.OperationalError) as e:
-        logger.error(e.args)
+        # log_sqlite(e.args)
         return {"SQLite_Error": e.args, "query": query, "kwargs": kwargs}
     return {"message": f"{abs(cur.rowcount)} table deleted!"}
 
 def getTable(db, tables=[], table_name=''):
     if not tables:
         tables = getTables(db)
-    # table = next((filter(lambda t: t["name"] == table_name, tables)), None)
     table = dict(*filter(lambda t: t["name"] == table_name, tables))
     if table:
         table["info"] = {c["name"]: c["type"] for c in table["columns"]}
@@ -455,17 +458,12 @@ def getTable(db, tables=[], table_name=''):
 
 def getTables(db):
     args = {
-        "table": 'sqlite_schema',
-        # "columns": ["name", "type", "sql"],
-        "columns": ["name", "type"],
-        "where": "type = ? AND name NOT LIKE ?",
-        "values": ['table', 'sqlite_%'],
-        "force": True,
+        "table": 'sqlite_schema', "columns": ["name", "type"], "where": "type = ? AND name NOT LIKE ?",
+        "values": ['table', 'sqlite_%'], "force": True,
     }
     tables = fetchRows(db, **args)
     for table in tables:
         table["columns"] = getColumns(db, table)
-
     return tables
 
 def getColumns(db, table, required=False, editable=False, non_editable=False, ref=False):
@@ -481,9 +479,6 @@ def getColumns(db, table, required=False, editable=False, non_editable=False, re
             col_info.append(info)
         return col_info
 
-    # regex = r"(_id|_time)" if table["name"] == "users" else r"((?<!user)_id|_time)"
-    # editable_columns = {key: table["columns"][key] for key in table["columns"] if not re.search(regex, key)}
-    # non_editable_columns = {key: table["columns"][key] for key in table["columns"] if re.search(regex, key)}
     regex = r"(PRIMARY KEY|DEFAULT)"
     editable_columns = {key: table["columns"][key] for key in table["columns"] if not re.search(regex, table["info"][key])}
     non_editable_columns = {key: table["columns"][key] for key in table["columns"] if re.search(regex, table["info"][key])}
@@ -496,8 +491,9 @@ def getColumns(db, table, required=False, editable=False, non_editable=False, re
         return re.search(r"(.*_id)", " ".join(non_editable_columns)).group()
     return table["columns"]
 
-
-# Utility Functions ###########################################################
+###############################################################################
+#                              Utility Functions                               #
+###############################################################################
 def securePassword(plaintext):
     salt = os.urandom(32)
     digest = hashlib.pbkdf2_hmac("sha256", plaintext.encode(), salt, 1000)
@@ -516,7 +512,68 @@ def checkPassword(plaintext, hex_pass):
         return True
     return False
 
-# Parsers #####################################################################
+class User(object):
+    def __init__(self):
+        self.user_id = None
+        self.cookiedata = request.get_cookie("user_id", secret=secret_key)
+        if self.cookiedata:
+            self.user_id = self.cookiedata# ["user_id"]
+    def login(self, cookiedata):
+        return response.set_cookie("user_id", cookiedata, secret=secret_key)
+
+def require_uid(fn):
+    def check_uid(**kwargs):
+        if request.get_cookie("user_id", secret=secret_key):
+            return fn(**kwargs)
+        else:
+            error_http = HTTPError(401, "Unauthorized")
+            error_http.message = {
+                "Unauthorized": "Invalid Token - Missing Session Cookie",
+                "message": "Please provide a session cookie or valid token."
+            }
+            return error_http
+    return check_uid
+
+def uploadImage(url):
+    # -- load image mimetypes
+    mimetypes.init()
+
+    # -- check if 'static/img' path exists
+    img_path = py_path.parent.joinpath('static', 'img')
+    if not img_path.exists():
+        # -- img_path doesn't exist, creating img_path and css_path (just in case)...
+        img_path.mkdir(parents=True)
+        img_path.with_stem('css').mkdir(exist_ok=True)
+
+    # -- count existing images...
+    name = len(list(img_path.iterdir())) + 1
+
+    # -- download image from url
+    try:
+        req = requests.get(url)
+    except Exception:
+        return {"Python_Error": f"Failed to download image from url: {url}"}
+
+    # -- determine image mimetype
+    ext = mimetypes.guess_extension(req.headers["Content-Type"])
+    if not ext:
+        ext = next((m for m in mimetypes.guess_all_extensions(req.headers["Content-Type"])), None)
+    if not ext:
+        return {"MimeType_Error": f"Failed to Detect Mime Type for Image: {name}{Path(url).suffix}"}
+
+    # -- exporting image to img_path
+    img_file = img_path.joinpath(f'{name}{ext}')
+    with open(str(img_file), 'wb') as f:
+        f.write(req.content)
+
+    # -- extract full path relative to web root '/'
+    full_path = Path(f'/{img_file.relative_to(img_file.parents[2])}')
+    msg = "image url uploaded"
+    return {"message": msg, "url": url, "full_path": str(full_path), 'file_name': full_path.name}
+
+###############################################################################
+#                                   Parsers                                   #
+###############################################################################
 def extract(info, cols):
     return{k: v for k, v in {c.values() for c in info} if k in cols}
 
@@ -550,7 +607,7 @@ def mapUrlPaths(url_paths, req_items, table=""):
             reject.append({k: v})
 
     columns = id_cols + non_cols + time_cols
-    logger.debug("__params__\n", params, "\n__columns__\n", columns)
+    response.debug.append({"mapUrlPaths()": {"__params__": params, "__columns__": columns}})
     return params, columns
 
 def parseURI(url_paths):
@@ -621,55 +678,46 @@ def parseColumnValues(cols, vals):
     logger.debug(f"col_values: {col_values}")
     return columns, col_values
 
-secret_key = Path.cwd().parent.name
+py_path = get_py_path()
+secret_key = py_path.parent.name
 def parseParams(secret_key):
-    # print(request.get_cookie('user_id', secret_key))
-    # -- TODO: Enable this to enforce session tokens
-    # if request.get_cookie('user_id', secret=secret_key) is not None:
-        # print(f'secret_key: {secret_key}')
-        # print(f'headers: {sict(request.headers)}')
-        # print(dict(request.cookies))
-        # print(dict(request.environ['bottle.request.cookies']))
-        params = {}
-        if request.json:
-            params.update(request.json)
-        r_key = ""
-        for k in request.params.keys():
-            if (("{" in k) and ("}" in k)):
-                try:
-                    params.update(json.loads(k))
-                    r_key = k
-                except Exception:
-                    logger.error(f'ERROR: k = {k}')
-        if r_key:
+    params = {}
+    if request.json:
+        params.update(request.json)
+    r_key = ""
+    for k in request.params.keys():
+        if (("{" in k) and ("}" in k)):
             try:
-                request.params.pop(r_key)
+                params.update(json.loads(k))
+                r_key = k
             except Exception:
-                logger.error(f'ERROR: r_key = {r_key}')
-        request.params.update(params)
-        for k, v in request.params.items():
-            if k == "token":
-                try:
-                    # print(f'cookie_info = {cookie_decode(b64decode(v), secret_key)}')
-                    logger.info(f'cookie_info = {cookie_decode(b64decode(v), secret_key)}')
-                    cookie_info = dict([cookie_decode(b64decode(v), secret_key)])
-                    for kk, vv in cookie_info.items():
-                        request.cookies.update({kk: b64decode(v).decode()})
-                    # request.headers.update({"Cookie": f'user_id="{b64decode(v)}"'})
-                except Exception as e:
-                    # print(f'ERROR: {k} = {v}')
-                    logger.error(e)
-                    logger.error(f'ERROR: {k} = {v}')
-        # print(dict(request.cookies))
-        # print(request.get_cookie('user_id', secret=secret_key))
-        # print(dict(request.cookies))
-        # print(dict(request.environ['bottle.request.cookies']))
+                logger.error(f'ERROR: k = {k}')
+    if r_key:
+        try:
+            request.params.pop(r_key)
+        except Exception:
+            logger.error(f'ERROR: r_key = {r_key}')
+    request.params.update(params)
+    for k, v in request.params.items():
+        if k == "token":
+            try:
+                # print(f'cookie_info = {cookie_decode(b64decode(v), secret_key)}')
+                logger.info(f'cookie_info = {cookie_decode(b64decode(v), secret_key)}')
+                cookie_info = dict([cookie_decode(b64decode(v), secret_key)])
+                for kk, vv in cookie_info.items():
+                    request.cookies.update({kk: b64decode(v).decode()})
+                # request.headers.update({"Cookie": f'user_id="{b64decode(v)}"'})
+            except Exception as e:
+                logger.error(e)
+                logger.error(f'ERROR: {k} = {v}')
 
 
 def genToken(name='', value='', secret_key=Path.cwd().parent.name):
     return b64encode(cookie_encode((name, value), secret_key)).decode()
 
-# Logging #####################################################################
+###############################################################################
+#                                   Logging                                    #
+###############################################################################
 def checkUserAgent():
     user_agent = request.environ["HTTP_USER_AGENT"] if request.environ.get("HTTP_USER_AGENT") else ""
     browser_agents = [
@@ -702,15 +750,11 @@ def clean(data):
     # if checkUserAgent():
     #     return template("templates/prettify.tpl", data=str_data)
     cleaned = json.loads(str_data)
-    logger.info('FROM: clean()')
-    logger.info(cleaned)
-    # print(cleaned)
     return cleaned
 
 # -- https://stackoverflow.com/questions/31080214/python-bottle-always-logs-to-console-no-logging-to-file
 def getLogger():
-    project = Path.cwd().parent.name
-
+    project = py_path.parent.name
     logger = logging.getLogger(f'logs/{project}.py')
     logger.setLevel(logging.DEBUG)
     file_handler = TimedRotatingFileHandler(f'logs/{project}.log', when='midnight')
@@ -719,6 +763,14 @@ def getLogger():
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
     return logger
+
+def log_sqlite(query):
+    request_time = datetime.now()
+    ip_address = request.environ.get('HTTP_X_FORWARDED_FOR') or request.environ.get('REMOTE_ADDR') or request.remote_addr
+    status = "request"
+    logger.info('%s %s %s %s %s' % (ip_address, request_time, request.method, request.url, status))
+    logger.debug(query)
+
 
 def log_to_logger(fn):
     '''
@@ -739,23 +791,25 @@ def log_to_logger(fn):
                 logger.info(json.dumps(actual_response, default=str, indent=2))
         else:
             try:
-                logger.info("=== ATTEMPT TO CLEAN ERROR ===")
+                # logger.info("=== ATTEMPT TO CLEAN ERROR ===")
+                logger.debug(actual_response.__str__)
+                if not dict(actual_response.headers):
+                    for k,v in actual_response.headerlist:
+                        print(k, v)
+                        actual_response.add_header(k, v)
                 res = actual_response.__dict__
                 if not res.get('body'):
                     res["body"] = res.get("_status_line'")
-                if not res.get('_headers'):
-                    logger.info(response.get_header())
-                    res["headers"].update(response.headers)
-                logger.info(res)
+                    logger.info(inspect(res))
                 err = ErrorsRestPlugin()
-                err.cleanError(res)
+                res_err = err.cleanError(res)
             except Exception as e:
                 logger.info("=== FAILED TO CLEAN ERROR ===")
                 exc_type, exc_value, exc_tb = sys.exc_info()
                 tb_msgs = traceback.format_exception(exc_type, exc_value, exc_tb)
                 if isinstance(tb_msgs, list):
                     tb_msgs = ''.join(tb_msgs).splitlines()
-                err = {
+                res_err = {
                     f'{e.__class__.__name__}': f'{" ".join(e.args)}',
                     'Debug_Info': {
                         "ip_address": ip_address,
@@ -765,12 +819,10 @@ def log_to_logger(fn):
                     },
                     'Traceback': tb_msgs
                 }
-                logger.error(err)
-            #return err
+                logger.error(json.dumps(res_err, default=str, indent=2))
+            return res_err
         return actual_response
     return _log_to_logger
-
-
 logger = getLogger()
 
 
@@ -779,7 +831,7 @@ class ErrorsRestPlugin(object):
     name = 'ErrorsRestPlugin'
     api = 2
 
-    def __init__(self, dumps=None):
+    def __init__(self, dumps=json_dumps):
         """init()"""
         self.json_dumps = dumps
 
@@ -788,7 +840,7 @@ class ErrorsRestPlugin(object):
         ip_address = request.environ.get('HTTP_X_FORWARDED_FOR') or request.environ.get('REMOTE_ADDR') or request.remote_addr
         status = error_log.get('_status_line') if error_log.get('_status_code') != response.status_code else response.status
         logger.info('%s %s %s %s %s' % (ip_address, request_time, request.method, request.url, status))
-        logger.error(self.json_dumps(error_log, default=str, indent=2))
+        logger.info(self.json_dumps(error_log, default=str, indent=2))
 
     def cleanError(self, data):
         for k, v in data.items():
@@ -800,8 +852,9 @@ class ErrorsRestPlugin(object):
             data["traceback"] = data["traceback"].splitlines()
             traceback = data["traceback"][-1]
         error_key = "Python_Error" if data.get('_status_code') == 500 else "Error"
-        error_msg = data.get('body')
-        error_log = {"message": error_msg, error_key: data}
+        error_msg = data.pop('message') if data.get('message') else {'message': data.get('body')}
+        # error_msg = data.get('body') if isinstance(data.get('body'), dict) else {"Error": data.get('body')}
+        error_log = {**error_msg, error_key: data}
         self.log(error_log)
 
         data.update({'traceback': traceback})
