@@ -22,7 +22,6 @@ def init():
     # -- upload scraped data into backend
     api_url = f"{base_url}/add/incidents"
     for incident in track(incidents, 'Uploading Incidents...'):
-        incident.update({"tier": 1})
         r = s.post(url=api_url, data=incident)
         # print(r.json())
 

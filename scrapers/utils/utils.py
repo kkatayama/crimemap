@@ -52,7 +52,11 @@ def getSession(py_path=get_py_path()):
     if py_path.joinpath('cookies.pickle').exists() and py_path.joinpath('headers.pickle').exists():
         s.headers.update(load_headers())
         s.cookies.update(load_cookies())
-        return s
+
+        # -- check login status...
+        r = s.get(url = f'{base_url}/status')
+        if 'Error' not in r.json():
+            return s
 
     print('Need to log in with backend...')
     username = Prompt.ask('username')
