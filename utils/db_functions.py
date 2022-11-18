@@ -517,7 +517,8 @@ class User(object):
         self.user_id = None
         self.cookiedata = request.get_cookie("user_id", secret=secret_key)
         if self.cookiedata:
-            self.user_id = self.cookiedata# ["user_id"]
+            self.user_id = self.cookiedata
+            self.token = genToken("user_id", self.user_id, secret_key)
     def login(self, cookiedata):
         return response.set_cookie("user_id", cookiedata, secret=secret_key)
 

@@ -96,8 +96,8 @@ def invalidSession():
 @require_uid
 def getStatus(db, url_paths=""):
     user = User()
-    res = {"message": "Authorized: user is logged in with an active sessioin cookie",
-        "user_id": user.user_id, "cookie": user.cookiedata, }
+    res = {"message": "Authorized: user is logged in with an active session cookie",
+        "user_id": user.user_id, "foken": user.token, }
     return clean(res)
 
 @route("/register", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
@@ -170,7 +170,8 @@ def login(db, url_paths=""):
         return clean(res)
 
     # -- send response message
-    response.set_cookie("user_id", str(row["user_id"]), secret=secret_key)
+    user = User()
+    user.login(str(row["user_id"]))
     res = {"message": "user login success", "user_id": row["user_id"], "username": row["username"]}
     res.update({"token": genToken("user_id", str(row["user_id"]), secret_key)})
     return clean(res)
