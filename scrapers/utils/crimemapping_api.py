@@ -183,16 +183,26 @@ class CrimeMappingAPI(object):
         info_all = json.loads(script.string.strip().replace('var dataViewModel = ', '').split(';')[0])
         info_type = LEGEND[int(info_all['LegendID'])]
         info_date = str(datetime.strptime(info_all["CrimeReportDate"], '%m-%d-%Y @ %I:%M %p'))
+
+        tier = 1
+        incident_id = info_all["CrimeCaseNumber"] if info_all.get("CrimeCaseNumber") else 1
+        description = info_all["CrimeDescription"] if info_all.get("CrimeDescription") else info_type["na"]
+        location = info_all["Address"] if info_all.get("Address") else "NO ADDRESS"
+        latitude = lat,
+        longitude = lon,
+        agency = info_all['OrganizationName'] if info_all.get('OrganizationName') else "UNKNOWN POLICE"
+        report_date = info_date
+
         info = {
-            'incident_id': info_all["CrimeCaseNumber"],
+            'tier': tier,
             'type': info_type["na"],
             'type_img': f'{info_type["id"]}.svg',
-            'description': info_all["CrimeDescription"],
-            'location': info_all["Address"],
-            'latitude': lat,
-            'longitude': lon,
-            'agency': info_all['OrganizationName'],
-            'report_date': info_date,
+            'description': description,
+            'location': location,
+            'latitude': latitude,
+            'longitude': longitude,
+            'agency': agency,
+            'report_date': report_date,
         }
         return info
 

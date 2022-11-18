@@ -674,14 +674,13 @@ def parseColumnValues(cols, vals):
             columns += f"{cols[i]}=?, "
             col_values.append(vals[i])
     columns = columns.strip(", ")
-
     logger.debug(f"columns: '{columns}'")
     logger.debug(f"col_values: {col_values}")
     return columns, col_values
 
 py_path = get_py_path()
 secret_key = py_path.parent.name
-print(f'py_path: {py_path}')
+# print(f'py_path: {py_path}')
 def parseParams(secret_key):
     params = {}
     if request.json:

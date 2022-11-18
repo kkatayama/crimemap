@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 from pathlib import Path
 import sys
-sys.path.append(str(Path(sys.path[0]).parent))
-from utils.paths import get_py_path
+from utils import get_py_path
 import argparse
 import random
 import query
@@ -45,7 +44,7 @@ def createTables():
     for name in ["incidents", "sex_offenders"]:
         q = f'/createTable/{name}'
         if name == "incidents":
-            q += '/entry_id/INTEGER/incident_id/INTEGER/tier/INTEGER/type/TEXT/type_img/TEXT/description/TEXT/location/TEXT/latitude/DOUBLE/longitude/DOUBLE/agency/TEXT/report_date/DATETIME/entry_time/DATETIME'
+            q += '/entry_id/INTEGER/tier/INTEGER/type/TEXT/type_img/TEXT/description/TEXT/location/TEXT/latitude/DOUBLE/longitude/DOUBLE/agency/TEXT/report_date/DATETIME/entry_time/DATETIME'
         if name == "sex_offenders":
             q += '/entry_id/INTEGER/tier/INTEGER/name/TEXT/dob/DATETIME/arrest_description/TEXT/arrest_date/DATETIME/victim_age/TEXT/home_address/TEXT/home_latitude/DOUBLE/home_longitude/DOUBLE/work_name/TEXT/work_address/TEXT/work_latitude/DOUBLE/work_longitude/DOUBLE/entry_time/DATETIME'
         query.executeQuery(base_url=base_url, query=q, short=True)
