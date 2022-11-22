@@ -674,13 +674,14 @@ def parseColumnValues(cols, vals):
             columns += f"{cols[i]}=?, "
             col_values.append(vals[i])
     columns = columns.strip(", ")
+
     logger.debug(f"columns: '{columns}'")
     logger.debug(f"col_values: {col_values}")
     return columns, col_values
 
 py_path = get_py_path()
 secret_key = py_path.parent.name
-# print(f'py_path: {py_path}')
+print(f'py_path: {py_path}')
 def parseParams(secret_key):
     params = {}
     if request.json:
@@ -792,6 +793,9 @@ def log_to_logger(fn):
             if not actual_response.get("message") == "available commands":
                 logger.info(json.dumps({"request.params": dict(request.params)}))
                 logger.info(json.dumps(actual_response, default=str, indent=2))
+        elif response.status == 200 or actual_response._status_code == 200:
+            status = 200
+            logger.info('%s %s %s %s %s' % (ip_address, request_time, request.method, request.url, status))
         else:
             try:
                 # logger.info("=== ATTEMPT TO CLEAN ERROR ===")
