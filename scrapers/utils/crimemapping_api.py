@@ -89,10 +89,6 @@ class CrimeMappingAPI(object):
         try:
             return r.json()
         except Exception:
-            # print('[red]ERROR[/]: [yellow]Response is not JSON![/]')
-            # print(f'[red]HEADERS:[/]')
-            # print(dict(r.headers))
-            # print(BeautifulSoup(r.content, 'html5lib').prettify())
             return r.text
 
     def geocodeLocation(self, location={}):
