@@ -100,7 +100,7 @@ def invalidSession():
 def getStatus(db, url_paths=""):
     user = User()
     res = {"message": "Authorized: user is logged in with an active session cookie",
-        "user_id": user.user_id, "foken": user.token, }
+        "user_id": user.user_id, "token": user.token, }
     return clean(res)
 
 @route("/register", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
