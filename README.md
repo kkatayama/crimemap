@@ -1649,8 +1649,10 @@ Response:
 
 Arguments:
 ```rexx
-user_profiles = user_id/1/Administrator
-admin@udel.edu = profile_pic/19.jpg
+user_id = 1
+name = Administrator
+email = admin@udel.edu
+profile_pic = 19.jpg
 ```
 
 Request:
@@ -1666,13 +1668,246 @@ Response:
   "user_id": "1",
 }
 ```
+---
+#### Uploading profile picture for `alice`
+Arguments:
+```rexx
+url = https://www.w3schools.com/w3images/avatar4.png
+```
 
+Request:
+```erlang
+https://crimemap.hopto.org/uploadImageUrl?url=https://www.w3schools.com/w3images/avatar4.png
+```
 
+Response:
+```json
+{
+  "message": "image url uploaded",
+  "url": "https://www.w3schools.com/w3images/avatar4.png",
+  "full_path": "/static/img/20.png",
+  "file_name": "20.png",
+}
+```
+#### Adding `alice` to `user_profiles` table
+Arguments:
+```rexx
+user_id = 2
+name = Alice Smith
+email = alice@udel.edu
+profile_pic = 20.png
+```
 
+Request:
+```jq
+https://crimemap.hopto.org/add/user_profiles/user_id/2/name/Alice Smith/email/alice@udel.edu/profile_pic/20.png
+```
+
+Response:
+```json
+{
+  "message": "data added to <user_profiles>",
+  "entry_id": "2",
+  "user_id": "2",
+}
+```
+---
+#### Uploading profile picture for `bob`
+Arguments:
+```rexx
+url = https://www.w3schools.com/w3images/avatar2.png
+```
+
+Request:
+```erlang
+https://crimemap.hopto.org/uploadImageUrl?url=https://www.w3schools.com/w3images/avatar2.png
+```
+
+Response:
+```json
+{
+  "message": "image url uploaded",
+  "url": "https://www.w3schools.com/w3images/avatar2.png",
+  "full_path": "/static/img/21.png",
+  "file_name": "21.png",
+}
+```
+#### Adding `bob` to `user_profiles` table
+Arguments:
+```rexx
+user_id = 3
+name = Bob Smith
+email = bob@udel.edu
+profile_pic = 21.png
+```
+
+Request:
+```jq
+https://crimemap.hopto.org/add/user_profiles/user_id/3/name/Bob Smith/email/bob@udel.edu/profile_pic/21.png
+```
+
+Response:
+```json
+{
+  "message": "data added to <user_profiles>",
+  "entry_id": "3",
+  "user_id": "3",
+}
+```
+---
+#### Uploading profile picture for `anna`
+Arguments:
+```rexx
+url = https://www.w3schools.com/w3images/avatar5.png
+```
+
+Request:
+```erlang
+https://crimemap.hopto.org/uploadImageUrl?url=https://www.w3schools.com/w3images/avatar5.png
+```
+
+Response:
+```json
+{
+  "message": "image url uploaded",
+  "url": "https://www.w3schools.com/w3images/avatar5.png",
+  "full_path": "/static/img/22.png",
+  "file_name": "22.png",
+}
+```
+#### Adding `anna` to `user_profiles` table
+Arguments:
+```rexx
+user_id = 4
+name = Anna Williams
+email = anna@udel.edu
+profile_pic = 22.png
+```
+
+Request:
+```jq
+https://crimemap.hopto.org/add/user_profiles/user_id/4/name/Anna Williams/email/anna@udel.edu/profile_pic/22.png
+```
+
+Response:
+```json
+{
+  "message": "data added to <user_profiles>",
+  "entry_id": "4",
+  "user_id": "4",
+}
+```
+---
+#### Uploading profile picture for `steve`
+Arguments:
+```rexx
+url = https://www.w3schools.com/w3images/avatar3.png
+```
+
+Request:
+```erlang
+https://crimemap.hopto.org/uploadImageUrl?url=https://www.w3schools.com/w3images/avatar3.png
+```
+
+Response:
+```json
+{
+  "message": "image url uploaded",
+  "url": "https://www.w3schools.com/w3images/avatar3.png",
+  "full_path": "/static/img/23.png",
+  "file_name": "23.png",
+}
+```
+#### Adding `steve` to `user_profiles` table
+Arguments:
+```rexx
+user_id = 5
+name = Steve Williams
+email = steve@udel.edu
+profile_pic = 23.png
+```
+
+Request:
+```jq
+https://crimemap.hopto.org/add/user_profiles/user_id/5/name/Steve Williams/email/steve@udel.edu/profile_pic/23.png
+```
+
+Response:
+```json
+{
+  "message": "data added to <user_profiles>",
+  "entry_id": "5",
+  "user_id": "5",
+}
+```
 
 </details>
 
 ---
+
+### 4.2 Describe the `crimemapping.py` script
+<details><summary> (click here to expand) </summary>
+
+---
+The script `scrapers/crimemapping.py` was used to automate the scraping of `crimemapping.com` data. <br />
+To use this script, first navigate to the `scrapers` directory:
+```yaml
+cd scrapers
+```
+
+Then use `python3` to run the script. <br />
+For example:
+```yaml
+python3 crimemapping.py --help
+```
+outputs:
+```sh
+usage: crimemapping.py [-h] [--init] [--update]
+
+options:
+  -h, --help  show this help message and exit
+  --init      scrape and upload entire history of incidents
+  --update    scrape and upload latest incidents
+```
+
+
+</details>
+
+### 4.3 Demo the `crimemapping_to_pandas.py` script
+<details><summary> (click here to expand) </summary>
+
+---
+
+</details>
+
+### 4.4 Demo a manual entry to the `incidents` table
+<details><summary> (click here to expand) </summary>
+
+---
+
+</details>
+
+### 4.5 Describe the `sexoffender.py` script
+<details><summary> (click here to expand) </summary>
+
+---
+
+</details>
+
+### 4.6 Demo the `sexoffender_to_pandas.py` script
+<details><summary> (click here to expand) </summary>
+
+--
+
+</details>
+
+### 4.7 Demo a manual entry to the `sex_offenders` table
+<details><summary> (click here to expand) </summary>
+
+---
+
+</details>
+
 
 
 Arguments:

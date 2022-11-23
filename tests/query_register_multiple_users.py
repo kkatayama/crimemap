@@ -66,6 +66,7 @@ def uploadPics():
         q = f'/uploadImageUrl?url={url}'
         query.executeQuery(base_url=base_url, query=q, short=True)
 
+
 if __name__ == '__main__':
     domain = re.search(r'[a-z]+', get_py_path().parent.name).group().replace('bartend', 'bartender')
     base_url = f'https://{domain}.hopto.org'
