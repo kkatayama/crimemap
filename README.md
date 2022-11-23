@@ -1893,6 +1893,7 @@ python3 crimemapping.py --upload
 outputs:
 ``` rexx
 Processing Incidents... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:00
+{'tier': 1, 'type': 'Vandalism', 'type_img': '13.svg', 'description': 'LARCENY/SHOPLIFTING', 'location': '200 BLOCK S. MAIN ST', 'latitude': (39.67787000000004,), 'longitude': (-75.76204999999997,), 'agency': 'Newark Police', 'report_date': '2022-11-22 01:57:00'}
 Uploading Latest Incidents... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:00
 ```
 
