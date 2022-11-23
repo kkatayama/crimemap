@@ -1645,7 +1645,8 @@ Response:
 ```
 ---
 #### Adding `admin` to `user_profiles` table
-> Note: `admin` has a `user_id` of `1` in the `users` table 
+> Note: `admin` has a `user_id` of `1` in the `users` table
+
 Arguments:
 ```rexx
 user_profiles = user_id/1/Administrator
