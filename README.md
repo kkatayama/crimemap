@@ -1084,12 +1084,12 @@ Response:
   "message": "1 table created",
   "table": "user_profiles",
   "columns": [
-    entry_id INTEGER PRIMARY KEY,
-    user_id INTEGER NOT NULL,
-    name TEXT NOT NULL,
-    email TEXT NOT NULL,
-    profile_pic TEXT NOT NULL,
-    entry_time DATETIME NOT NULL DEFAULT (strftime("%Y-%m-%d %H:%M:%f", "now", "localtime")),
+    "entry_id INTEGER PRIMARY KEY",
+    "user_id INTEGER NOT NULL",
+    "name TEXT NOT NULL",
+    "email TEXT NOT NULL",
+    "profile_pic TEXT NOT NULL",
+    "entry_time DATETIME NOT NULL DEFAULT (strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime'))"
   ],
 }
 ```
