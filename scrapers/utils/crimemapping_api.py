@@ -1,3 +1,4 @@
+# -- check for required packages
 from pyproj import Transformer
 from bs4 import BeautifulSoup
 from datetime import datetime

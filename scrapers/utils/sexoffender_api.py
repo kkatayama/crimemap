@@ -1,4 +1,6 @@
-#!/usr/bin/env python3
+# -- check for required packages
+from geopy.geocoders import Nominatim
+from opencage.geocoder import OpenCageGeocode
 
 from datetime import datetime
 from rich.progress import track
@@ -11,7 +13,6 @@ class SexOffenderAPI(object):
 
     def __init__(self):
         """Constructor"""
-
         cookies = {
             '__RequestVerificationToken': 'AfPHuMdVOuUOlQSiFj-LxvvyCVpVniOAP4U5dN77o144W973eAf73ZeeVmmFIaukpp2gl77ajkX12dR4FFoZphazbbvpr3tdeRlWMVwkEHA1',
             '_ga': 'GA1.2.1070525134.1668047881',
@@ -39,7 +40,12 @@ class SexOffenderAPI(object):
         self.s.headers.update(headers)
         self.s.cookies.update(cookies)
         self.api_url = 'https://sexoffender.dsp.delaware.gov'
+        self.key = self._get_key()
 
+    def _get_key(self):
+        url = "https://proxy.hopto.org/opencage"
+        params = {"token": "crimemap"}
+        return self._get(url=url, data=params)
 
     def _get(self, url='', data=''):
         """Wrapper for requests.Session().get()"""
@@ -64,6 +70,16 @@ class SexOffenderAPI(object):
             if obj[key]:
                 line += str(obj[key]) + " "
         return line.strip()
+
+    def getGeocode(self, address):
+        geocoder = OpenCageGeocode(self.key)
+        loc = geocoder.geocode(address, no_annotations="1")[0]["geometry"]
+        return str(loc["lat"]), str(loc["lng"])
+
+    def getAddress(self, lat, lon):
+        geolocator = Nominatim(user_agent="python")
+        loc = geolocator.reverse(f'{lat}, {lon}')
+        return f'{loc.raw["address"]["house_number"]} {loc.raw["address"]["road"]}'
 
     def getOffenders(self):
         data = {
@@ -96,24 +112,46 @@ class SexOffenderAPI(object):
         results = self._post(url=url, data=data)["offenders"]
 
         offenders = []
-        for info in results:
-            try:
-                offender = {
-                    "tier": self.clean(info, ["RiskLevel"]),
-                    "name": self.clean(info["Name"], ["FirstName", "LastName"]),
-                    "dob": str(datetime.strptime(info["DateOfBirth"], "%Y-%m-%dT%H:%M:%S")),
-                    "arrest_description": self.clean(info["Arrests"][0], ["Description"]),
-                    "arrest_date": str(datetime.strptime(info["Arrests"][0]["AdjudicationDate"], "%Y-%m-%dT%H:%M:%S")),
-                    "victim_age": self.clean(info["Arrests"][0], ["VictimAge"]),
-                    "home_address": self.clean(info["HomeAddress"], keys=["StreetNumber", "StreetPrefix", "StreetName", "StreetType"]),
-                    "home_latitude": self.clean(info["HomeAddress"], keys=["YLatitude"]),
-                    "home_longitude": self.clean(info["HomeAddress"], keys=["XLongitude"]),
-                    "work_name": self.clean(info["WorkAddress"], keys=["Comments"]),
-                    "work_address": self.clean(info["WorkAddress"], ["StreetNumber", "StreetPrefix", "StreetName", "StreetType"]),
-                    "work_latitude": self.clean(info["WorkAddress"], keys=["YLatitude"]),
-                    "work_longitude": self.clean(info["WorkAddress"], keys=["XLongitude"]),
-                }
-                offenders.append(offender)
-            except:
-                pass
+        for info in track(results, "Processing Sex Offenders..."):
+            home_addr = self.clean(info["HomeAddress"], keys=["StreetNumber", "StreetPrefix", "StreetName", "StreetType"])
+            home_lat = self.clean(info["HomeAddress"], keys=["YLatitude"])
+            home_lon = self.clean(info["HomeAddress"], keys=["XLongitude"])
+            if home_addr and (not home_lat or not home_lon):
+                address = f'{home_addr}, {info["HomeAddress"]["City"]}, {info["HomeAddress"]["State"]} {info["HomeAddress"]["Zip"]}'
+                home_lat, home_lon = self.getGeocode(address)
+            if not home_addr and (home_lat and home_lon):
+                home_addr = self.getAddress(home_lat, home_lon)
+
+            work_addr = self.clean(info["WorkAddress"], ["StreetNumber", "StreetPrefix", "StreetName", "StreetType"])
+            work_lat = self.clean(info["WorkAddress"], keys=["YLatitude"])
+            work_lon = self.clean(info["WorkAddress"], keys=["XLongitude"])
+            if work_addr and (not work_lat or not work_lon):
+                address = f'{work_addr}, {info["WorkAddress"]["City"]}, {info["WorkAddress"]["State"]} {info["WorkAddress"]["Zip"]}'
+                work_lat, work_lon = self.getGeocode(address)
+            if not work_addr and (work_lat and work_lon):
+                work_addr = self.getAddress(work_lat, work_lon)
+
+            arrest_dt = info["Arrests"][0]["AdjudicationDate"]
+            if arrest_dt:
+                arrest_date = str(datetime.strptime(arrest_dt, "%Y-%m-%dT%H:%M:%S"))
+            else:
+                arrest_dt = info["RegisteredSince"]
+                arrest_date = str(datetime.strptime(arrest_dt, "%Y-%m-%dT%H:%M:%S"))
+
+            offender = {
+                "tier": self.clean(info, ["RiskLevel"]),
+                "name": self.clean(info["Name"], ["FirstName", "LastName"]),
+                "dob": str(datetime.strptime(info["DateOfBirth"], "%Y-%m-%dT%H:%M:%S")),
+                "arrest_description": self.clean(info["Arrests"][0], ["Description"]),
+                "arrest_date": arrest_date,
+                "victim_age": self.clean(info["Arrests"][0], ["VictimAge"]),
+                "home_address": home_addr if home_addr else work_addr,
+                "home_latitude": home_lat if home_lat else work_lat,
+                "home_longitude": home_lon if home_lon else work_lon,
+                "work_name": self.clean(info["WorkAddress"], keys=["Comments"]),
+                "work_address": work_addr if work_addr else home_addr,
+                "work_latitude": work_lat if work_lat else home_lat,
+                "work_longitude": work_lon if work_lon else home_lon,
+            }
+            offenders.append(offender)
         return offenders

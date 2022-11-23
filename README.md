@@ -1118,8 +1118,7 @@ entry_time = DATETIME
 
 Request:
 ```jq
-https://crimemap.hopto.org/createTable/sex_offenders/entry_id/INTEGER/tier/INTEGER/name/TEXT/dob/DATETIME/arrest_description/TEXT/arrest_date/DATETIME/victim_age/TEXT/home_address/TEXT/home_latitude/DOUBLE/home_longitude/DOUBLE/work_nam
-e/TEXT/work_address/TEXT/work_latitude/DOUBLE/work_longitude/DOUBLE/entry_time/DATETIME
+https://crimemap.hopto.org/createTable/sex_offenders/entry_id/INTEGER/tier/INTEGER/name/TEXT/dob/DATETIME/arrest_description/TEXT/arrest_date/DATETIME/victim_age/TEXT/home_address/TEXT/home_latitude/DOUBLE/home_longitude/DOUBLE/work_name/TEXT/work_address/TEXT/work_latitude/DOUBLE/work_longitude/DOUBLE/entry_time/DATETIME
 ```
 
 Response:
@@ -1544,7 +1543,35 @@ Response:
 
 
 
+Arguments:
+```rexx
+tier = 2
+name = MATTHEW OGRADY
+dob = 1980-09-16 00:00:00
+arrest_description = RAPE FOURTH DEGREE SEXUAL INTERCOURSE VICTIM LESS THAN 16 YEARS OLD
+arrest_date = 2002-07-08 00:00:00
+victim_age = 12-15yr
+home_address = 104 N Brownleaf RD
+home_latitude = 39.678394
+home_longitude = -75.686106
+work_name = F.L. GIANNONE ELECTRICAL
+work_address = 134 Register DR
+work_latitude = 39.695876
+work_longitude = -75.746505
+```
 
+Request:
+```jq
+https://crimemap.hopto.org/add/sex_offenders/tier/2/name/MATTHEW OGRADY/dob/1980-09-16 00:00:00/arrest_description/RAPE FOURTH DEGREE SEXUAL INTERCOURSE VICTIM LESS THAN 16 YEARS OLD/arrest_date/2002-07-08 00:00:00/victim_age/12-15yr/home_address/104 N Brownleaf RD/home_latitude/39.678394/home_longitude/-75.686106/work_name/F.L. GIANNONE ELECTRICAL/work_address/134 Register DR/work_latitude/39.695876/work_longitude/-75.746505
+```
+
+Response:
+```json
+{
+  "message": "data added to <sex_offenders>",
+  "entry_id": 62
+}
+```
 
 
 

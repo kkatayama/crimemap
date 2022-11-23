@@ -1,4 +1,15 @@
 #!/usr/bin/env python3
+import os
+for pkg in ["pyproj", "pandas", "geopy", "opencage", "bs4", "html5lib", "rich", "pick", "requests"]:
+    cmd = f"import {pkg}"
+    try:
+        exec(cmd)
+    except Exception as e:
+        print(e)
+        cmd = f'python3 -m pip install {pkg}'
+        os.system(cmd)
+
+from datetime import datetime
 from utils.utils import getSession, base_url
 from utils.crimemapping_api import CrimeMappingAPI
 from rich.progress import track
@@ -40,8 +51,19 @@ def update():
     params = {'filter': '(entry_id >= 1) ORDER BY report_date DESC LIMIT 1'}
     r = s.post(url=api_url, data=params)
     data = r.json().get('data')
-    print(data)
 
+    # -- scrape succeeding incidents
+    start_date = datetime.strptime(data["report_date"], '%Y-%m-%d %H:%M:%S')
+    crime = CrimeMappingAPI()
+    incidents = crime.getIncidents(start_date=start_date.strftime('%Y%m%d'))
+
+    # -- upload latest incidents
+    api_url = f"{base_url}/add/incidents"
+    for incident in track(incidents, 'Uploading Latest Incidents...'):
+        report_date = datetime.strptime(incident["report_date"], '%Y-%m-%d %H:%M:%S')
+        if report_date > start_date:
+            r = s.post(url=api_url, data=incident)
+            print(incident)
 
 def main():
     ap = argparse.ArgumentParser()
