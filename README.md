@@ -1020,6 +1020,21 @@ Response:
 <tr><td> Table Name </td><td> Table Description </td><td> Column Names </td></tr><tr><td>
 
 ```rexx
+user_profiles
+```
+</td><td>
+
+```css
+profiles for the users in the users table
+```
+</td><td>
+
+```jq
+["entry_id", "user_id", "name", "email", "profile_pic", "entry_time"]
+```
+</td></tr><tr></tr><tr><td>
+
+```rexx
 incidents
 ```
 </td><td>
@@ -1070,8 +1085,7 @@ entry_time = DATETIME
 
 Request:
 ```jq
-https://crimemap.hopto.org/createTable/incidents/entry_id/INTEGER/tier/INTEGER/type/TEXT/type_img/TEXT/description/TEXT/location/TEXT/latitude/DOUBLE/longitude/DOUBLE/agency/TEXT/report_date/DATETIME/entry_time/DATET
-IME
+https://crimemap.hopto.org/createTable/incidents/entry_id/INTEGER/tier/INTEGER/type/TEXT/type_img/TEXT/description/TEXT/location/TEXT/latitude/DOUBLE/longitude/DOUBLE/agency/TEXT/report_date/DATETIME/entry_time/DATETIME
 ```
 
 Response:
