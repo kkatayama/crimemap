@@ -2909,122 +2909,9 @@ Response:
 
 <details><summary> (click here to expand) </summary>
 
-### Let's simulate playing a full game of `Blackjack`
-1. Fetch the rules for the game `Blackjack` from the `games` table 
-2. Fetch all registered `users` 
-3. Adding `dealer`, `alice` and `bob` to the `players` table
-4. Adding `anna` and `steve` to the `spectators` table
-5. Simulate the first round of play by dealing 2 cards to each user
-6. Simulate each player performing a `player_action` of `hit` or `stay`
-7. Determine the winner and add the results to the `score_board` table
+### Investigating the `users` table
 
----
-
-### 5.1 - Fetch the rules for the game `Blackjack` from the `games` table
-
-<details><summary> (click here to expand) </summary>
-
-There are several ways to do this. <br>
-
-#### We could fetch the game with the `name=Blackjack` from the `games` table:
-Arguments:
-```rexx
-name = Blackjack
-```
-
-Request:
-```jq
-https://crimemap.hopto.org/get/games/name/Blackjack
-```
-
-Response:
-```json
-
-{
-  "message": "1 game entry found",
-  "data": {
-    "game_id": 1,
-    "name": "Blackjack",
-    "min_players": "2",
-    "max_players": "10",
-    "min_decks": "1",
-    "max_decks": "10",
-    "player_actions": "setup, hit, stay",
-    "rules": "1. All players are dealt 2 cards, 2. Dealer asks each player to \"hit\" or \"stay\", 3. Dealer hits until hand is at least 17, 4. Hand that is closest to 21 but not greater WINS",
-    "entry_time": "2022-11-01 21:10:51.915"
-  }
-}
-```
-
-NOTE: both: `https://crimemap.hopto.org/get/games/name/Blackjack` and `https://crimemap.hopto.org/get/games?name=Blackjack` will work!
-
-#### We could fetch all games in the `games` table to get the `game_id` for `Blackjack`, and then fetch the `game_id`:
-Request:
-```jq
-https://crimemap.hopto.org/get/games
-```
-
-Response:
-```json
-
-{
-  "message": "1 game entry found",
-  "data": {
-    "game_id": 1,
-    "name": "Blackjack",
-    "min_players": "2",
-    "max_players": "10",
-    "min_decks": "1",
-    "max_decks": "10",
-    "player_actions": "setup, hit, stay",
-    "rules": "1. All players are dealt 2 cards, 2. Dealer asks each player to \"hit\" or \"stay\", 3. Dealer hits until hand is at least 17, 4. Hand that is closest to 21 but not greater WINS",
-    "entry_time": "2022-11-01 21:10:51.915"
-  }
-}
-```
-
-We find that the `game_id` for `Blackjack` is `1`
-#### Fetch the `games` table for `game_id=1`:
-Arguments:
-```rexx
-game_id = 1
-```
-
-Request:
-```jq
-https://crimemap.hopto.org/get/games/game_id/1
-```
-
-Response:
-```json
-
-{
-  "message": "1 game entry found",
-  "data": {
-    "game_id": 1,
-    "name": "Blackjack",
-    "min_players": "2",
-    "max_players": "10",
-    "min_decks": "1",
-    "max_decks": "10",
-    "player_actions": "setup, hit, stay",
-    "rules": "1. All players are dealt 2 cards, 2. Dealer asks each player to \"hit\" or \"stay\", 3. Dealer hits until hand is at least 17, 4. Hand that is closest to 21 but not greater WINS",
-    "entry_time": "2022-11-01 21:10:51.915"
-  }
-}
-```
-
-However you wish to make requests is up to you.
-
-</details>
-
----
-
-### 5.2 - Fetch all registered `users`
-
-<details><summary> (click here to expand) </summary>
-
-#### Fetching all registerd `users`:
+#### Let's fetch all users in the `users` table:
 Request:
 ```jq
 https://crimemap.hopto.org/get/users
@@ -3033,725 +2920,216 @@ https://crimemap.hopto.org/get/users
 Response:
 ```json
 {
-  "message": "found 6 user entries",
+  "message": "found 5 user entries",
   "data": [
     {"user_id": 1, "username": "admin", "password": "756a404bd66b7f081a936fe6fbcf2374de5c6ce018d62f37e664be8df02de03807b51fc4273dc06d12c11f7075369b5e96e2b0fef57037f6711f7e0f07a224af", "create_time": "2022-10-28 09:34:39.683"},
-    {"user_id": 2, "username": "dealer", "password": "c00a4b4042678e2dc89247bed50b739c8070dae76a566dd0ecfeb597d8c67d6b1c56b67dd2cd026f11cac24670f23cc6f53a0ea2c25d9f75a0e2142dbaaca2a8", "create_time": "2022-11-01 21:22:46.795"},
-    {"user_id": 3, "username": "alice", "password": "2aa046bc10f97c0c11791b538b2a3d06f0dad8308b4ec8ef5166a14723f5ecaac62ab38257981bb7ea095fcb986818b6263082c0ad312a36f0086868833ae5ac", "create_time": "2022-11-01 21:22:47.066"},
-    {"user_id": 4, "username": "bob", "password": "b23ee5919bce0a5dd0693f868e50ef5a396bbff79e5c0fa0170eece7536e57a8a95ee8d646ed68491bd2a7acb94e3af388f0bd88650a2a7fadf9cd4c3a44bde1", "create_time": "2022-11-01 21:22:47.201"},
-    {"user_id": 5, "username": "anna", "password": "a8afd031b2e7fb99ad5be81e264cdc8dc359795610ae80af3c17fbad8d8aec1136e2a3ddc7e12aa771c5db03141e367e303585961301c44228bcbbdd69d424e7", "create_time": "2022-11-01 21:22:47.360"},
-    {"user_id": 6, "username": "steve", "password": "aa19bea81377c41b1089f410db3775f7fbaa005e0ade71f5b4194e0f189bda03c24c95214a3bf2002c0eea97dcfa49869b4254a5c6638b1d0161d5e9a1ce81f7", "create_time": "2022-11-01 21:22:47.497"},
+    {"user_id": 2, "username": "alice", "password": "1d5f25f69d22e57f92408247a304ab513e32791505c3f4eb878b732fb87d78c5dab7f5f46766e2fd7f2167f395829fd37feb7e8a773352830f70b5eeeef6d809", "create_time": "2022-11-15 22:52:22.768"},
+    {"user_id": 3, "username": "bob", "password": "541803a1dc5e1e822dc34cecfc43bb634c9604bb612e65e1b02ee1a239a2aac5d3605469e24418dc327eb9f66af74ce9fd127ae8b50246e43497e3efce73dfe2", "create_time": "2022-11-15 22:52:23.082"},
+    {"user_id": 4, "username": "anna", "password": "584a56a0c3e0b750b3b6ae320efb6004bdb73e5e06c455f1ede9d750ec6a0329c9b7fb0b2c36838728e68fea2327fddbb4cc34a17412dfd24730f4c2cf77cdb1", "create_time": "2022-11-15 22:52:23.185"},
+    {"user_id": 5, "username": "steve", "password": "be93fe20d457f6d23539baf51e8c2fb9e38ae9232d8a2ae04e45e60e2c0e019d5cd56a380611046f9c904dfaf47f725b87a6dc1b84c8b9cf4e15b03e8f30ddd6", "create_time": "2022-11-15 22:52:23.343"},
   ],
 }
 ```
 
-</details>
+### Investigating the `user_profiles` table
 
----
-
-### 5.3 - Adding `dealer`, `alice` and `bob` to the `players` table
-
-<details><summary> (click here to expand) </summary>
-
-#### Adding `dealer` to the `players` table:
-Arguments:
-```rexx
-user_id = 2
-game_id = 1
-name = dealer
-email = dealer@udel.edu
-```
-
+#### Let's fetch all profiles in the `user_profiles` table:
 Request:
 ```jq
-https://crimemap.hopto.org/add/players/user_id/2/game_id/1/name/dealer/email/dealer@udel.edu
+https://crimemap.hopto.org/get/user_profiles
 ```
 
 Response:
 ```json
 {
-  "message": "data added to <players>",
-  "player_id": "1",
-  "user_id": "2",
-  "game_id": "1",
-}
-```
-
-#### Adding `alice` to the `players` table:
-Arguments:
-```rexx
-user_id = 3
-game_id = 1
-name = alice
-email = alice@udel.edu
-```
-
-Request:
-```jq
-https://crimemap.hopto.org/add/players/user_id/3/game_id/1/name/alice/email/alice@udel.edu
-```
-
-Response:
-```json
-{
-  "message": "data added to <players>",
-  "player_id": "2",
-  "user_id": "3",
-  "game_id": "1",
-}
-```
-
-#### Adding `bob` to the `players` table:
-Arguments:
-```rexx
-user_id = 4
-game_id = 1
-name = bob
-email = bob@udel.edu
-```
-
-Request:
-```jq
-https://crimemap.hopto.org/add/players/user_id/4/game_id/1/name/bob/email/bob@udel.edu
-```
-
-Response:
-```json
-{
-  "message": "data added to <players>",
-  "player_id": "3",
-  "user_id": "4",
-  "game_id": "1",
-}
-```
-
-#### Verify that `dealer`, `alice`, and `bob` are in the `players` table:
-Request:
-```jq
-https://crimemap.hopto.org/get/players
-```
-
-Response:
-```json
-{
-  "message": "found 3 player entries",
+  "message": "found 5 user_profile entries",
   "data": [
-    {"player_id": 1, "user_id": 2, "game_id": 1, "name": "dealer", "email": "dealer@udel.edu", "entry_time": "2022-11-01 21:54:20.126"},
-    {"player_id": 2, "user_id": 3, "game_id": 1, "name": "alice", "email": "alice@udel.edu", "entry_time": "2022-11-01 21:55:16.048"},
-    {"player_id": 3, "user_id": 4, "game_id": 1, "name": "bob", "email": "bob@udel.edu", "entry_time": "2022-11-01 21:56:02.308"},
+    {"entry_id": 1, "user_id": 1, "name": "Administrator", "email": "admin@udel.edu", "profile_pic": "19.jpg", "entry_time": "2022-11-22 20:27:27.766"},
+    {"entry_id": 2, "user_id": 2, "name": "Alice Smith", "email": "alice@udel.edu", "profile_pic": "20.png", "entry_time": "2022-11-22 20:41:20.552"},
+    {"entry_id": 3, "user_id": 3, "name": "Bob Smith", "email": "bob@udel.edu", "profile_pic": "21.png", "entry_time": "2022-11-22 20:43:00.595"},
+    {"entry_id": 4, "user_id": 4, "name": "Anna Williams", "email": "anna@udel.edu", "profile_pic": "22.png", "entry_time": "2022-11-22 20:55:27.737"},
+    {"entry_id": 5, "user_id": 5, "name": "Steve Williams", "email": "steve@udel.edu", "profile_pic": "23.png", "entry_time": "2022-11-22 20:56:51.605"},
   ],
 }
 ```
 
-</details>
+#### Fetch the profile for the user `steve`
+> Note: from the `users` table, we know that the user `steve` has a `user_id` of `5`
 
----
-
-### 5.4 - Adding `anna` and `steve` to the `spectators` table
-
-<details><summary> (click here to expand) </summary>
-
-#### Adding `anna` to the `spectators` table:
 Arguments:
 ```rexx
-user_id = 5
-game_id = 1
-name = anna
-email = anna@udel.edu
-```
-
-Request:
-```jq
-https://crimemap.hopto.org/add/spectators/user_id/5/game_id/1/name/anna/email/anna@udel.edu
-```
-
-Response:
-```json
-{
-  "message": "data added to <spectators>",
-  "spectator_id": "1",
-  "user_id": "5",
-  "game_id": "1",
-}
-```
-
-#### Adding `steve` to the `spectators` table:
-Arguments:
-```rexx
-user_id = 6
-game_id = 1
-name = steve
-email = steve@udel.edu
-```
-
-Request:
-```jq
-https://crimemap.hopto.org/add/spectators/user_id/6/game_id/1/name/steve/email/steve@udel.edu
-```
-
-Response:
-```json
-{
-  "message": "data added to <spectators>",
-  "spectator_id": "2",
-  "user_id": "6",
-  "game_id": "1",
-}
-```
-
-#### Verify that `anna` and `steve` are in the `spectators` table:
-Request:
-```jq
-https://crimemap.hopto.org/get/spectators
-```
-
-Response:
-```json
-{
-  "message": "found 2 spectator entries",
-  "data": [
-    {"spectator_id": 1, "user_id": 5, "game_id": 1, "name": "anna", "email": "anna@udel.edu", "entry_time": "2022-11-01 22:04:31.979"},
-    {"spectator_id": 2, "user_id": 6, "game_id": 1, "name": "steve", "email": "steve@udel.edu", "entry_time": "2022-11-01 22:05:04.008"},
-  ],
-}
-```
-
-</details>
-
----
-
-### 5.5 - Simulate the first round of play by dealing 2 cards to each user
-
-<details><summary> (click here to expand) </summary>
-
-The `deck` table contains a shuffled deck of 52 cards <br />
-We will use this shuffled `deck` to simulate the `bot shuffled cards` <br />
-
-#### Let's examine the top 6 cards of the `deck`:
-Arguments:
-```rexx
-filter = (card_id <= 6)
+filter = (user_id = 5)
 ```
 
 Request:
 ```erlang
-https://crimemap.hopto.org/get/deck?filter=(card_id <= 6)
+https://crimemap.hopto.org/get/user_profiles?filter=(user_id = 5)
 ```
 
 Response:
 ```json
 {
-  "message": "found 6 deck entries",
+  "message": "1 user_profile entry found",
+  "data": [{"entry_id": 5, "user_id": 5, "name": "Steve Williams", "email": "steve@udel.edu", "profile_pic": "23.png", "entry_time": "2022-11-22 20:56:51.605"}],
+}
+```
+
+Note: the `profile_pic` can be fetched directly: [https://crimemap.hopto.org/23.png](https://crimemap.hopto.org/23.png)
+![https://crimemap.hopto.org/23.png](https://crimemap.hopto.org/23.png)
+
+### Investigating the `incidents` table
+
+#### Let's fetch the first `10 incidents` in the `incidents` table
+Arguments:
+```rexx
+filter = (entry_id >= 1) LIMIT 10
+```
+
+Request:
+```erlang
+https://crimemap.hopto.org/get/incidents?filter=(entry_id >= 1) LIMIT 10
+```
+
+Response:
+```json
+{
+  "message": "found 10 incident entries",
   "data": [
-    {"card_id": 1, "key": "6D", "name": "6", "suit": "DIAMONDS", "description": "6_of_diamonds", "file_name": "6D.png", "entry_time": "2022-11-01 15:04:46.184"},
-    {"card_id": 2, "key": "4H", "name": "4", "suit": "HEARTS", "description": "4_of_hearts", "file_name": "4H.png", "entry_time": "2022-11-01 15:04:46.599"},
-    {"card_id": 3, "key": "10S", "name": "10", "suit": "SPADES", "description": "10_of_spades", "file_name": "10S.png", "entry_time": "2022-11-01 15:04:46.967"},
-    {"card_id": 4, "key": "QH", "name": "QUEEN", "suit": "HEARTS", "description": "queen_of_hearts", "file_name": "QH.png", "entry_time": "2022-11-01 15:04:47.321"},
-    {"card_id": 5, "key": "9D", "name": "9", "suit": "DIAMONDS", "description": "9_of_diamonds", "file_name": "9D.png", "entry_time": "2022-11-01 15:04:47.684"},
-    {"card_id": 6, "key": "10H", "name": "10", "suit": "HEARTS", "description": "10_of_hearts", "file_name": "10H.png", "entry_time": "2022-11-01 15:04:48.021"},
+    {"entry_id": 1, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/FROM BUILDING", "location": "100 BLOCK SUBURBAN DR", "latitude": 39.66671000000007, "longitude": -75.77604999999994, "agency": "Newark
+Police", "report_date": "2022-07-01 17:43:00", "entry_time": "2022-11-18 18:21:39.315"},
+    {"entry_id": 2, "tier": 1, "type": "DUI", "type_img": "6.svg", "description": "POSSESSION OF AN OPEN CONTAINER", "location": "200 BLOCK E E. MAIN ST", "latitude": 39.68363000000002, "longitude": -75.74546, "agency": "Newark Police",
+"report_date": "2022-07-01 19:02:00", "entry_time": "2022-11-18 18:21:39.438"},
+    {"entry_id": 3, "tier": 1, "type": "Drugs / Alcohol Violations", "type_img": "5.svg", "description": "DISTURBING THE PEACE/PUBLIC NUISANCE", "location": "000 BLOCK PROSPECT AVE", "latitude": 39.686850000000014, "longitude":
+-75.75332999999995, "agency": "Newark Police", "report_date": "2022-07-02 01:33:00", "entry_time": "2022-11-18 18:21:39.560"},
+    {"entry_id": 4, "tier": 1, "type": "Weapons", "type_img": "15.svg", "description": "LARCENY/FROM VEHICLE/NOT ATTACHED", "location": "300 BLOCK CHRISTINA MILL DR", "latitude": 39.669780000000046, "longitude": -75.77436999999996,
+"agency": "Newark Police", "report_date": "2022-07-03 07:17:00", "entry_time": "2022-11-18 18:21:39.703"},
+    {"entry_id": 5, "tier": 1, "type": "DUI", "type_img": "6.svg", "description": "POSSESSION OF AN OPEN CONTAINER", "location": "000 BLOCK BENNY ST", "latitude": 39.677110000000006, "longitude": -75.74542999999993, "agency": "Newark
+Police", "report_date": "2022-07-04 18:34:00", "entry_time": "2022-11-18 18:21:39.862"},
+    {"entry_id": 6, "tier": 1, "type": "Drugs / Alcohol Violations", "type_img": "5.svg", "description": "DISORDERLY CONDUCT/UNRELATED TO LIQUOR", "location": "000 BLOCK E. MAIN ST", "latitude": 39.683099999999996, "longitude":
+-75.75229999999993, "agency": "Newark Police", "report_date": "2022-07-05 00:57:00", "entry_time": "2022-11-18 18:21:39.959"},
+    {"entry_id": 7, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/VEHICLE PARTS/FROM AUTO/ATTACHED", "location": "900 BLOCK E CHAPEL ST", "latitude": 39.6611500000001, "longitude": -75.73584999999993,
+"agency": "Delaware State Police", "report_date": "2022-07-05 07:51:00", "entry_time": "2022-11-18 18:21:40.084"},
+    {"entry_id": 8, "tier": 1, "type": "Drugs / Alcohol Violations", "type_img": "5.svg", "description": "DISTURBING THE PEACE/PUBLIC NUISANCE", "location": "3100 BLOCK WOOLEN WAY", "latitude": 39.68855000000009, "longitude":
+-75.74659999999993, "agency": "Newark Police", "report_date": "2022-07-05 18:20:00", "entry_time": "2022-11-18 18:21:40.199"},
+    {"entry_id": 9, "tier": 1, "type": "Drugs / Alcohol Violations", "type_img": "5.svg", "description": "DISTURBING THE PEACE/PUBLIC NUISANCE", "location": "000 BLOCK NW O DANIEL AVE", "latitude": 39.67424000000003, "longitude":
+-75.77021999999987, "agency": "Newark Police", "report_date": "2022-07-06 20:37:00", "entry_time": "2022-11-18 18:21:40.291"},
+    {"entry_id": 10, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/FROM BUILDING", "location": "600 BLOCK W OGLETOWN RD", "latitude": 39.68526000000007, "longitude": -75.73345999999997, "agency": "Newark
+Police", "report_date": "2022-07-06 21:19:00", "entry_time": "2022-11-18 18:21:40.380"},
   ],
 }
 ```
 
-We can see that the `deck` is shuffled <br />
+We see that the first `10 incidents` were reported in `July`
 
-NOTE: When dealing a card to a player, we need to add the entry to the `active_game` table
-
-#### Deal the 1st card to `alice`:
+#### Let's fetch all incidents reported on and after `2022-11-21`
 Arguments:
 ```rexx
-game_id = 1
-user_id = 3
-player_id = 2
-player_hand = 6D
-player_action = setup
+filter = (report_date >= "2022-11-21")
 ```
 
 Request:
-```jq
-https://crimemap.hopto.org/add/active_game/game_id/1/user_id/3/player_id/2/player_hand/6D/player_action/setup
+```erlang
+https://crimemap.hopto.org/get/incidents?filter=(report_date >= "2022-11-21")
 ```
 
 Response:
 ```json
 {
-  "message": "data added to <active_game>",
-  "entry_id": "1",
-  "game_id": "1",
-  "user_id": "3",
-  "player_id": "2",
-}
-```
-
-#### Deal the 2nd card to `bob`:
-Arguments:
-```rexx
-game_id = 1
-user_id = 4
-player_id = 3
-player_hand = 4H
-player_action = setup
-```
-
-Request:
-```jq
-https://crimemap.hopto.org/add/active_game/game_id/1/user_id/4/player_id/3/player_hand/4H/player_action/setup
-```
-
-Response:
-```json
-{
-  "message": "data added to <active_game>",
-  "entry_id": "2",
-  "game_id": "1",
-  "user_id": "4",
-  "player_id": "3",
-}
-```
-
-#### Deal the 3rd card to `dealer`:
-Arguments:
-```rexx
-game_id = 1
-user_id = 2
-player_id = 1
-player_hand = 10S
-player_action = setup
-```
-
-Request:
-```jq
-https://crimemap.hopto.org/add/active_game/game_id/1/user_id/2/player_id/1/player_hand/10S/player_action/setup
-```
-
-Response:
-```json
-{
-  "message": "data added to <active_game>",
-  "entry_id": "3",
-  "game_id": "1",
-  "user_id": "2",
-  "player_id": "1",
-}
-```
-
-#### Deal the 4th card to `alice`:
-Arguments:
-```rexx
-game_id = 1
-user_id = 3
-player_id = 2
-player_hand = QH
-player_action = setup
-```
-
-Request:
-```jq
-https://crimemap.hopto.org/add/active_game/game_id/1/user_id/3/player_id/2/player_hand/QH/player_action/setup
-```
-
-Response:
-```json
-{
-  "message": "data added to <active_game>",
-  "entry_id": "4",
-  "game_id": "1",
-  "user_id": "3",
-  "player_id": "2",
-}
-```
-
-#### Deal the 5th card to `bob`:
-Arguments:
-```rexx
-game_id = 1
-user_id = 4
-player_id = 3
-player_hand = 9D
-player_action = setup
-```
-
-Request:
-```jq
-https://crimemap.hopto.org/add/active_game/game_id/1/user_id/4/player_id/3/player_hand/9D/player_action/setup
-```
-
-Response:
-```json
-{
-  "message": "data added to <active_game>",
-  "entry_id": "5",
-  "game_id": "1",
-  "user_id": "4",
-  "player_id": "3",
-}
-```
-
-#### Deal the 6th card to `dealer`:
-Arguments:
-```rexx
-game_id = 1
-user_id = 2
-player_id = 1
-player_hand = 10H
-player_action = setup
-```
-
-Request:
-```jq
-https://crimemap.hopto.org/add/active_game/game_id/1/user_id/2/player_id/1/player_hand/10H/player_action/setup
-```
-
-Response:
-```json
-{
-  "message": "data added to <active_game>",
-  "entry_id": "6",
-  "game_id": "1",
-  "user_id": "2",
-  "player_id": "1",
-}
-```
-
-Now the `setup` phase is complete, each `player` has been dealt `2 cards`! <br />
-
-NOTE: recall that when a `user` logs in, their `user_id` is returned. <br />
-
-#### Simulate `alice` fetching her `player_hand`:
-Arguments:
-```rexx
-user_id = 3
-```
-
-Request:
-```jq
-https://crimemap.hopto.org/get/active_game/user_id/3
-```
-
-Response:
-```json
-{
-  "message": "found 2 active_game entries",
+  "message": "found 4 incident entries",
   "data": [
-    {"entry_id": 1, "game_id": 1, "user_id": 3, "player_id": 2, "player_hand": "6D", "player_action": "setup", "entry_time": "2022-11-01 22:52:08.865"},
-    {"entry_id": 4, "game_id": 1, "user_id": 3, "player_id": 2, "player_hand": "QH", "player_action": "setup", "entry_time": "2022-11-01 22:55:11.283"},
+    {"entry_id": 750, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/SHOPLIFTING", "location": "200 BLOCK SW S. MAIN ST", "latitude": 39.67795000000005, "longitude": -75.76196999999992, "agency": "Newark
+Police", "report_date": "2022-11-21 00:31:00", "entry_time": "2022-11-22 18:55:00.277"},
+    {"entry_id": 751, "tier": 1, "type": "Burglary", "type_img": "3.svg", "description": "AGGRAVATED ASSAULT/FAMILY OTHER DANGEROUS WEAPON", "location": "800 BLOCK S COLLEGE AVE", "latitude": 39.653990000000064, "longitude":
+-75.75098999999993, "agency": "Newark Police", "report_date": "2022-11-21 21:12:00", "entry_time": "2022-11-22 18:55:00.366"},
+    {"entry_id": 752, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/BICYCLES", "location": "3300 BLOCK WOOLEN WAY", "latitude": 39.68811000000006, "longitude": -75.74614999900001, "agency": "Newark
+Police", "report_date": "2022-11-21 22:37:00", "entry_time": "2022-11-22 18:55:00.455"},
+    {"entry_id": 753, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/SHOPLIFTING", "location": "200 BLOCK S. MAIN ST", "latitude": 39.67787000000004, "longitude": -75.76204999999997, "agency": "Newark
+Police", "report_date": "2022-11-22 01:57:00", "entry_time": "2022-11-22 18:55:00.542"},
   ],
 }
 ```
 
-#### Simulate `bob` fetching his `player_hand`:
+#### Let's fetch all incidents along `Main Street` between `South College Ave` and `Deer Park Tavern`
+
+##### Latitude=39.682800, Longitude-75.756200
+![https://crimemap.hopto.org/w_main_left.png](https://crimemap.hopto.org/w_main_left.png)
+
+##### Latitude=39.683100, Longitude-75.753600
+![https://crimemap.hopto.org/w_main_right.png](https://crimemap.hopto.org/w_main_right.png)
+
 Arguments:
 ```rexx
-user_id = 4
+filter = (latitude >= 39.682800 AND latitude <= 39.683100 AND longitude >= -75.756200 AND longitude <= -75.753600)
 ```
 
 Request:
-```jq
-https://crimemap.hopto.org/get/active_game/user_id/4
+```erlang
+https://crimemap.hopto.org/get/incidents?filter=(latitude >= 39.682800 AND latitude <= 39.683100 AND longitude >= -75.756200 AND longitude <= -75.753600)
 ```
 
 Response:
 ```json
 {
-  "message": "found 2 active_game entries",
+  "message": "found 11 incident entries",
   "data": [
-    {"entry_id": 2, "game_id": 1, "user_id": 4, "player_id": 3, "player_hand": "4H", "player_action": "setup", "entry_time": "2022-11-01 22:53:08.192"},
-    {"entry_id": 5, "game_id": 1, "user_id": 4, "player_id": 3, "player_hand": "9D", "player_action": "setup", "entry_time": "2022-11-01 22:55:58.077"},
+    {"entry_id": 69, "tier": 1, "type": "Burglary", "type_img": "3.svg", "description": "AGGRAVATED ASSAULT/NON-FAMILY STRONG-ARM/HANDS/FIST/FEET", "location": "100 BLOCK MAIN ST", "latitude": 39.682960000000044, "longitude":
+-75.75600999999999, "agency": "Newark Police", "report_date": "2022-08-14 00:51:00", "entry_time": "2022-11-18 18:21:47.446"},
+    {"entry_id": 230, "tier": 1, "type": "Vehicle Break-In / Theft", "type_img": "14.svg", "description": "DAMAGE/PRIVATE PROPERTY", "location": "100 BLOCK E MAIN ST", "latitude": 39.682970000000026, "longitude": -75.75581000099999,
+"agency": "Newark Police", "report_date": "2022-09-15 23:59:00", "entry_time": "2022-11-18 18:22:08.371"},
+    {"entry_id": 346, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/VEHICLE PARTS/FROM AUTO/ATTACHED", "location": "100 BLOCK W MAIN ST", "latitude": 39.682980000000015, "longitude": -75.75467999999994,
+"agency": "Newark Police", "report_date": "2022-09-27 23:10:00", "entry_time": "2022-11-18 18:22:23.256"},
+    {"entry_id": 380, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/BICYCLES", "location": "100 BLOCK MAIN ST", "latitude": 39.682970000000026, "longitude": -75.75577999999993, "agency": "Newark Police",
+"report_date": "2022-10-01 01:05:00", "entry_time": "2022-11-18 18:22:26.921"},
+    {"entry_id": 413, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/FROM ALL OTHER YARDS", "location": "W N ST & COLLEGE AVE", "latitude": 39.682990000000075, "longitude": -75.75408, "agency": "Newark
+Police", "report_date": "2022-10-04 13:38:00", "entry_time": "2022-11-18 18:22:30.688"},
+    {"entry_id": 475, "tier": 1, "type": "Burglary", "type_img": "3.svg", "description": "SIMPLE ASSAULT/NON-FAMILY/OTHER ASSAULTS/NON-AGGRAVATED", "location": "100 BLOCK E MAIN ST", "latitude": 39.682980000000015, "longitude":
+-75.75593999999995, "agency": "Newark Police", "report_date": "2022-10-14 01:23:00", "entry_time": "2022-11-18 18:22:37.452"},
+    {"entry_id": 498, "tier": 1, "type": "Drugs / Alcohol Violations", "type_img": "5.svg", "description": "DISORDERLY CONDUCT/UNRELATED TO LIQUOR", "location": "100 BLOCK E MAIN ST", "latitude": 39.682960000000044, "longitude":
+-75.75530999999995, "agency": "Newark Police", "report_date": "2022-10-15 23:58:00", "entry_time": "2022-11-18 18:22:40.726"},
+    {"entry_id": 523, "tier": 1, "type": "Burglary", "type_img": "3.svg", "description": "OFFENSIVE TOUCHING/OTHER ASSAULTS/NON-AGGRAVATED", "location": "E. MAIN ST & W", "latitude": 39.682990000000075, "longitude": -75.7540299999999,
+"agency": "Newark Police", "report_date": "2022-10-21 02:34:00", "entry_time": "2022-11-18 18:22:44.655"},
+    {"entry_id": 533, "tier": 1, "type": "Burglary", "type_img": "3.svg", "description": "OFFENSIVE TOUCHING/OTHER ASSAULTS/NON-AGGRAVATED", "location": "E. MAIN ST & W", "latitude": 39.682960000000044, "longitude": -75.75550000000004,
+"agency": "Newark Police", "report_date": "2022-10-22 00:01:00", "entry_time": "2022-11-18 18:22:46.076"},
+    {"entry_id": 566, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/FROM BUILDING", "location": "100 BLOCK MAIN ST", "latitude": 39.683009999999996, "longitude": -75.75603999999996, "agency": "Newark
+Police", "report_date": "2022-10-24 12:00:00", "entry_time": "2022-11-18 18:22:50.715"},
+    {"entry_id": 616, "tier": 1, "type": "Burglary", "type_img": "3.svg", "description": "AGGRAVATED ASSAULT/NON-FAMILY STRONG-ARM/HANDS/FIST/FEET", "location": "100 BLOCK MAIN ST", "latitude": 39.682970000000026, "longitude":
+-75.75548999999992, "agency": "Newark Police", "report_date": "2022-10-30 00:57:00", "entry_time": "2022-11-18 18:22:56.623"},
   ],
 }
 ```
 
-#### Simulate `dealer` fetching their `player_hand`:
+### Investigating the `sex_offenders` table
+
+#### Let's fetch all `tier 3` sex offenders where the victim's age is `1-11yr`
 Arguments:
 ```rexx
-user_id = 2
+filter = (tier = 3 AND victim_age = "1-11yr")
 ```
 
 Request:
-```jq
-https://crimemap.hopto.org/get/active_game/user_id/2
+```erlang
+https://crimemap.hopto.org/get/sex_offenders?filter=(tier = 3 AND victim_age = "1-11yr")
 ```
 
 Response:
 ```json
 {
-  "message": "found 2 active_game entries",
+  "message": "found 4 sex_offender entries",
   "data": [
-    {"entry_id": 3, "game_id": 1, "user_id": 2, "player_id": 1, "player_hand": "10S", "player_action": "setup", "entry_time": "2022-11-01 22:54:07.209"},
-    {"entry_id": 6, "game_id": 1, "user_id": 2, "player_id": 1, "player_hand": "10H", "player_action": "setup", "entry_time": "2022-11-01 22:57:44.514"},
+    {"entry_id": 1, "tier": 3, "name": "MARIO DITOMASSO", "dob": "1982-12-02 00:00:00", "arrest_description": "UNLAWFUL SEXUAL INTERCOURSE FIRST DEGREE-VICTIM < 16 AND NOT SOCIAL COMPANION", "arrest_date": "1997-08-28 00:00:00",
+"victim_age": "1-11yr", "home_address": "163 SCOTTFIELD DR", "home_latitude": 39.657723, "home_longitude": -75.73246, "work_name": "Unemployed", "work_address": "163 SCOTTFIELD DR", "work_latitude": 39.657723, "work_longitude":
+-75.73246, "entry_time": "2022-11-22 18:12:27.020"},
+    {"entry_id": 22, "tier": 3, "name": "TAMMY CAMPBELL", "dob": "1978-07-26 00:00:00", "arrest_description": "RAPE SECOND DEGREE <16 YEARS BY PERSON IN POSITION OF TRUST, AUTHORITY, SUPERV", "arrest_date": "2007-11-14 00:00:00",
+"victim_age": "1-11yr", "home_address": "155 Madison DR", "home_latitude": 39.677082, "home_longitude": -75.768674, "work_name": "Unemployed", "work_address": "155 Madison DR", "work_latitude": 39.677082, "work_longitude": -75.768674,
+"entry_time": "2022-11-22 18:12:29.372"},
+    {"entry_id": 34, "tier": 3, "name": "JAMES NORTON", "dob": "1959-08-27 00:00:00", "arrest_description": "UNLAWFUL SEXUAL CONTACT 1ST", "arrest_date": "1995-06-19 00:00:00", "victim_age": "1-11yr", "home_address": "28730 N WOODCREST
+DR", "home_latitude": 38.658209, "home_longitude": -75.247851, "work_name": "WATERCOLORS PAINTING", "work_address": "21 E SHADY DR", "work_latitude": 39.659054, "work_longitude": -75.707886, "entry_time": "2022-11-22 18:12:30.549"},
+    {"entry_id": 39, "tier": 3, "name": "PAULRON CLARK", "dob": "1994-06-30 00:00:00", "arrest_description": "RAPE THIRD DEGREE VICTIM <16 DEF AT LEAST 10 YEARS OLDER OR VICT <14 DEF >19YR", "arrest_date": "2015-12-21 00:00:00",
+"victim_age": "1-11yr", "home_address": "416 S Van BUREN ST", "home_latitude": 39.739736, "home_longitude": -75.565057, "work_name": "LOCAL 199", "work_address": "308 MarkUS CT", "work_latitude": 39.660335, "work_longitude": -75.774232,
+"entry_time": "2022-11-22 18:12:31.393"},
   ],
 }
 ```
-
-Any user in the `spectators` table can make a generic request to see all `player hands` <br />
-
-#### Simulate a `spectatars` request:
-Arguments:
-```rexx
-filter = (player_id >= 1) ORDER BY player_id
-```
-
-Request:
-```jq
-https://crimemap.hopto.org/get/active_game/filter/(player_id >= 1) ORDER BY player_id
-```
-
-Response:
-```json
-{
-  "message": "found 6 active_game entries",
-  "data": [
-    {"entry_id": 3, "game_id": 1, "user_id": 2, "player_id": 1, "player_hand": "10S", "player_action": "setup", "entry_time": "2022-11-01 22:54:07.209"},
-    {"entry_id": 6, "game_id": 1, "user_id": 2, "player_id": 1, "player_hand": "10H", "player_action": "setup", "entry_time": "2022-11-01 22:57:44.514"},
-    {"entry_id": 1, "game_id": 1, "user_id": 3, "player_id": 2, "player_hand": "6D", "player_action": "setup", "entry_time": "2022-11-01 22:52:08.865"},
-    {"entry_id": 4, "game_id": 1, "user_id": 3, "player_id": 2, "player_hand": "QH", "player_action": "setup", "entry_time": "2022-11-01 22:55:11.283"},
-    {"entry_id": 2, "game_id": 1, "user_id": 4, "player_id": 3, "player_hand": "4H", "player_action": "setup", "entry_time": "2022-11-01 22:53:08.192"},
-    {"entry_id": 5, "game_id": 1, "user_id": 4, "player_id": 3, "player_hand": "9D", "player_action": "setup", "entry_time": "2022-11-01 22:55:58.077"},
-  ],
-}
-```
-
-</details>
-
----
-
-### 5.6 - Simulate each player performing a `player_action` of `hit` or `stay`
-
-<details><summary> (click here to expand) </summary>
-
-Alice has two cards: 6D and QH (6_of_diamonds and Queen_of_Hearts) which totals 16 points. <br />
-
-Alice decides to `hit` <br />
-
-#### Deal the next (7th) card of the `deck`:
-Arguments:
-```rexx
-card_id = 7
-```
-
-Request:
-```jq
-https://crimemap.hopto.org/get/deck/card_id/7
-```
-
-Response:
-```json
-{
-  "message": "1 deck entry found",
-  "data": [{"card_id": 7, "key": "3S", "name": "3", "suit": "SPADES", "description": "3_of_spades", "file_name": "3S.png", "entry_time": "2022-11-01 15:04:48.368"}],
-}
-```
-
-#### Simulate `alice` performing the `hit` action:
-Arguments:
-```rexx
-game_id = 1
-user_id = 3
-player_id = 2
-player_hand = 3S
-player_action = hit
-```
-
-Request:
-```jq
-https://crimemap.hopto.org/add/active_game/game_id/1/user_id/3/player_id/2/player_hand/3S/player_action/hit
-```
-
-Response:
-```json
-{
-  "message": "data added to <active_game>",
-  "entry_id": "7",
-  "game_id": "1",
-  "user_id": "3",
-  "player_id": "2",
-}
-```
-
-#### Let's examine `alice` current `hand`:
-Arguments:
-```rexx
-player_id = 2
-```
-
-Request:
-```jq
-https://crimemap.hopto.org/get/active_game/player_id/2
-```
-
-Response:
-```json
-{
-  "message": "found 3 active_game entries",
-  "data": [
-    {"entry_id": 1, "game_id": 1, "user_id": 3, "player_id": 2, "player_hand": "6D", "player_action": "setup", "entry_time": "2022-11-01 22:52:08.865"},
-    {"entry_id": 4, "game_id": 1, "user_id": 3, "player_id": 2, "player_hand": "QH", "player_action": "setup", "entry_time": "2022-11-01 22:55:11.283"},
-    {"entry_id": 7, "game_id": 1, "user_id": 3, "player_id": 2, "player_hand": "3S", "player_action": "hit", "entry_time": "2022-11-01 23:16:10.252"},
-  ],
-}
-```
-
-Alice has three cards: 6D + QH + 3S = `19` points <br />
-
-Alice decides to `stay`, so now it is `bob`'s turn. <br />
-
-Bob has two cards: 4H + 9D = `13` points <br />
-
-Bob decides to `hit` <br />
-
-#### Deal the next (8th) card of the `deck`:
-Arguments:
-```rexx
-card_id = 8
-```
-
-Request:
-```jq
-https://crimemap.hopto.org/get/deck/card_id/8
-```
-
-Response:
-```json
-{
-  "message": "1 deck entry found",
-  "data": [{"card_id": 8, "key": "5S", "name": "5", "suit": "SPADES", "description": "5_of_spades", "file_name": "5S.png", "entry_time": "2022-11-01 15:04:48.717"}],
-}
-```
-
-#### Simulate `bob` performing the `hit` action:
-Arguments:
-```rexx
-game_id = 1
-user_id = 4
-player_id = 3
-player_hand = 5S
-player_action = hit
-```
-
-Request:
-```jq
-https://crimemap.hopto.org/add/active_game/game_id/1/user_id/4/player_id/3/player_hand/5S/player_action/hit
-```
-
-Response:
-```json
-{
-  "message": "data added to <active_game>",
-  "entry_id": "8",
-  "game_id": "1",
-  "user_id": "4",
-  "player_id": "3",
-}
-```
-
-#### Let's examine `bob` current `hand`:
-Arguments:
-```rexx
-player_id = 3
-```
-
-Request:
-```jq
-https://crimemap.hopto.org/get/active_game/player_id/3
-```
-
-Response:
-```json
-{
-  "message": "found 3 active_game entries",
-  "data": [
-    {"entry_id": 2, "game_id": 1, "user_id": 4, "player_id": 3, "player_hand": "4H", "player_action": "setup", "entry_time": "2022-11-01 22:53:08.192"},
-    {"entry_id": 5, "game_id": 1, "user_id": 4, "player_id": 3, "player_hand": "9D", "player_action": "setup", "entry_time": "2022-11-01 22:55:58.077"},
-    {"entry_id": 8, "game_id": 1, "user_id": 4, "player_id": 3, "player_hand": "5S", "player_action": "hit", "entry_time": "2022-11-01 23:31:40.648"},
-  ],
-}
-```
-
-Bob has three cards: 4H + 9D + 5S = `18` points <br />
-
-Bob decides to `stay`, so now it the `dealer`'s turn <br />
-
-Dealer has two cards: 10S + 10H = `20` points <br />
-
-Dealer decides to `stay`. <br />
-
-No more moves can be made, it is now time to determine the winner!
-
-</details>
-
----
-
-### 5.7 - Determine the winner and add the results to the score_board table
-
-<details><summary> (click here to expand) </summary>
-
-#### Let's combine the `player_hand` for each `player`:
-Arguments:
-```rexx
-filter = (player_id >= 1) ORDER BY player_id
-```
-
-Request:
-```jq
-https://crimemap.hopto.org/get/active_game/filter/(player_id >= 1) ORDER BY player_id
-```
-
-Response:
-```json
-{
-  "message": "found 8 active_game entries",
-  "data": [
-    {"entry_id": 3, "game_id": 1, "user_id": 2, "player_id": 1, "player_hand": "10S", "player_action": "setup", "entry_time": "2022-11-01 22:54:07.209"},
-    {"entry_id": 6, "game_id": 1, "user_id": 2, "player_id": 1, "player_hand": "10H", "player_action": "setup", "entry_time": "2022-11-01 22:57:44.514"},
-    {"entry_id": 1, "game_id": 1, "user_id": 3, "player_id": 2, "player_hand": "6D", "player_action": "setup", "entry_time": "2022-11-01 22:52:08.865"},
-    {"entry_id": 4, "game_id": 1, "user_id": 3, "player_id": 2, "player_hand": "QH", "player_action": "setup", "entry_time": "2022-11-01 22:55:11.283"},
-    {"entry_id": 7, "game_id": 1, "user_id": 3, "player_id": 2, "player_hand": "3S", "player_action": "hit", "entry_time": "2022-11-01 23:16:10.252"},
-    {"entry_id": 2, "game_id": 1, "user_id": 4, "player_id": 3, "player_hand": "4H", "player_action": "setup", "entry_time": "2022-11-01 22:53:08.192"},
-    {"entry_id": 5, "game_id": 1, "user_id": 4, "player_id": 3, "player_hand": "9D", "player_action": "setup", "entry_time": "2022-11-01 22:55:58.077"},
-    {"entry_id": 8, "game_id": 1, "user_id": 4, "player_id": 3, "player_hand": "5S", "player_action": "hit", "entry_time": "2022-11-01 23:31:40.648"},
-  ],
-}
-```
-
-Dealer has 2 cards: 10S + 10H = `20` points <br />
-Alice has 3 cards: 6D + QH + 3S = `19` points <br />
-Bob has 3 cards: 4H + 9D + 5S = `18` points <br />
-
-**Dealer Wins !!!**
-
-#### Add winner to `score_board` table:
-Arguments:
-```rexx
-game_id = 1
-user_id = 2
-player_id = 1
-winner = dealer
-winner_email = dealer@udel.edu
-winner_hand = 10S, 10H
-winner_score = 20
-players = dealer, alice, bob
-player_hands = 10S+10H, 6D+QH+3S, 4H+9D+5S
-player_scores = 20, 19, 18
-spectators = anna, steve
-```
-
-Request:
-```jq
-https://crimemap.hopto.org/add/score_board/game_id/1/user_id/2/player_id/1/winner/dealer/winner_email/dealer@udel.edu/winner_hand/10S, 10H/winner_score/20/players/dealer, alice, bob/player_hands/10S+10H, 6D+QH+3S, 4H+9D+5S/player_scores/20, 19, 18/spectators/anna, steve
-```
-
-Response:
-```json
-{
-  "message": "data added to <score_board>",
-  "score_id": 1,
-  "game_id": "1",
-  "user_id": "2",
-  "player_id": "1"
-}
-```
-
-</details>
 
 </details>
 
@@ -4144,13 +3522,11 @@ Response:
 
 <details><summary> (click here to expand) </summary>
 
-### Executing a Profile Edit
+### Executing a User and Profile Edit
 
-#### `anna` and `steve` would like to edit their `username` to use their `email` and update their `password`
+#### `anna` wants to edit her `email` in the `user_profiles` table from `anna@udel.edu` to `anna@gmail.com`
 
-#### Let's start with `anna`
-
-#### `anna` would like to change her `username` from `anna` to `anna@udel.edu` and her `password` from `anna` to `Anna1234`
+#### `anna` would like to change her `password` from `anna` to `Anna1234`
 
 #### Query the `users` table to see all of the current `users`:
 Request:
@@ -4161,129 +3537,114 @@ https://crimemap.hopto.org/get/users
 Response:
 ```json
 {
-  "message": "found 6 user entries",
+  "message": "found 5 user entries",
   "data": [
     {"user_id": 1, "username": "admin", "password": "756a404bd66b7f081a936fe6fbcf2374de5c6ce018d62f37e664be8df02de03807b51fc4273dc06d12c11f7075369b5e96e2b0fef57037f6711f7e0f07a224af", "create_time": "2022-10-28 09:34:39.683"},
-    {"user_id": 2, "username": "dealer", "password": "c00a4b4042678e2dc89247bed50b739c8070dae76a566dd0ecfeb597d8c67d6b1c56b67dd2cd026f11cac24670f23cc6f53a0ea2c25d9f75a0e2142dbaaca2a8", "create_time": "2022-11-01 21:22:46.795"},
-    {"user_id": 3, "username": "alice", "password": "2aa046bc10f97c0c11791b538b2a3d06f0dad8308b4ec8ef5166a14723f5ecaac62ab38257981bb7ea095fcb986818b6263082c0ad312a36f0086868833ae5ac", "create_time": "2022-11-01 21:22:47.066"},
-    {"user_id": 4, "username": "bob", "password": "b23ee5919bce0a5dd0693f868e50ef5a396bbff79e5c0fa0170eece7536e57a8a95ee8d646ed68491bd2a7acb94e3af388f0bd88650a2a7fadf9cd4c3a44bde1", "create_time": "2022-11-01 21:22:47.201"},
-    {"user_id": 5, "username": "anna", "password": "a8afd031b2e7fb99ad5be81e264cdc8dc359795610ae80af3c17fbad8d8aec1136e2a3ddc7e12aa771c5db03141e367e303585961301c44228bcbbdd69d424e7", "create_time": "2022-11-01 21:22:47.360"},
-    {"user_id": 6, "username": "steve", "password": "aa19bea81377c41b1089f410db3775f7fbaa005e0ade71f5b4194e0f189bda03c24c95214a3bf2002c0eea97dcfa49869b4254a5c6638b1d0161d5e9a1ce81f7", "create_time": "2022-11-01 21:22:47.497"},
+    {"user_id": 2, "username": "alice", "password": "1d5f25f69d22e57f92408247a304ab513e32791505c3f4eb878b732fb87d78c5dab7f5f46766e2fd7f2167f395829fd37feb7e8a773352830f70b5eeeef6d809", "create_time": "2022-11-15 22:52:22.768"},
+    {"user_id": 3, "username": "bob", "password": "541803a1dc5e1e822dc34cecfc43bb634c9604bb612e65e1b02ee1a239a2aac5d3605469e24418dc327eb9f66af74ce9fd127ae8b50246e43497e3efce73dfe2", "create_time": "2022-11-15 22:52:23.082"},
+    {"user_id": 4, "username": "anna", "password": "584a56a0c3e0b750b3b6ae320efb6004bdb73e5e06c455f1ede9d750ec6a0329c9b7fb0b2c36838728e68fea2327fddbb4cc34a17412dfd24730f4c2cf77cdb1", "create_time": "2022-11-15 22:52:23.185"},
+    {"user_id": 5, "username": "steve", "password": "be93fe20d457f6d23539baf51e8c2fb9e38ae9232d8a2ae04e45e60e2c0e019d5cd56a380611046f9c904dfaf47f725b87a6dc1b84c8b9cf4e15b03e8f30ddd6", "create_time": "2022-11-15 22:52:23.343"},
   ],
 }
 ```
 
-#### Changing the `username` and `password` for `anna`:
+#### Fetch the `user_profile` for `anna`
 Arguments:
 ```rexx
-username = anna@udel.edu
-password = Anna1234
-filter = (user_id=5)
+filter = (user_id = 4)
 ```
 
 Request:
 ```erlang
-https://crimemap.hopto.org/edit/users/username/anna@udel.edu/password/Anna1234/?filter=(user_id=5)
+https://crimemap.hopto.org/get/user_profiles?filter=(user_id = 4)
+```
+
+Response:
+```json
+{
+  "message": "1 user_profile entry found",
+  "data": [{"entry_id": 4, "user_id": 4, "name": "Anna Williams", "email": "anna@udel.edu", "profile_pic": "22.png", "entry_time": "2022-11-22 20:55:27.737"}],
+}
+```
+
+#### Changing the `email` for `anna` in the `user_profiles` from `anna@udel.edu` to `anna@gmail.com`:
+Arguments:
+```rexx
+email = anna@gmail.com
+filter = (user_id=4)
+```
+
+Request:
+```erlang
+https://crimemap.hopto.org/edit/user_profiles/email/anna@gmail.com?filter=(user_id=4)
+```
+
+Response:
+```json
+{
+  "message": "edited 1 user_profile entry",
+  "submitted": [{"filter": "(user_id=4)", "email": "anna@gmail.com"}],
+}
+```
+
+#### Verify by fetching the `user_profile` for `anna`
+Arguments:
+```rexx
+filter = (user_id = 4)
+```
+
+Request:
+```erlang
+https://crimemap.hopto.org/get/user_profiles?filter=(user_id = 4)
+```
+
+Response:
+```json
+{
+  "message": "1 user_profile entry found",
+  "data": [{"entry_id": 4, "user_id": 4, "name": "Anna Williams", "email": "anna@gmail.com", "profile_pic": "22.png", "entry_time": "2022-11-22 20:55:27.737"}],
+}
+```
+
+#### Changing the `password` for `anna` in the `users` table from `anna` to `Anna1234`
+Arguments:
+```rexx
+password = Anna1234
+filter = (user_id = 4)
+```
+
+Request:
+```erlang
+https://crimemap.hopto.org/edit/users?password=Anna1234&filter=(user_id = 4)
 ```
 
 Response:
 ```json
 {
   "message": "edited 1 user entry",
-  "submitted": [
-    {
-      "filter": "(user_id=5)",
-      "username": "anna@udel.edu",
-      "password": "96205a4208c729325fdc3de16fe7549dac2040162ecc311321c1e193815a0cf5f9fc8e18084f648a87a0df389d4250f40cbfd5053b83f23ccfc2b59a5ee16aec"
-    }
-  ]
+  "submitted": [{"filter": "(user_id = 4)", "password": "d5501e6216fc43dd32fd50a86eb306f414d6fee4692217c6303481e86513f1277930e058fc12564a3daa5ef9ba95544c0c0f9dc811c0bb2ee7ea3dd90d79c503"}],
 }
 ```
 
-#### Verify by logging in with the new `username` and `password`:
+#### Verify by logging in with the new `password`:
 Arguments:
 ```rexx
-username = anna@udel.edu
+username = anna
 password = Anna1234
-```
-
-POST Request:
-```jq
-POST(url="https://crimemap.hopto.org/login", data={"username": "anna@udel.edu", "password": "Anna1234"})
-```
-
-OR GET Request:
-> GET Request will not store session client side...
-> If you don't want to deal with sessions, I can disable this feature...
-```jq
-https://crimemap.hopto.org/login/username/anna@udel.edu/password/Anna1234
-```
-
-Response:
-```json
-{
-  "message": "user login success",
-  "user_id": "5",
-  "username": "anna@udel.edu",
-  "token": "IURBdXFSODZvRXByQ0ZDK2VJNGdXV3c9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFMWxJYVVMZz09",
-}
-```
-
-#### `steve` would like to change his `username` to `steve@gmail.com` and his `password` to `St3ve4321`
-
-#### Changing the `username` and `password` for `steve`:
-Arguments:
-```rexx
-username = steve@udel.edu
-password = St3ve4321
-filter = (user_id=6)
 ```
 
 Request:
 ```erlang
-https://crimemap.hopto.org/edit/users/?username=steve@udel.edu&password=St3ve4321&filter=(user_id=6)
-```
-
-Response:
-```json
-{
-  "message": "edited 1 user entry",
-  "submitted": [
-    {
-      "filter": "(user_id=6)",
-      "username": "steve@udel.edu",
-      "password": "42b52be908f40c123f5821925c0d5d34c24035518cc65b64295ae8bedd57855bda4555dd855d1fa52255667437c7c521bd545a527cedb099e4813d925482a4f6"
-    }
-  ]
-}
-```
-
-#### Verify by logging in with the new `username` and `password`:
-Arguments:
-```rexx
-username = steve@gmail.com
-password = St3ve4321
-```
-
-POST Request:
-```jq
-POST(url="https://crimemap.hopto.org/login", data={"username": "steve@gmail.com", "password": "St3ve4321"})
-```
-
-OR GET Request:
-> GET Request will not store session client side...
-> If you don't want to deal with sessions, I can disable this feature...
-```erlang
-https://crimemap.hopto.org/login/?username=steve@udel.edu&password=St3ve4321
+https://crimemap.hopto.org/login?username=anna&password=Anna1234
 ```
 
 Response:
 ```json
 {
   "message": "user login success",
-  "user_id": "6",
-  "username": "steve@udel.edu",
-  "token": "IUF5K2NMZTg4eWZBd0g2TVNvL1BFelE9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFMmxJYVVMZz09",
+  "user_id": "4",
+  "username": "anna",
+  "token": "IUlhd1k1RFpBajZoS2ZNWEo4R2t3ZXc9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFMGxJYVVMZz09",
 }
 ```
 
@@ -4494,106 +3855,84 @@ Response:
 
 <details><summary> (click me to exapnd) </summary>
 
-### Clean up the entries in the `active_game` table to finish the `Blackjack` game from [Workflow 5](#workflow-5---requesting-data)
+### Let's register a `test` user
+Arguments:
+```rexx
+username = test
+password = test
+password2 = test
+```
 
-#### After the `Blackjack` game ended, we added the results to the `score_board` table but we left the logs in the `active_game` table.
-#### Before we can start a new game, we should delete the entries in the `active_game` table.
-#### I didn't create a table for keeping old game logs, but it shouldn't be too hard to do now that you have made it here :)
-
-#### Let's examine the `score_board` table to make sure that the winning results from our game is there:
 Request:
 ```jq
-https://crimemap.hopto.org/get/score_board
+https://crimemap.hopto.org/register/username/test/password/test/password2/test
 ```
 
 Response:
 ```json
-
 {
-  "message": "1 score_board entry found",
-  "data": {
-    "score_id": 1,
-    "game_id": 1,
-    "user_id": 2,
-    "player_id": 1,
-    "winner": "dealer",
-    "winner_email": "dealer@udel.edu",
-    "winner_hand": "10S, 10H",
-    "winner_score": 20,
-    "players": "dealer, alice, bob",
-    "player_hands": "10S+10H, 6D+QH+3S, 4H+9D+5S",
-    "player_scores": "20, 19, 18",
-    "spectators": "anna, steve",
-    "entry_time": "2022-11-02 11:28:11.442"
-  }
+  "message": "new user created",
+  "user_id": "6",
+  "username": "test",
 }
 ```
-
-We see that the `dealer` won with a hand of `10S+10H` and a score of `20` <br />
-
-#### Now let's check the `active_game` table to see if the logs are still there:
+### Verify by fetching all users in the `users` table
 Request:
 ```jq
-https://crimemap.hopto.org/get/active_game
+https://crimemap.hopto.org/get/users
 ```
 
 Response:
 ```json
 {
-  "message": "found 8 active_game entries",
+  "message": "found 6 user entries",
   "data": [
-    {"entry_id": 1, "game_id": 1, "user_id": 3, "player_id": 2, "player_hand": "6D", "player_action": "setup", "entry_time": "2022-11-01 22:52:08.865"},
-    {"entry_id": 2, "game_id": 1, "user_id": 4, "player_id": 3, "player_hand": "4H", "player_action": "setup", "entry_time": "2022-11-01 22:53:08.192"},
-    {"entry_id": 3, "game_id": 1, "user_id": 2, "player_id": 1, "player_hand": "10S", "player_action": "setup", "entry_time": "2022-11-01 22:54:07.209"},
-    {"entry_id": 4, "game_id": 1, "user_id": 3, "player_id": 2, "player_hand": "QH", "player_action": "setup", "entry_time": "2022-11-01 22:55:11.283"},
-    {"entry_id": 5, "game_id": 1, "user_id": 4, "player_id": 3, "player_hand": "9D", "player_action": "setup", "entry_time": "2022-11-01 22:55:58.077"},
-    {"entry_id": 6, "game_id": 1, "user_id": 2, "player_id": 1, "player_hand": "10H", "player_action": "setup", "entry_time": "2022-11-01 22:57:44.514"},
-    {"entry_id": 7, "game_id": 1, "user_id": 3, "player_id": 2, "player_hand": "3S", "player_action": "hit", "entry_time": "2022-11-01 23:16:10.252"},
-    {"entry_id": 8, "game_id": 1, "user_id": 4, "player_id": 3, "player_hand": "5S", "player_action": "hit", "entry_time": "2022-11-01 23:31:40.648"},
+    {"user_id": 1, "username": "admin", "password": "756a404bd66b7f081a936fe6fbcf2374de5c6ce018d62f37e664be8df02de03807b51fc4273dc06d12c11f7075369b5e96e2b0fef57037f6711f7e0f07a224af", "create_time": "2022-10-28 09:34:39.683"},
+    {"user_id": 2, "username": "alice", "password": "1d5f25f69d22e57f92408247a304ab513e32791505c3f4eb878b732fb87d78c5dab7f5f46766e2fd7f2167f395829fd37feb7e8a773352830f70b5eeeef6d809", "create_time": "2022-11-15 22:52:22.768"},
+    {"user_id": 3, "username": "bob", "password": "541803a1dc5e1e822dc34cecfc43bb634c9604bb612e65e1b02ee1a239a2aac5d3605469e24418dc327eb9f66af74ce9fd127ae8b50246e43497e3efce73dfe2", "create_time": "2022-11-15 22:52:23.082"},
+    {"user_id": 4, "username": "anna", "password": "d5501e6216fc43dd32fd50a86eb306f414d6fee4692217c6303481e86513f1277930e058fc12564a3daa5ef9ba95544c0c0f9dc811c0bb2ee7ea3dd90d79c503", "create_time": "2022-11-15 22:52:23.185"},
+    {"user_id": 5, "username": "steve", "password": "be93fe20d457f6d23539baf51e8c2fb9e38ae9232d8a2ae04e45e60e2c0e019d5cd56a380611046f9c904dfaf47f725b87a6dc1b84c8b9cf4e15b03e8f30ddd6", "create_time": "2022-11-15 22:52:23.343"},
+    {"user_id": 6, "username": "test", "password": "f959966570daf8d6361d6385ccf576141672717507d7dd58fe235566e8b071bdd4efd85e4980a48bae02f83e8ff1fbf8e508c636b8bd18c6b942280b48dd7d37", "create_time": "2022-11-22 23:23:00.929"},
   ],
 }
 ```
 
-Looks like the log entries are still there! <br />
-
-#### Let's delete all entries from the `active_game` table:
+### Now let's delete the `test` user
 Arguments:
 ```rexx
-filter = (entry_id >= 1)
+filter = (username = "test")
 ```
 
 Request:
 ```erlang
-https://crimemap.hopto.org/delete/active_game?filter=(entry_id >= 1)
+https://crimemap.hopto.org/delete/users?filter=(username = "test")
 ```
 
 Response:
 ```json
 {
-  "message": "8 active_game entries deleted",
-  "submitted": [{"filter": "(entry_id >= 1)"}],
+  "message": "1 user entry deleted",
+  "submitted": [{"filter": "(username = "test")"}],
 }
 ```
 
-#### Verify that there are no entries in the `active_game` table:
+### Verify by fetching all users in the `users` table
 Request:
 ```jq
-https://crimemap.hopto.org/get/active_game
+https://crimemap.hopto.org/get/users
 ```
 
 Response:
 ```json
-
 {
-  "message": "0 active_game entries found using submitted parameters",
-  "data": {
-    "submitted": [
-      {},
-      {
-        "filter": ""
-      }
-    ]
-  }
+  "message": "found 5 user entries",
+  "data": [
+    {"user_id": 1, "username": "admin", "password": "756a404bd66b7f081a936fe6fbcf2374de5c6ce018d62f37e664be8df02de03807b51fc4273dc06d12c11f7075369b5e96e2b0fef57037f6711f7e0f07a224af", "create_time": "2022-10-28 09:34:39.683"},
+    {"user_id": 2, "username": "alice", "password": "1d5f25f69d22e57f92408247a304ab513e32791505c3f4eb878b732fb87d78c5dab7f5f46766e2fd7f2167f395829fd37feb7e8a773352830f70b5eeeef6d809", "create_time": "2022-11-15 22:52:22.768"},
+    {"user_id": 3, "username": "bob", "password": "541803a1dc5e1e822dc34cecfc43bb634c9604bb612e65e1b02ee1a239a2aac5d3605469e24418dc327eb9f66af74ce9fd127ae8b50246e43497e3efce73dfe2", "create_time": "2022-11-15 22:52:23.082"},
+    {"user_id": 4, "username": "anna", "password": "d5501e6216fc43dd32fd50a86eb306f414d6fee4692217c6303481e86513f1277930e058fc12564a3daa5ef9ba95544c0c0f9dc811c0bb2ee7ea3dd90d79c503", "create_time": "2022-11-15 22:52:23.185"},
+    {"user_id": 5, "username": "steve", "password": "be93fe20d457f6d23539baf51e8c2fb9e38ae9232d8a2ae04e45e60e2c0e019d5cd56a380611046f9c904dfaf47f725b87a6dc1b84c8b9cf4e15b03e8f30ddd6", "create_time": "2022-11-15 22:52:23.343"},
+  ],
 }
 ```
 
