@@ -1870,6 +1870,31 @@ options:
   --update    scrape and upload latest incidents
 ```
 
+To scrape and upload the entire history of incidents:
+> NOTE: THIS HAS ALL READY BEEN DONE!
+> YOU DO NOT NEED TO RUN THIS COMMAND.
+> DOING SO ON A NON-EMPTY BACKEND DATABASE WILL RESULT WITH DUPLICATE ENTRIES...
+
+```rexx
+python3 crimemapping.py --init
+```
+outputs:
+``` rexx
+Processing Incidents... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:00
+Uploading Incidents... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:00
+```
+
+To fetch and upload only the latest incidents:
+> NOTE: YOU SHOULD RUN THIS ONCE DAILY
+
+```rexx
+python3 crimemapping.py --upload
+```
+outputs:
+``` rexx
+Processing Incidents... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:00
+Uploading Latest Incidents... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:00
+```
 
 </details>
 
