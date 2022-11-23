@@ -1067,6 +1067,33 @@ offenders scraped from sexoffender.dsp.delaware.gov
 
 ---
 
+### Creating the Table `user_profiles`:
+Arguments:
+```rexx
+user_profiles = entry_id/INTEGER/INTEGER/TEXT/TEXT/TEXT/DATETIME
+```
+
+Request:
+```jq
+https://crimemap.hopto.org/createTable/user_profiles/entry_id/INTEGER/user_id/INTEGER/name/TEXT/email/TEXT/profile_pic/TEXT/entry_time/DATETIME
+```
+
+Response:
+```json
+{
+  "message": "1 table created",
+  "table": "user_profiles",
+  "columns": [
+    entry_id INTEGER PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    profile_pic TEXT NOT NULL,
+    entry_time DATETIME NOT NULL DEFAULT (strftime("%Y-%m-%d %H:%M:%f", "now", "localtime")),
+  ],
+}
+```
+
 ### Creating the Table `incidents`:
 Arguments:
 ```rexx
@@ -1555,6 +1582,96 @@ Response:
 
 <details><summary> (click here to expand) </summary>
 
+### Adding `users` to `user_profiles`
+1. For each `user` in the `users` table, upload a `profile_pic` and add to `user_profiles` table
+
+### Adding `incidents` from [www.crimemapping.com](www.crimemapping.com)
+2. Describe the `crimemapping.py` script
+3. Demo the `crimemapping_to_pandas.py` script
+4. Demo a manual entry to the `incidents` table
+
+### Adding `sex_offenders` from [sexoffender.dsp.delaware.gov](sexoffender.dsp.delaware.gov)
+5. Describe the `sexoffender.py` script
+6. Demo the `sexoffender_to_pandas.py` script
+7. Demo a manual entry to the `sex_offenders` table
+
+---
+
+### 4.1 For each `user` in the `users` table, upload a `profile_pic` and add to `user_profiles` table
+
+<details><summary> (click here to expand) </summary>
+
+---
+First, let's examine the `users` table:
+
+Request:
+```jq
+https://crimemap.hopto.org/get/users
+```
+
+Response:
+```json
+{
+  "message": "found 5 user entries",
+  "data": [
+    {"user_id": 1, "username": "admin", "password": "756a404bd66b7f081a936fe6fbcf2374de5c6ce018d62f37e664be8df02de03807b51fc4273dc06d12c11f7075369b5e96e2b0fef57037f6711f7e0f07a224af", "create_time": "2022-10-28 09:34:39.683"},
+    {"user_id": 2, "username": "alice", "password": "1d5f25f69d22e57f92408247a304ab513e32791505c3f4eb878b732fb87d78c5dab7f5f46766e2fd7f2167f395829fd37feb7e8a773352830f70b5eeeef6d809", "create_time": "2022-11-15 22:52:22.768"},
+    {"user_id": 3, "username": "bob", "password": "541803a1dc5e1e822dc34cecfc43bb634c9604bb612e65e1b02ee1a239a2aac5d3605469e24418dc327eb9f66af74ce9fd127ae8b50246e43497e3efce73dfe2", "create_time": "2022-11-15 22:52:23.082"},
+    {"user_id": 4, "username": "anna", "password": "584a56a0c3e0b750b3b6ae320efb6004bdb73e5e06c455f1ede9d750ec6a0329c9b7fb0b2c36838728e68fea2327fddbb4cc34a17412dfd24730f4c2cf77cdb1", "create_time": "2022-11-15 22:52:23.185"},
+    {"user_id": 5, "username": "steve", "password": "be93fe20d457f6d23539baf51e8c2fb9e38ae9232d8a2ae04e45e60e2c0e019d5cd56a380611046f9c904dfaf47f725b87a6dc1b84c8b9cf4e15b03e8f30ddd6", "create_time": "2022-11-15 22:52:23.343"},
+  ],
+}
+```
+---
+#### Uploading profile picture for `admin`
+Arguments:
+```rexx
+url = https://www.shutterstock.com/image-vector/user-icon-vector-260nw-393536320.jpg
+```
+
+Request:
+```erlang
+https://crimemap.hopto.org/uploadImageUrl?url=https://www.shutterstock.com/image-vector/user-icon-vector-260nw-393536320.jpg
+```
+
+Response:
+```json
+{
+  "message": "image url uploaded",
+  "url": "https://www.shutterstock.com/image-vector/user-icon-vector-260nw-393536320.jpg",
+  "full_path": "/static/img/19.jpg",
+  "file_name": "19.jpg",
+}
+```
+---
+#### Adding `admin` to `user_profiles` table
+> Note: `admin` has a `user_id` of `1` in the `users` table 
+Arguments:
+```rexx
+user_profiles = user_id/1/Administrator
+admin@udel.edu = profile_pic/19.jpg
+```
+
+Request:
+```jq
+https://crimemap.hopto.org/add/user_profiles/user_id/1/name/Administrator/email/admin@udel.edu/profile_pic/19.jpg
+```
+
+Response:
+```json
+{
+  "message": "data added to <user_profiles>",
+  "entry_id": "1",
+  "user_id": "1",
+}
+```
+
+
+
+
+</details>
+
+---
 
 
 Arguments:
@@ -1589,54 +1706,6 @@ Response:
 
 
 
-We would like to add the game `Blackjack` to the `games` table. <br />
-
-### If we try to add anything the `games` table without parameters, we get a `missing parameters` message:
-Request:
-```jq
-https://crimemap.hopto.org/add/games
-```
-
-Response:
-```json
-{
-  "message": "missing paramaters",
-  "required": [{"name": "TEXT", "min_players": "TEXT", "max_players": "TEXT", "min_decks": "TEXT", "max_decks": "TEXT", "player_actions": "TEXT", "rules": "TEXT"}],
-  "missing": [{"name": "TEXT", "min_players": "TEXT", "max_players": "TEXT", "min_decks": "TEXT", "max_decks": "TEXT", "player_actions": "TEXT", "rules": "TEXT"}],
-  "submitted": [{}],
-}
-```
-
-### Adding the game `Blackjack` to the `games` table:
-> This is the simplest form of `Blackjack`
-> 1. All players are dealt 2 cards
-> 2. Dealer asks each player to "hit" or "stay"
-> 3. Dealer hits until hand is at least 17
-> 4. Hand that is closest to 21 but not greater WINS
-Arguments:
-```rexx
-name = Blackjack
-min_players = 2
-max_players = 10
-min_decks = 1
-max_decks = 10
-player_actions = setup, hit, stay
-rules = 1. All players are dealt 2 cards, 2. Dealer asks each player to "hit" or "stay", 3. Dealer hits until hand is at least 17, 4. Hand that is closest to 21 but not greater WINS
-```
-
-Request:
-```jq
-https://crimemap.hopto.org/add/games/name/Blackjack/min_players/2/max_players/10/min_decks/1/max_decks/10/player_actions/setup, hit, stay/rules/1. All players are dealt 2 cards, 2. Dealer asks each player to "hit" or "stay", 3. Dealer hits until hand is at least 17, 4. Hand that is closest to 21 but not greater WINS
-```
-
-Response:
-```json
-
-{
-  "message": "data added to <games>",
-  "game_id": 1
-}
-```
 
 </details>
 

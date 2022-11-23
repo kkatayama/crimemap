@@ -41,8 +41,10 @@ def deleteTables():
             query.executeQuery(base_url=base_url, query=f'/deleteTable/{name}', short=False)
 
 def createTables():
-    for name in ["incidents", "sex_offenders"]:
+    for name in ["user_profiles", "incidents", "sex_offenders"]:
         q = f'/createTable/{name}'
+        if name == "user_profiles":
+            q += '/entry_id/INTEGER/user_id/INTEGER/name/TEXT/email/TEXT/profile_pic/TEXT/entry_time/DATETIME'
         if name == "incidents":
             q += '/entry_id/INTEGER/tier/INTEGER/type/TEXT/type_img/TEXT/description/TEXT/location/TEXT/latitude/DOUBLE/longitude/DOUBLE/agency/TEXT/report_date/DATETIME/entry_time/DATETIME'
         if name == "sex_offenders":
