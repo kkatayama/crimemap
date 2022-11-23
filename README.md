@@ -1861,7 +1861,7 @@ For example:
 python3 crimemapping.py --help
 ```
 outputs:
-```sh
+```rexx
 usage: crimemapping.py [-h] [--init] [--update]
 
 options:
