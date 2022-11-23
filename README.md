@@ -2974,7 +2974,7 @@ Response:
 }
 ```
 
-Note: the `profile_pic` can be fetched directly: [https://crimemap.hopto.org/23.png](https://crimemap.hopto.org/23.png)
+Note: the `profile_pic` can be fetched directly: [https://crimemap.hopto.org/23.png](https://crimemap.hopto.org/23.png) <br />
 ![https://crimemap.hopto.org/23.png](https://crimemap.hopto.org/23.png)
 
 ### Investigating the `incidents` table
@@ -4090,7 +4090,7 @@ Response:
 ```
 
 Arguments:
-```python
+```Mpython
 url = "https://crimemap.hopto.org/uploadImageUrl/url/https://www.ironhillbrewery.com/assets/craft/TAPHOUSE_LOGO.png"
 ```
 
