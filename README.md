@@ -796,7 +796,7 @@ cookies
 ```rexx
 'the session token'
 ```
-</td><td>
+</td><tr>
 </table>
 
 ---
