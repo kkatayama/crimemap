@@ -62,7 +62,7 @@ def main():
         update()
     if not args.init and not args.update:
         print('please specify a task: --init, --update')
-        print('for help, see: python3 crimemapping.py --help')
+        print('for help, see: python3 sexoffender.py --help')
 
 
 if __name__ == '__main__':

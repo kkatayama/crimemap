@@ -1850,6 +1850,7 @@ Response:
 
 ---
 The script `scrapers/crimemapping.py` was used to automate the scraping of `crimemapping.com` data. <br />
+This data was then uploaded to the `incidents` table. <br />
 To use this script, first navigate to the `scrapers` directory:
 ```rexx
 cd scrapers
@@ -1903,6 +1904,48 @@ Uploading Latest Incidents... ━━━━━━━━━━━━━━━━�
 <details><summary> (click here to expand) </summary>
 
 ---
+The script `scrapers/crimemapping_to_pandas.py` demonstrates how to use pandas with the `incidents` table. <br />
+To use this script, first navigate to the `scrapers` directory:
+```rexx
+cd scrapers
+```
+
+Then use `python3` to run the script. <br />
+For example:
+```rexx
+python3 crimemapping_to_pandas.py
+```
+outputs:
+```rexx
+https://crimemap.hopto.org/get/incidents
+
+message: found 753 incident entries
+
+=== FIRST 10 INCIDENTS ===
+   entry_id  tier                        type type_img                               description                     location  latitude  longitude                 agency         report_date              entry_time
+0         1     1                   Vandalism   13.svg                     LARCENY/FROM BUILDING        100 BLOCK SUBURBAN DR  39.66671  -75.77605          Newark Police 2022-07-01 17:43:00 2022-11-18 18:21:39.315
+1         2     1                         DUI    6.svg           POSSESSION OF AN OPEN CONTAINER       200 BLOCK E E. MAIN ST  39.68363  -75.74546          Newark Police 2022-07-01 19:02:00 2022-11-18 18:21:39.438
+2         3     1  Drugs / Alcohol Violations    5.svg      DISTURBING THE PEACE/PUBLIC NUISANCE       000 BLOCK PROSPECT AVE  39.68685  -75.75333          Newark Police 2022-07-02 01:33:00 2022-11-18 18:21:39.560
+3         4     1                     Weapons   15.svg         LARCENY/FROM VEHICLE/NOT ATTACHED  300 BLOCK CHRISTINA MILL DR  39.66978  -75.77437          Newark Police 2022-07-03 07:17:00 2022-11-18 18:21:39.703
+4         5     1                         DUI    6.svg           POSSESSION OF AN OPEN CONTAINER           000 BLOCK BENNY ST  39.67711  -75.74543          Newark Police 2022-07-04 18:34:00 2022-11-18 18:21:39.862
+5         6     1  Drugs / Alcohol Violations    5.svg    DISORDERLY CONDUCT/UNRELATED TO LIQUOR         000 BLOCK E. MAIN ST  39.68310  -75.75230          Newark Police 2022-07-05 00:57:00 2022-11-18 18:21:39.959
+6         7     1                   Vandalism   13.svg  LARCENY/VEHICLE PARTS/FROM AUTO/ATTACHED        900 BLOCK E CHAPEL ST  39.66115  -75.73585  Delaware State Police 2022-07-05 07:51:00 2022-11-18 18:21:40.084
+7         8     1  Drugs / Alcohol Violations    5.svg      DISTURBING THE PEACE/PUBLIC NUISANCE        3100 BLOCK WOOLEN WAY  39.68855  -75.74660          Newark Police 2022-07-05 18:20:00 2022-11-18 18:21:40.199
+8         9     1  Drugs / Alcohol Violations    5.svg      DISTURBING THE PEACE/PUBLIC NUISANCE    000 BLOCK NW O DANIEL AVE  39.67424  -75.77022          Newark Police 2022-07-06 20:37:00 2022-11-18 18:21:40.291
+9        10     1                   Vandalism   13.svg                     LARCENY/FROM BUILDING      600 BLOCK W OGLETOWN RD  39.68526  -75.73346          Newark Police 2022-07-06 21:19:00 2022-11-18 18:21:40.380
+=== LATEST 10 INCIDENTS ===
+     entry_id  tier                        type type_img                                       description                 location  latitude  longitude         agency         report_date              entry_time
+752       753     1                   Vandalism   13.svg                               LARCENY/SHOPLIFTING     200 BLOCK S. MAIN ST  39.67787  -75.76205  Newark Police 2022-11-22 01:57:00 2022-11-22 18:55:00.542
+751       752     1                   Vandalism   13.svg                                  LARCENY/BICYCLES    3300 BLOCK WOOLEN WAY  39.68811  -75.74615  Newark Police 2022-11-21 22:37:00 2022-11-22 18:55:00.455
+750       751     1                    Burglary    3.svg  AGGRAVATED ASSAULT/FAMILY OTHER DANGEROUS WEAPON  800 BLOCK S COLLEGE AVE  39.65399  -75.75099  Newark Police 2022-11-21 21:12:00 2022-11-22 18:55:00.366
+749       750     1                   Vandalism   13.svg                               LARCENY/SHOPLIFTING  200 BLOCK SW S. MAIN ST  39.67795  -75.76197  Newark Police 2022-11-21 00:31:00 2022-11-22 18:55:00.277
+748       749     1                     Weapons   15.svg                 LARCENY/FROM VEHICLE/NOT ATTACHED  300 BLOCK E CANNONS WAY  39.65701  -75.74722  Newark Police 2022-11-20 18:58:00 2022-11-22 18:55:00.179
+747       748     1                   Vandalism   13.svg                               LARCENY/SHOPLIFTING  400 BLOCK NEW LONDON RD  39.69415  -75.76453  Newark Police 2022-11-20 15:03:00 2022-11-22 18:55:00.078
+746       747     1  Drugs / Alcohol Violations    5.svg              DISTURBING THE PEACE/PUBLIC NUISANCE    000 BLOCK NE BRIAR LA  39.68639  -75.76848  Newark Police 2022-11-20 10:08:00 2022-11-22 18:54:59.977
+745       746     1                   Vandalism   13.svg          LARCENY/VEHICLE PARTS/FROM AUTO/ATTACHED  600 BLOCK N COLLEGE AVE  39.65978  -75.75191  Newark Police 2022-11-20 09:38:00 2022-11-22 18:54:59.867
+744       745     1                         DUI    6.svg             DISORDERLY CONDUCT/LIQUOR INVOLVEMENT    1200 BLOCK WOOLEN WAY  39.68871  -75.74676  Newark Police 2022-11-20 03:09:00 2022-11-22 18:54:59.756
+743       744     1    Vehicle Break-In / Theft   14.svg                           DAMAGE/PRIVATE PROPERTY       100 BLOCK GROVE LA  39.68435  -75.73479  Newark Police 2022-11-19 15:38:00 2022-11-22 18:54:59.643
+```
 
 </details>
 
@@ -1910,6 +1953,34 @@ Uploading Latest Incidents... ━━━━━━━━━━━━━━━━�
 <details><summary> (click here to expand) </summary>
 
 ---
+To manually add an `incident` entry to the `incidents` table, we use the endpoint `/add/<table_name>` <br/>
+
+Arguments:
+```rexx
+tier = 1
+type = Vandalism
+type_img = 13.svg
+description = LARCENY/SHOPLIFTING
+location = 200 BLOCK S. MAIN ST
+latitude = 39.67787000000004
+longitude = -75.76204999999997
+agency = Newark Police
+report_date = 2022-11-22 01:57:00
+```
+
+Request:
+```erlang
+https://crimemap.hopto.org/add/incidents?tier=1&type=Vandalism&type_img=13.svg&description=LARCENY/SHOPLIFTING&location=200 BLOCK S. MAIN ST&latitude=39.67787000000004&longitude=-75.76204999999997&agency=Newark
+Police&report_date=2022-11-22 01:57:00
+```
+
+Response:
+```json
+{
+  "message": "data added to <incidents>",
+  "entry_id": "753",
+}
+```
 
 </details>
 
@@ -1917,6 +1988,41 @@ Uploading Latest Incidents... ━━━━━━━━━━━━━━━━�
 <details><summary> (click here to expand) </summary>
 
 ---
+The script `scrapers/sexoffender.py` was used to automate the scraping of `sexoffender.dsp.delaware.gov` data. <br />
+This data was then uploaded to the `sex_offenders` table. <br />
+To use this script, first navigate to the `scrapers` directory:
+```rexx
+cd scrapers
+```
+
+Then use `python3` to run the script. <br />
+For example:
+```rexx
+python3 sexoffender.py --help
+```
+outputs:
+```rexx
+usage: sexoffender.py [-h] [--init] [--update]
+
+options:
+  -h, --help  show this help message and exit
+  --init      scrape and upload entire history of sex offenders
+  --update    NOT FINISHED YET...
+```
+
+To scrape and upload the entire history of sex offenders:
+> NOTE: THIS HAS ALL READY BEEN DONE!
+> YOU DO NOT NEED TO RUN THIS COMMAND.
+> DOING SO ON A NON-EMPTY BACKEND DATABASE WILL RESULT WITH DUPLICATE ENTRIES...
+
+```rexx
+python3 sexoffender.py --init
+```
+outputs:
+``` rexx
+Processing Sex Offenders... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:00
+Uploading Sex Offenders... ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 100% 0:00:00
+```
 
 </details>
 
@@ -1924,6 +2030,48 @@ Uploading Latest Incidents... ━━━━━━━━━━━━━━━━�
 <details><summary> (click here to expand) </summary>
 
 --
+The script `scrapers/sexoffender_to_pandas.py` demonstrates how to use pandas with the `sex_offenders` table. <br />
+To use this script, first navigate to the `scrapers` directory:
+```rexx
+cd scrapers
+```
+
+Then use `python3` to run the script. <br />
+For example:
+```rexx
+python3 sexoffender_to_pandas.py
+```
+outputs:
+```rexx
+https://crimemap.hopto.org/get/sex_offenders
+
+message: found 61 sex_offender entries
+
+=== ARREST INFO ===
+   tier               name        dob                                 arrest_description arrest_date victim_age
+0     3    MARIO DITOMASSO 1982-12-02  UNLAWFUL SEXUAL INTERCOURSE FIRST DEGREE-VICTI...  1997-08-28     1-11yr
+1     2        JAMES BROWN 1983-05-19  UNLAWFUL SEXUAL CONTACT SECOND DEGREE - HAVE S...  1997-08-19     1-11yr
+2     3   MOHAMAD ALIAHMED 1980-05-26  Sexual Abuse of a child by a person of trust 1...  2012-01-25    12-15yr
+3     2      JOHN HOLTZMAN 1958-03-14  UNLAWFUL SEXUAL INTERCOURSE THIRD DEGREE-WITHO...  1999-02-04    12-15yr
+4     2       JUSTIN LOGUE 1981-01-28  UNLAWFUL SEXUAL CONTACT SECOND DEGREE - HAVE S...  1997-06-17     1-11yr
+5     2    GEORGE BROOMALL 1944-04-10  SEXUAL SOLICITATION OF A CHILD UNDER 16 YEARS ...  2002-01-28    12-15yr
+6     2     ROBERT JACKSON 1953-06-24  UNLAWFUL SEXUAL INTERCOURSE THIRD DEGREE-VICTI...  1995-06-29      18+yr
+7     3  RICHARD DESHIELDS 1963-10-14  UNLAWFUL SEXUAL INTERCOURSE FIRST DEGREE-NOT C...  1991-10-17    12-15yr
+8     2      BRANDON SMITH 1974-03-27  UNLAWFUL SEXUAL INTERCOURSE THIRD DEGREE-VICTI...  1996-03-20    12-15yr
+9     2      DWAYNE KEENAN 1976-07-06  UNLAWFUL SEXUAL CONTACT SECOND DEGREE HAVE SEX...  2009-08-10     1-11yr
+=== ADDRESS INFO ===
+   tier               name         home_address  home_latitude  home_longitude                      work_name          work_address  work_latitude  work_longitude
+0     3    MARIO DITOMASSO    163 SCOTTFIELD DR      39.657723      -75.732460                     Unemployed     163 SCOTTFIELD DR      39.657723      -75.732460
+1     2        JAMES BROWN   18601 N Roxbury RD      39.564379      -77.723914                     Unemployed    18601 N Roxbury RD      39.564379      -77.723914
+2     3   MOHAMAD ALIAHMED     526 Dougfield RD      39.658525      -75.721554                     JIFFY LUBE        29 Liberty PLZ      39.694874      -75.717293
+3     2      JOHN HOLTZMAN         26 Keller RD      39.658764      -75.734228                     Unemployed          26 Keller RD      39.658764      -75.734228
+4     2       JUSTIN LOGUE     515 Dougfield RD      39.659278      -75.722871                     Unemployed      515 Dougfield RD      39.659278      -75.722871
+5     2    GEORGE BROOMALL          22 KORDA DR      39.663291      -75.733223  CB LAWN SERVICE/SELF EMPLOYED           22 KORDA DR      39.663291      -75.733223
+6     2     ROBERT JACKSON         55 MERCER DR      39.665281      -75.730139                   GRUBB LUMBER              200 A ST      39.733824      -75.553151
+7     3  RICHARD DESHIELDS       23 Montrose DR      39.665924      -75.723012                 ZACROS AMERICA           220 Lake DR      39.614624      -75.755175
+8     2      BRANDON SMITH         23 Mercer DR      39.666791      -75.728523                     Unemployed          23 Mercer DR      39.666791      -75.728523
+9     2      DWAYNE KEENAN  41 Martindale Drive      39.667605      -75.724523               BELL NURSERY USA  211 Interchange BLVD      39.662899      -75.777035
+```
 
 </details>
 
@@ -1931,10 +2079,7 @@ Uploading Latest Incidents... ━━━━━━━━━━━━━━━━�
 <details><summary> (click here to expand) </summary>
 
 ---
-
-</details>
-
-
+To manually add a `sex_offender` entry to the `sex_offenders` table, we use the endpoint `/add/<table_name>` <br/>
 
 Arguments:
 ```rexx
@@ -1954,20 +2099,19 @@ work_longitude = -75.746505
 ```
 
 Request:
-```jq
-https://crimemap.hopto.org/add/sex_offenders/tier/2/name/MATTHEW OGRADY/dob/1980-09-16 00:00:00/arrest_description/RAPE FOURTH DEGREE SEXUAL INTERCOURSE VICTIM LESS THAN 16 YEARS OLD/arrest_date/2002-07-08 00:00:00/victim_age/12-15yr/home_address/104 N Brownleaf RD/home_latitude/39.678394/home_longitude/-75.686106/work_name/F.L. GIANNONE ELECTRICAL/work_address/134 Register DR/work_latitude/39.695876/work_longitude/-75.746505
+```erlang
+https://crimemap.hopto.org/add/sex_offenders?tier=2&name=MATTHEW OGRADY&dob=1980-09-16 00:00:00&arrest_description=RAPE FOURTH DEGREE SEXUAL INTERCOURSE VICTIM LESS THAN 16 YEARS OLD&arrest_date=2002-07-08
+00:00:00&victim_age=12-15yr&home_address=104 N Brownleaf RD&home_latitude=39.678394&home_longitude=-75.686106&work_name=F.L. GIANNONE ELECTRICAL&work_address=134 Register DR&work_latitude=39.695876&work_longitude=-75.746505
 ```
 
 Response:
 ```json
 {
   "message": "data added to <sex_offenders>",
-  "entry_id": 62
+  "entry_id": "61",
 }
 ```
-
-
-
+</details>
 
 </details>
 
