@@ -2995,26 +2995,16 @@ Response:
 {
   "message": "found 10 incident entries",
   "data": [
-    {"entry_id": 1, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/FROM BUILDING", "location": "100 BLOCK SUBURBAN DR", "latitude": 39.66671000000007, "longitude": -75.77604999999994, "agency": "Newark
-Police", "report_date": "2022-07-01 17:43:00", "entry_time": "2022-11-18 18:21:39.315"},
-    {"entry_id": 2, "tier": 1, "type": "DUI", "type_img": "6.svg", "description": "POSSESSION OF AN OPEN CONTAINER", "location": "200 BLOCK E E. MAIN ST", "latitude": 39.68363000000002, "longitude": -75.74546, "agency": "Newark Police",
-"report_date": "2022-07-01 19:02:00", "entry_time": "2022-11-18 18:21:39.438"},
-    {"entry_id": 3, "tier": 1, "type": "Drugs / Alcohol Violations", "type_img": "5.svg", "description": "DISTURBING THE PEACE/PUBLIC NUISANCE", "location": "000 BLOCK PROSPECT AVE", "latitude": 39.686850000000014, "longitude":
--75.75332999999995, "agency": "Newark Police", "report_date": "2022-07-02 01:33:00", "entry_time": "2022-11-18 18:21:39.560"},
-    {"entry_id": 4, "tier": 1, "type": "Weapons", "type_img": "15.svg", "description": "LARCENY/FROM VEHICLE/NOT ATTACHED", "location": "300 BLOCK CHRISTINA MILL DR", "latitude": 39.669780000000046, "longitude": -75.77436999999996,
-"agency": "Newark Police", "report_date": "2022-07-03 07:17:00", "entry_time": "2022-11-18 18:21:39.703"},
-    {"entry_id": 5, "tier": 1, "type": "DUI", "type_img": "6.svg", "description": "POSSESSION OF AN OPEN CONTAINER", "location": "000 BLOCK BENNY ST", "latitude": 39.677110000000006, "longitude": -75.74542999999993, "agency": "Newark
-Police", "report_date": "2022-07-04 18:34:00", "entry_time": "2022-11-18 18:21:39.862"},
-    {"entry_id": 6, "tier": 1, "type": "Drugs / Alcohol Violations", "type_img": "5.svg", "description": "DISORDERLY CONDUCT/UNRELATED TO LIQUOR", "location": "000 BLOCK E. MAIN ST", "latitude": 39.683099999999996, "longitude":
--75.75229999999993, "agency": "Newark Police", "report_date": "2022-07-05 00:57:00", "entry_time": "2022-11-18 18:21:39.959"},
-    {"entry_id": 7, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/VEHICLE PARTS/FROM AUTO/ATTACHED", "location": "900 BLOCK E CHAPEL ST", "latitude": 39.6611500000001, "longitude": -75.73584999999993,
-"agency": "Delaware State Police", "report_date": "2022-07-05 07:51:00", "entry_time": "2022-11-18 18:21:40.084"},
-    {"entry_id": 8, "tier": 1, "type": "Drugs / Alcohol Violations", "type_img": "5.svg", "description": "DISTURBING THE PEACE/PUBLIC NUISANCE", "location": "3100 BLOCK WOOLEN WAY", "latitude": 39.68855000000009, "longitude":
--75.74659999999993, "agency": "Newark Police", "report_date": "2022-07-05 18:20:00", "entry_time": "2022-11-18 18:21:40.199"},
-    {"entry_id": 9, "tier": 1, "type": "Drugs / Alcohol Violations", "type_img": "5.svg", "description": "DISTURBING THE PEACE/PUBLIC NUISANCE", "location": "000 BLOCK NW O DANIEL AVE", "latitude": 39.67424000000003, "longitude":
--75.77021999999987, "agency": "Newark Police", "report_date": "2022-07-06 20:37:00", "entry_time": "2022-11-18 18:21:40.291"},
-    {"entry_id": 10, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/FROM BUILDING", "location": "600 BLOCK W OGLETOWN RD", "latitude": 39.68526000000007, "longitude": -75.73345999999997, "agency": "Newark
-Police", "report_date": "2022-07-06 21:19:00", "entry_time": "2022-11-18 18:21:40.380"},
+    {"entry_id": 1, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/FROM BUILDING", "location": "100 BLOCK SUBURBAN DR", "latitude": 39.66671000000007, "longitude": -75.77604999999994, "agency": "Newark Police", "report_date": "2022-07-01 17:43:00", "entry_time": "2022-11-18 18:21:39.315"},
+    {"entry_id": 2, "tier": 1, "type": "DUI", "type_img": "6.svg", "description": "POSSESSION OF AN OPEN CONTAINER", "location": "200 BLOCK E E. MAIN ST", "latitude": 39.68363000000002, "longitude": -75.74546, "agency": "Newark Police", "report_date": "2022-07-01 19:02:00", "entry_time": "2022-11-18 18:21:39.438"},
+    {"entry_id": 3, "tier": 1, "type": "Drugs / Alcohol Violations", "type_img": "5.svg", "description": "DISTURBING THE PEACE/PUBLIC NUISANCE", "location": "000 BLOCK PROSPECT AVE", "latitude": 39.686850000000014, "longitude": -75.75332999999995, "agency": "Newark Police", "report_date": "2022-07-02 01:33:00", "entry_time": "2022-11-18 18:21:39.560"},
+    {"entry_id": 4, "tier": 1, "type": "Weapons", "type_img": "15.svg", "description": "LARCENY/FROM VEHICLE/NOT ATTACHED", "location": "300 BLOCK CHRISTINA MILL DR", "latitude": 39.669780000000046, "longitude": -75.77436999999996, "agency": "Newark Police", "report_date": "2022-07-03 07:17:00", "entry_time": "2022-11-18 18:21:39.703"},
+    {"entry_id": 5, "tier": 1, "type": "DUI", "type_img": "6.svg", "description": "POSSESSION OF AN OPEN CONTAINER", "location": "000 BLOCK BENNY ST", "latitude": 39.677110000000006, "longitude": -75.74542999999993, "agency": "Newark Police", "report_date": "2022-07-04 18:34:00", "entry_time": "2022-11-18 18:21:39.862"},
+    {"entry_id": 6, "tier": 1, "type": "Drugs / Alcohol Violations", "type_img": "5.svg", "description": "DISORDERLY CONDUCT/UNRELATED TO LIQUOR", "location": "000 BLOCK E. MAIN ST", "latitude": 39.683099999999996, "longitude": -75.75229999999993, "agency": "Newark Police", "report_date": "2022-07-05 00:57:00", "entry_time": "2022-11-18 18:21:39.959"},
+    {"entry_id": 7, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/VEHICLE PARTS/FROM AUTO/ATTACHED", "location": "900 BLOCK E CHAPEL ST", "latitude": 39.6611500000001, "longitude": -75.73584999999993, "agency": "Delaware State Police", "report_date": "2022-07-05 07:51:00", "entry_time": "2022-11-18 18:21:40.084"},
+    {"entry_id": 8, "tier": 1, "type": "Drugs / Alcohol Violations", "type_img": "5.svg", "description": "DISTURBING THE PEACE/PUBLIC NUISANCE", "location": "3100 BLOCK WOOLEN WAY", "latitude": 39.68855000000009, "longitude": -75.74659999999993, "agency": "Newark Police", "report_date": "2022-07-05 18:20:00", "entry_time": "2022-11-18 18:21:40.199"},
+    {"entry_id": 9, "tier": 1, "type": "Drugs / Alcohol Violations", "type_img": "5.svg", "description": "DISTURBING THE PEACE/PUBLIC NUISANCE", "location": "000 BLOCK NW O DANIEL AVE", "latitude": 39.67424000000003, "longitude": -75.77021999999987, "agency": "Newark Police", "report_date": "2022-07-06 20:37:00", "entry_time": "2022-11-18 18:21:40.291"},
+    {"entry_id": 10, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/FROM BUILDING", "location": "600 BLOCK W OGLETOWN RD", "latitude": 39.68526000000007, "longitude": -75.73345999999997, "agency": "Newark Police", "report_date": "2022-07-06 21:19:00", "entry_time": "2022-11-18 18:21:40.380"},
   ],
 }
 ```
@@ -3037,14 +3027,10 @@ Response:
 {
   "message": "found 4 incident entries",
   "data": [
-    {"entry_id": 750, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/SHOPLIFTING", "location": "200 BLOCK SW S. MAIN ST", "latitude": 39.67795000000005, "longitude": -75.76196999999992, "agency": "Newark
-Police", "report_date": "2022-11-21 00:31:00", "entry_time": "2022-11-22 18:55:00.277"},
-    {"entry_id": 751, "tier": 1, "type": "Burglary", "type_img": "3.svg", "description": "AGGRAVATED ASSAULT/FAMILY OTHER DANGEROUS WEAPON", "location": "800 BLOCK S COLLEGE AVE", "latitude": 39.653990000000064, "longitude":
--75.75098999999993, "agency": "Newark Police", "report_date": "2022-11-21 21:12:00", "entry_time": "2022-11-22 18:55:00.366"},
-    {"entry_id": 752, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/BICYCLES", "location": "3300 BLOCK WOOLEN WAY", "latitude": 39.68811000000006, "longitude": -75.74614999900001, "agency": "Newark
-Police", "report_date": "2022-11-21 22:37:00", "entry_time": "2022-11-22 18:55:00.455"},
-    {"entry_id": 753, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/SHOPLIFTING", "location": "200 BLOCK S. MAIN ST", "latitude": 39.67787000000004, "longitude": -75.76204999999997, "agency": "Newark
-Police", "report_date": "2022-11-22 01:57:00", "entry_time": "2022-11-22 18:55:00.542"},
+    {"entry_id": 750, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/SHOPLIFTING", "location": "200 BLOCK SW S. MAIN ST", "latitude": 39.67795000000005, "longitude": -75.76196999999992, "agency": "Newark Police", "report_date": "2022-11-21 00:31:00", "entry_time": "2022-11-22 18:55:00.277"},
+    {"entry_id": 751, "tier": 1, "type": "Burglary", "type_img": "3.svg", "description": "AGGRAVATED ASSAULT/FAMILY OTHER DANGEROUS WEAPON", "location": "800 BLOCK S COLLEGE AVE", "latitude": 39.653990000000064, "longitude": -75.75098999999993, "agency": "Newark Police", "report_date": "2022-11-21 21:12:00", "entry_time": "2022-11-22 18:55:00.366"},
+    {"entry_id": 752, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/BICYCLES", "location": "3300 BLOCK WOOLEN WAY", "latitude": 39.68811000000006, "longitude": -75.74614999900001, "agency": "Newark Police", "report_date": "2022-11-21 22:37:00", "entry_time": "2022-11-22 18:55:00.455"},
+    {"entry_id": 753, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/SHOPLIFTING", "location": "200 BLOCK S. MAIN ST", "latitude": 39.67787000000004, "longitude": -75.76204999999997, "agency": "Newark Police", "report_date": "2022-11-22 01:57:00", "entry_time": "2022-11-22 18:55:00.542"},
   ],
 }
 ```
@@ -3072,28 +3058,17 @@ Response:
 {
   "message": "found 11 incident entries",
   "data": [
-    {"entry_id": 69, "tier": 1, "type": "Burglary", "type_img": "3.svg", "description": "AGGRAVATED ASSAULT/NON-FAMILY STRONG-ARM/HANDS/FIST/FEET", "location": "100 BLOCK MAIN ST", "latitude": 39.682960000000044, "longitude":
--75.75600999999999, "agency": "Newark Police", "report_date": "2022-08-14 00:51:00", "entry_time": "2022-11-18 18:21:47.446"},
-    {"entry_id": 230, "tier": 1, "type": "Vehicle Break-In / Theft", "type_img": "14.svg", "description": "DAMAGE/PRIVATE PROPERTY", "location": "100 BLOCK E MAIN ST", "latitude": 39.682970000000026, "longitude": -75.75581000099999,
-"agency": "Newark Police", "report_date": "2022-09-15 23:59:00", "entry_time": "2022-11-18 18:22:08.371"},
-    {"entry_id": 346, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/VEHICLE PARTS/FROM AUTO/ATTACHED", "location": "100 BLOCK W MAIN ST", "latitude": 39.682980000000015, "longitude": -75.75467999999994,
-"agency": "Newark Police", "report_date": "2022-09-27 23:10:00", "entry_time": "2022-11-18 18:22:23.256"},
-    {"entry_id": 380, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/BICYCLES", "location": "100 BLOCK MAIN ST", "latitude": 39.682970000000026, "longitude": -75.75577999999993, "agency": "Newark Police",
-"report_date": "2022-10-01 01:05:00", "entry_time": "2022-11-18 18:22:26.921"},
-    {"entry_id": 413, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/FROM ALL OTHER YARDS", "location": "W N ST & COLLEGE AVE", "latitude": 39.682990000000075, "longitude": -75.75408, "agency": "Newark
-Police", "report_date": "2022-10-04 13:38:00", "entry_time": "2022-11-18 18:22:30.688"},
-    {"entry_id": 475, "tier": 1, "type": "Burglary", "type_img": "3.svg", "description": "SIMPLE ASSAULT/NON-FAMILY/OTHER ASSAULTS/NON-AGGRAVATED", "location": "100 BLOCK E MAIN ST", "latitude": 39.682980000000015, "longitude":
--75.75593999999995, "agency": "Newark Police", "report_date": "2022-10-14 01:23:00", "entry_time": "2022-11-18 18:22:37.452"},
-    {"entry_id": 498, "tier": 1, "type": "Drugs / Alcohol Violations", "type_img": "5.svg", "description": "DISORDERLY CONDUCT/UNRELATED TO LIQUOR", "location": "100 BLOCK E MAIN ST", "latitude": 39.682960000000044, "longitude":
--75.75530999999995, "agency": "Newark Police", "report_date": "2022-10-15 23:58:00", "entry_time": "2022-11-18 18:22:40.726"},
-    {"entry_id": 523, "tier": 1, "type": "Burglary", "type_img": "3.svg", "description": "OFFENSIVE TOUCHING/OTHER ASSAULTS/NON-AGGRAVATED", "location": "E. MAIN ST & W", "latitude": 39.682990000000075, "longitude": -75.7540299999999,
-"agency": "Newark Police", "report_date": "2022-10-21 02:34:00", "entry_time": "2022-11-18 18:22:44.655"},
-    {"entry_id": 533, "tier": 1, "type": "Burglary", "type_img": "3.svg", "description": "OFFENSIVE TOUCHING/OTHER ASSAULTS/NON-AGGRAVATED", "location": "E. MAIN ST & W", "latitude": 39.682960000000044, "longitude": -75.75550000000004,
-"agency": "Newark Police", "report_date": "2022-10-22 00:01:00", "entry_time": "2022-11-18 18:22:46.076"},
-    {"entry_id": 566, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/FROM BUILDING", "location": "100 BLOCK MAIN ST", "latitude": 39.683009999999996, "longitude": -75.75603999999996, "agency": "Newark
-Police", "report_date": "2022-10-24 12:00:00", "entry_time": "2022-11-18 18:22:50.715"},
-    {"entry_id": 616, "tier": 1, "type": "Burglary", "type_img": "3.svg", "description": "AGGRAVATED ASSAULT/NON-FAMILY STRONG-ARM/HANDS/FIST/FEET", "location": "100 BLOCK MAIN ST", "latitude": 39.682970000000026, "longitude":
--75.75548999999992, "agency": "Newark Police", "report_date": "2022-10-30 00:57:00", "entry_time": "2022-11-18 18:22:56.623"},
+    {"entry_id": 69, "tier": 1, "type": "Burglary", "type_img": "3.svg", "description": "AGGRAVATED ASSAULT/NON-FAMILY STRONG-ARM/HANDS/FIST/FEET", "location": "100 BLOCK MAIN ST", "latitude": 39.682960000000044, "longitude": -75.75600999999999, "agency": "Newark Police", "report_date": "2022-08-14 00:51:00", "entry_time": "2022-11-18 18:21:47.446"},
+    {"entry_id": 230, "tier": 1, "type": "Vehicle Break-In / Theft", "type_img": "14.svg", "description": "DAMAGE/PRIVATE PROPERTY", "location": "100 BLOCK E MAIN ST", "latitude": 39.682970000000026, "longitude": -75.75581000099999, "agency": "Newark Police", "report_date": "2022-09-15 23:59:00", "entry_time": "2022-11-18 18:22:08.371"},
+    {"entry_id": 346, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/VEHICLE PARTS/FROM AUTO/ATTACHED", "location": "100 BLOCK W MAIN ST", "latitude": 39.682980000000015, "longitude": -75.75467999999994, "agency": "Newark Police", "report_date": "2022-09-27 23:10:00", "entry_time": "2022-11-18 18:22:23.256"},
+    {"entry_id": 380, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/BICYCLES", "location": "100 BLOCK MAIN ST", "latitude": 39.682970000000026, "longitude": -75.75577999999993, "agency": "Newark Police", "report_date": "2022-10-01 01:05:00", "entry_time": "2022-11-18 18:22:26.921"},
+    {"entry_id": 413, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/FROM ALL OTHER YARDS", "location": "W N ST & COLLEGE AVE", "latitude": 39.682990000000075, "longitude": -75.75408, "agency": "Newark Police", "report_date": "2022-10-04 13:38:00", "entry_time": "2022-11-18 18:22:30.688"},
+    {"entry_id": 475, "tier": 1, "type": "Burglary", "type_img": "3.svg", "description": "SIMPLE ASSAULT/NON-FAMILY/OTHER ASSAULTS/NON-AGGRAVATED", "location": "100 BLOCK E MAIN ST", "latitude": 39.682980000000015, "longitude": -75.75593999999995, "agency": "Newark Police", "report_date": "2022-10-14 01:23:00", "entry_time": "2022-11-18 18:22:37.452"},
+    {"entry_id": 498, "tier": 1, "type": "Drugs / Alcohol Violations", "type_img": "5.svg", "description": "DISORDERLY CONDUCT/UNRELATED TO LIQUOR", "location": "100 BLOCK E MAIN ST", "latitude": 39.682960000000044, "longitude": -75.75530999999995, "agency": "Newark Police", "report_date": "2022-10-15 23:58:00", "entry_time": "2022-11-18 18:22:40.726"},
+    {"entry_id": 523, "tier": 1, "type": "Burglary", "type_img": "3.svg", "description": "OFFENSIVE TOUCHING/OTHER ASSAULTS/NON-AGGRAVATED", "location": "E. MAIN ST & W", "latitude": 39.682990000000075, "longitude": -75.7540299999999, "agency": "Newark Police", "report_date": "2022-10-21 02:34:00", "entry_time": "2022-11-18 18:22:44.655"},
+    {"entry_id": 533, "tier": 1, "type": "Burglary", "type_img": "3.svg", "description": "OFFENSIVE TOUCHING/OTHER ASSAULTS/NON-AGGRAVATED", "location": "E. MAIN ST & W", "latitude": 39.682960000000044, "longitude": -75.75550000000004, "agency": "Newark Police", "report_date": "2022-10-22 00:01:00", "entry_time": "2022-11-18 18:22:46.076"},
+    {"entry_id": 566, "tier": 1, "type": "Vandalism", "type_img": "13.svg", "description": "LARCENY/FROM BUILDING", "location": "100 BLOCK MAIN ST", "latitude": 39.683009999999996, "longitude": -75.75603999999996, "agency": "Newark Police", "report_date": "2022-10-24 12:00:00", "entry_time": "2022-11-18 18:22:50.715"},
+    {"entry_id": 616, "tier": 1, "type": "Burglary", "type_img": "3.svg", "description": "AGGRAVATED ASSAULT/NON-FAMILY STRONG-ARM/HANDS/FIST/FEET", "location": "100 BLOCK MAIN ST", "latitude": 39.682970000000026, "longitude": -75.75548999999992, "agency": "Newark Police", "report_date": "2022-10-30 00:57:00", "entry_time": "2022-11-18 18:22:56.623"},
   ],
 }
 ```
@@ -3116,17 +3091,10 @@ Response:
 {
   "message": "found 4 sex_offender entries",
   "data": [
-    {"entry_id": 1, "tier": 3, "name": "MARIO DITOMASSO", "dob": "1982-12-02 00:00:00", "arrest_description": "UNLAWFUL SEXUAL INTERCOURSE FIRST DEGREE-VICTIM < 16 AND NOT SOCIAL COMPANION", "arrest_date": "1997-08-28 00:00:00",
-"victim_age": "1-11yr", "home_address": "163 SCOTTFIELD DR", "home_latitude": 39.657723, "home_longitude": -75.73246, "work_name": "Unemployed", "work_address": "163 SCOTTFIELD DR", "work_latitude": 39.657723, "work_longitude":
--75.73246, "entry_time": "2022-11-22 18:12:27.020"},
-    {"entry_id": 22, "tier": 3, "name": "TAMMY CAMPBELL", "dob": "1978-07-26 00:00:00", "arrest_description": "RAPE SECOND DEGREE <16 YEARS BY PERSON IN POSITION OF TRUST, AUTHORITY, SUPERV", "arrest_date": "2007-11-14 00:00:00",
-"victim_age": "1-11yr", "home_address": "155 Madison DR", "home_latitude": 39.677082, "home_longitude": -75.768674, "work_name": "Unemployed", "work_address": "155 Madison DR", "work_latitude": 39.677082, "work_longitude": -75.768674,
-"entry_time": "2022-11-22 18:12:29.372"},
-    {"entry_id": 34, "tier": 3, "name": "JAMES NORTON", "dob": "1959-08-27 00:00:00", "arrest_description": "UNLAWFUL SEXUAL CONTACT 1ST", "arrest_date": "1995-06-19 00:00:00", "victim_age": "1-11yr", "home_address": "28730 N WOODCREST
-DR", "home_latitude": 38.658209, "home_longitude": -75.247851, "work_name": "WATERCOLORS PAINTING", "work_address": "21 E SHADY DR", "work_latitude": 39.659054, "work_longitude": -75.707886, "entry_time": "2022-11-22 18:12:30.549"},
-    {"entry_id": 39, "tier": 3, "name": "PAULRON CLARK", "dob": "1994-06-30 00:00:00", "arrest_description": "RAPE THIRD DEGREE VICTIM <16 DEF AT LEAST 10 YEARS OLDER OR VICT <14 DEF >19YR", "arrest_date": "2015-12-21 00:00:00",
-"victim_age": "1-11yr", "home_address": "416 S Van BUREN ST", "home_latitude": 39.739736, "home_longitude": -75.565057, "work_name": "LOCAL 199", "work_address": "308 MarkUS CT", "work_latitude": 39.660335, "work_longitude": -75.774232,
-"entry_time": "2022-11-22 18:12:31.393"},
+    {"entry_id": 1, "tier": 3, "name": "MARIO DITOMASSO", "dob": "1982-12-02 00:00:00", "arrest_description": "UNLAWFUL SEXUAL INTERCOURSE FIRST DEGREE-VICTIM < 16 AND NOT SOCIAL COMPANION", "arrest_date": "1997-08-28 00:00:00", "victim_age": "1-11yr", "home_address": "163 SCOTTFIELD DR", "home_latitude": 39.657723, "home_longitude": -75.73246, "work_name": "Unemployed", "work_address": "163 SCOTTFIELD DR", "work_latitude": 39.657723, "work_longitude": -75.73246, "entry_time": "2022-11-22 18:12:27.020"},
+    {"entry_id": 22, "tier": 3, "name": "TAMMY CAMPBELL", "dob": "1978-07-26 00:00:00", "arrest_description": "RAPE SECOND DEGREE <16 YEARS BY PERSON IN POSITION OF TRUST, AUTHORITY, SUPERV", "arrest_date": "2007-11-14 00:00:00", "victim_age": "1-11yr", "home_address": "155 Madison DR", "home_latitude": 39.677082, "home_longitude": -75.768674, "work_name": "Unemployed", "work_address": "155 Madison DR", "work_latitude": 39.677082, "work_longitude": -75.768674, "entry_time": "2022-11-22 18:12:29.372"},
+    {"entry_id": 34, "tier": 3, "name": "JAMES NORTON", "dob": "1959-08-27 00:00:00", "arrest_description": "UNLAWFUL SEXUAL CONTACT 1ST", "arrest_date": "1995-06-19 00:00:00", "victim_age": "1-11yr", "home_address": "28730 N WOODCREST DR", "home_latitude": 38.658209, "home_longitude": -75.247851, "work_name": "WATERCOLORS PAINTING", "work_address": "21 E SHADY DR", "work_latitude": 39.659054, "work_longitude": -75.707886, "entry_time": "2022-11-22 18:12:30.549"}, 
+    {"entry_id": 39, "tier": 3, "name": "PAULRON CLARK", "dob": "1994-06-30 00:00:00", "arrest_description": "RAPE THIRD DEGREE VICTIM <16 DEF AT LEAST 10 YEARS OLDER OR VICT <14 DEF >19YR", "arrest_date": "2015-12-21 00:00:00", "victim_age": "1-11yr", "home_address": "416 S Van BUREN ST", "home_latitude": 39.739736, "home_longitude": -75.565057, "work_name": "LOCAL 199", "work_address": "308 MarkUS CT", "work_latitude": 39.660335, "work_longitude": -75.774232, "entry_time": "2022-11-22 18:12:31.393"},
   ],
 }
 ```
