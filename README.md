@@ -1851,13 +1851,13 @@ Response:
 ---
 The script `scrapers/crimemapping.py` was used to automate the scraping of `crimemapping.com` data. <br />
 To use this script, first navigate to the `scrapers` directory:
-```yaml
+```rexx
 cd scrapers
 ```
 
 Then use `python3` to run the script. <br />
 For example:
-```yaml
+```rexx
 python3 crimemapping.py --help
 ```
 outputs:
