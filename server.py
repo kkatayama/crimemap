@@ -25,6 +25,7 @@ from docs.usage import (
 )
 
 # -- pretty parsing
+import pandas as pd
 from pathlib import Path
 from rich import print, inspect
 import json
@@ -548,6 +549,19 @@ def send_img(filename):
 def send_root_img(filename):
     dirname = sys.path[0]
     return static_file(filename, root=f'{dirname}/static/img/')
+
+@route('/test_html')
+def test_html():
+    res = {"message":"user login success","user_id":1,"username":"admin","token":"IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09"}
+    df = pd.DataFrame.from_records([res])
+    return template(df.to_html())
+
+@route('/test_ajax')
+def test_ajax():
+    res = {"message":"user login success","user_id":1,"username":"admin","token":"IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09"}
+    df = pd.DataFrame.from_records([res])
+    return df.to_json(orient='split', index=False)
+
 
 ###############################################################################
 #                                Run Web Server                               #
