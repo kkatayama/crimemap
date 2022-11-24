@@ -1,0 +1,190 @@
+34.78.6.216 2022-11-23 00:40:41.763775 GET http://crimemap.hopto.org/ None
+{"request.params": {}}
+{
+  "message": "running..."
+}
+82.145.215.206 2022-11-23 07:53:11.311040 GET http://crimemap.hopto.org/ None
+{"request.params": {}}
+{
+  "message": "running..."
+}
+<method-wrapper '__str__' of HTTPError object at 0x7f46432afc40>
+82.145.215.206 2022-11-23 07:53:11.585811 GET http://crimemap.hopto.org/apple-touch-icon.png None
+{
+  "message": "File does not exist.",
+  "Error": {
+    "exception": null,
+    "traceback": null,
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "text/html; charset=UTF-8"
+      ]
+    },
+    "body": "File does not exist.",
+    "_status_code": 404,
+    "_status_line": "404 Not Found"
+  }
+}
+<method-wrapper '__str__' of HTTPError object at 0x7f46432afe20>
+74.103.158.35 2022-11-23 13:47:19.596282 GET http://crimemap.hopto.org/status None
+{
+  "Unauthorized": "Invalid Token - Missing Session Cookie",
+  "message": "Please provide a session cookie or valid token.",
+  "Error": {
+    "exception": null,
+    "traceback": null,
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "text/html; charset=UTF-8"
+      ]
+    },
+    "body": "Unauthorized",
+    "_status_code": 401,
+    "_status_line": "401 Unauthorized"
+  }
+}
+<method-wrapper '__str__' of HTTPError object at 0x7f46432afd00>
+74.103.158.35 2022-11-23 13:47:19.604308 GET http://crimemap.hopto.org/favicon.ico None
+{
+  "message": "File does not exist.",
+  "Error": {
+    "exception": null,
+    "traceback": null,
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "text/html; charset=UTF-8"
+      ]
+    },
+    "body": "File does not exist.",
+    "_status_code": 404,
+    "_status_line": "404 Not Found"
+  }
+}
+<method-wrapper '__str__' of HTTPError object at 0x7f46432afe20>
+128.175.160.73 2022-11-23 19:48:19.488539 GET http://crimemap.hopto.org/status None
+{
+  "Unauthorized": "Invalid Token - Missing Session Cookie",
+  "message": "Please provide a session cookie or valid token.",
+  "Error": {
+    "exception": null,
+    "traceback": null,
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "text/html; charset=UTF-8"
+      ]
+    },
+    "body": "Unauthorized",
+    "_status_code": 401,
+    "_status_line": "401 Unauthorized"
+  }
+}
+74.103.158.35 2022-11-23 22:07:59.078313 POST http://crimemap.hopto.org/login request
+SELECT name,type FROM sqlite_schema WHERE type = ? AND name NOT LIKE ?;
+74.103.158.35 2022-11-23 22:07:59.078517 POST http://crimemap.hopto.org/login request
+['table', 'sqlite_%']
+74.103.158.35 2022-11-23 22:07:59.080708 POST http://crimemap.hopto.org/login request
+SELECT * FROM users WHERE username=?;
+74.103.158.35 2022-11-23 22:07:59.080887 POST http://crimemap.hopto.org/login request
+['admin']
+74.103.158.35 2022-11-23 22:07:59.078300 POST http://crimemap.hopto.org/login None
+{"request.params": {"username": "admin", "password": "admin"}}
+{
+  "message": "user login success",
+  "user_id": 1,
+  "username": "admin",
+  "token": "IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09"
+}
+74.103.158.35 2022-11-23 22:10:36.869489 POST http://crimemap.hopto.org/login request
+SELECT name,type FROM sqlite_schema WHERE type = ? AND name NOT LIKE ?;
+74.103.158.35 2022-11-23 22:10:36.869844 POST http://crimemap.hopto.org/login request
+['table', 'sqlite_%']
+74.103.158.35 2022-11-23 22:10:36.872033 POST http://crimemap.hopto.org/login request
+SELECT * FROM users WHERE username=?;
+74.103.158.35 2022-11-23 22:10:36.872389 POST http://crimemap.hopto.org/login request
+['admin']
+74.103.158.35 2022-11-23 22:10:36.869468 POST http://crimemap.hopto.org/login None
+{"request.params": {"username": "admin", "password": "admin"}}
+{
+  "message": "user login success",
+  "user_id": 1,
+  "username": "admin",
+  "token": "IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09"
+}
+74.103.158.35 2022-11-23 22:11:41.324612 POST http://crimemap.hopto.org/login request
+SELECT name,type FROM sqlite_schema WHERE type = ? AND name NOT LIKE ?;
+74.103.158.35 2022-11-23 22:11:41.324813 POST http://crimemap.hopto.org/login request
+['table', 'sqlite_%']
+74.103.158.35 2022-11-23 22:11:41.326112 POST http://crimemap.hopto.org/login request
+SELECT * FROM users WHERE username=?;
+74.103.158.35 2022-11-23 22:11:41.326322 POST http://crimemap.hopto.org/login request
+['admin']
+74.103.158.35 2022-11-23 22:11:41.324600 POST http://crimemap.hopto.org/login None
+{"request.params": {"username": "admin", "password": "admin"}}
+{
+  "message": "user login success",
+  "user_id": 1,
+  "username": "admin",
+  "token": "IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09"
+}
+74.103.158.35 2022-11-23 22:27:48.886217 POST http://crimemap.hopto.org/login request
+SELECT name,type FROM sqlite_schema WHERE type = ? AND name NOT LIKE ?;
+74.103.158.35 2022-11-23 22:27:48.886836 POST http://crimemap.hopto.org/login request
+['table', 'sqlite_%']
+74.103.158.35 2022-11-23 22:27:48.890145 POST http://crimemap.hopto.org/login request
+SELECT * FROM users WHERE username=?;
+74.103.158.35 2022-11-23 22:27:48.890697 POST http://crimemap.hopto.org/login request
+['admin']
+74.103.158.35 2022-11-23 22:27:48.886183 POST http://crimemap.hopto.org/login None
+{"request.params": {"username": "admin", "password": "admin2"}}
+{
+  "message": "incorrect password",
+  "password": "admin2"
+}
+74.103.158.35 2022-11-23 22:28:14.985829 POST http://crimemap.hopto.org/login request
+SELECT name,type FROM sqlite_schema WHERE type = ? AND name NOT LIKE ?;
+74.103.158.35 2022-11-23 22:28:14.986473 POST http://crimemap.hopto.org/login request
+['table', 'sqlite_%']
+74.103.158.35 2022-11-23 22:28:14.990579 POST http://crimemap.hopto.org/login request
+SELECT * FROM users WHERE username=?;
+74.103.158.35 2022-11-23 22:28:14.991313 POST http://crimemap.hopto.org/login request
+['admin2']
+74.103.158.35 2022-11-23 22:28:14.985796 POST http://crimemap.hopto.org/login None
+{"request.params": {"username": "admin2", "password": "admin"}}
+{
+  "message": "user does not exist",
+  "username": "admin2"
+}
+74.103.158.35 2022-11-23 22:42:32.152514 POST http://crimemap.hopto.org/login request
+SELECT name,type FROM sqlite_schema WHERE type = ? AND name NOT LIKE ?;
+74.103.158.35 2022-11-23 22:42:32.152945 POST http://crimemap.hopto.org/login request
+['table', 'sqlite_%']
+74.103.158.35 2022-11-23 22:42:32.155714 POST http://crimemap.hopto.org/login request
+SELECT * FROM users WHERE username=?;
+74.103.158.35 2022-11-23 22:42:32.155989 POST http://crimemap.hopto.org/login request
+['admin2']
+74.103.158.35 2022-11-23 22:42:32.152489 POST http://crimemap.hopto.org/login None
+{"request.params": {"username": "admin2", "password": ""}}
+{
+  "message": "user does not exist",
+  "username": "admin2"
+}
+74.103.158.35 2022-11-23 23:56:33.400001 POST http://crimemap.hopto.org/login request
+SELECT name,type FROM sqlite_schema WHERE type = ? AND name NOT LIKE ?;
+74.103.158.35 2022-11-23 23:56:33.400636 POST http://crimemap.hopto.org/login request
+['table', 'sqlite_%']
+74.103.158.35 2022-11-23 23:56:33.403824 POST http://crimemap.hopto.org/login request
+SELECT * FROM users WHERE username=?;
+74.103.158.35 2022-11-23 23:56:33.404050 POST http://crimemap.hopto.org/login request
+['admin']
+74.103.158.35 2022-11-23 23:56:33.399968 POST http://crimemap.hopto.org/login None
+{"request.params": {"username": "admin", "password": "admin"}}
+{
+  "message": "user login success",
+  "user_id": 1,
+  "username": "admin",
+  "token": "IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09"
+}
