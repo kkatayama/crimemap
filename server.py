@@ -48,9 +48,38 @@ print(f'get_py_path: {get_py_path()}')
 # -- helper function to return Pandas generated HTML Table when expected in request...
 def checkType(res):
     if 'x-table' in request.headers.get('Accept'):
+        response.content_type = "application/x-table"
+        if not isinstance(res, dict):
+            return clean(res)
+
+        caption = "no message?"
+        if res.get('mesage'):
+            caption = 'message: ' + res.pop('message')
+        elif res.get('Error'):
+            caption = 'Error: ' + res.pop('Error')
+        elif res.get('Python_Error'):
+            caption = 'Python_Error: ' + res.pop('Python_Error')
+        elif res.get("MimeType_Error"):
+            caption = "MimeType_Error: " + res.pop("MimeType_Error")
+        elif [key for key in res.keys() if 'SQLite.' in key]:
+            key = [key for key in res.keys() if 'SQLite.' in key][0]
+            caption = key + ': ' + res.pop(key)
+
+
+        if res.get('data') and len(res.keys()) == 1:
+            res = res.pop('data')
+        elif res.get('tables') and len(res.keys()) == 1:
+            res = res.pop('tables')
         records = [res] if isinstance(res, dict) else res
+
+        styles = [dict(selector="caption", props=[("text-align", "center"), ("font-size", "150%"), ("color", 'black')])]
         df = pd.DataFrame.from_records(records)
-        return template(df.to_html().replace('class="dataframe"', 'id="response" class="display" styles="width:100%"'))
+        s = df.style.set_caption(caption).set_table_styles(styles)
+        table = s.to_html()
+        html = re.sub(r'table id="(T_[a-z0-9]+)"', 'table id="response"', table)
+        html = re.sub(r'( id="(T_[_a-z0-9]+)"| class="([_a-z0-9 ]+)" )', '', html)
+        html = re.sub(r'<style.*</style>\n', '', html, flags=re.DOTALL)
+        return clean(template(html))
     return clean(res)
 
 # -- hook to strip trailing slash
