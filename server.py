@@ -554,7 +554,7 @@ def send_root_img(filename):
 def test_html():
     res = {"message":"user login success","user_id":1,"username":"admin","token":"IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09"}
     df = pd.DataFrame.from_records([res])
-    return template(df.to_html())
+    return template(df.to_html().replace('class="dataframe"', 'id="response" class="display" styles="width:100%"'))
 
 @route('/test_ajax')
 def test_ajax():
