@@ -46,15 +46,16 @@ print(f'py_path: {py_path}')
 print(f'get_py_path: {get_py_path()}')
 
 # -- helper function to return Pandas generated HTML Table when expected in request...
-def genTable(records):
+def genTable(records, caption, count=0):
+    table_id = 'response' if not count else f'response{count}'
     styles = [dict(selector="caption", props=[("text-align", "center"), ("font-size", "150%"), ("color", 'black')])]
     df = pd.DataFrame.from_records(records)
     s = df.style.set_caption(caption).set_table_styles(styles)
     table = s.to_html()
-    html = re.sub(r'table id="(T_[a-z0-9]+)"', 'table id="response"', table)
+    html = re.sub(r'table id="(T_[a-z0-9]+)"', f'table id="{table_id}"', table)
     html = re.sub(r'( id="(T_[_a-z0-9]+)"| class="([_a-z0-9 ]+)" )', '', html)
     html = re.sub(r'<style.*</style>\n', '', html, flags=re.DOTALL)
-    return html
+    return html.replace('<th>&nbsp;</th>', '<th>index</th>')
 
 def checkType(res):
     if 'x-table' in request.headers.get('Accept'):
@@ -63,7 +64,7 @@ def checkType(res):
             return clean(res)
 
         caption = "no message?"
-        if res.get('mesage'):
+        if res.get('message'):
             caption = 'message: ' + res.pop('message')
         elif res.get('Error'):
             caption = 'Error: ' + res.pop('Error')
@@ -74,18 +75,20 @@ def checkType(res):
         elif [key for key in res.keys() if 'SQLite.' in key]:
             key = [key for key in res.keys() if 'SQLite.' in key][0]
             caption = key + ': ' + res.pop(key)
-
+        print(f'caption = {caption}')
 
         if res.get('data') and len(res.keys()) == 1:
+            print('parsing: data')
             res = res.pop('data')
             records = [res] if isinstance(res, dict) else res
-            html = genTable(records)
+            html = genTable(records, caption)
         elif res.get('tables') and len(res.keys()) == 1:
+            print('parsing: tables')
             res = res.pop('tables')
             records = [res] if isinstance(res, dict) else res
             html = ""
-            for record in records:
-                html += genTable(record)
+            for i, record in enumerate(records):
+                html += genTable(record, caption=f'{caption}: {record["name"]}', count=i)
 
         return clean(template(html))
     return clean(res)
