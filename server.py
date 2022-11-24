@@ -45,6 +45,14 @@ app.install(ErrorsRestPlugin())
 print(f'py_path: {py_path}')
 print(f'get_py_path: {get_py_path()}')
 
+# -- helper function to return Pandas generated HTML Table when expected in request...
+def checkType(res):
+    if 'x-table' in request.headers.get('Accept'):
+        records = [res] if isinstance(res, dict) else res
+        df = pd.DataFrame.from_records(records)
+        return template(df.to_html().replace('class="dataframe"', 'id="response" class="display" styles="width:100%"'))
+    return clean(res)
+
 # -- hook to strip trailing slash
 @hook('before_request')
 def strip_path():
@@ -62,7 +70,7 @@ def enable_cors():
 @route("/", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 def index():
     res = {"message": "running..."}
-    return clean(res)
+    return checkType(res)
 
 # -- usage - response: available commands
 @route("/usage", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
@@ -82,7 +90,7 @@ def usage():
             "/uploadImageUrl": usage_uploadImageUrl,
         }
     }
-    return clean(res)
+    return checkType(res)
 
 ###############################################################################
 #                      User's Table: Additional Functions                     #
@@ -93,7 +101,7 @@ def invalidSession():
         "Unauthorized": "Please log in to use this service!",
         "Note": "Attach your session cookie or token along with your request."
     }
-    return clean({"message": res})
+    return checkType({"message": res})
 
 @route("/status", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @route("/status/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
@@ -102,7 +110,7 @@ def getStatus(db, url_paths=""):
     user = User()
     res = {"message": "Authorized: user is logged in with an active session cookie",
         "user_id": user.user_id, "token": user.token, }
-    return clean(res)
+    return checkType(res)
 
 @route("/register", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @route("/register/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
@@ -125,24 +133,24 @@ def register(db, url_paths=""):
         password2 = params["password2"]
     except KeyError:
         res = {"message": "missing parameter", "required params": ["username", "password", "password2"]}
-        return clean(res)
+        return checkType(res)
 
     if plaintext != password2:
         res = {"message": "passwords do not match", "password1": plaintext, "password2": password2}
-        return clean(res)
+        return checkType(res)
     params.update({"password": securePassword(params.pop("password"))})
 
     # -- check if user exists
     if fetchRow(db, table=table, where="username=?", values=params["username"]):
         res = {"message": "user exists", "username": params["username"]}
-        return clean(res)
+        return checkType(res)
 
     # -- if user doesn't exist, create user
     edit_items = {k: params[k] for k in required_columns if params.get(k)}
     columns, col_values = list(edit_items.keys()), list(edit_items.values())
     user_id = insertRow(db, table=table, columns=columns, col_values=col_values)
     res = {"message": "new user created", "user_id": user_id, "username": username}
-    return clean(res)
+    return checkType(res)
 
 @route("/login", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @route("/login/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
@@ -160,32 +168,32 @@ def login(db, url_paths=""):
     # -- check for required parameters
     if any(k not in params.keys() for k in required_columns):
         res = {"message": "missing parameters", "required": [required_columns], "submitted": [params]}
-        return clean(res)
+        return checkType(res)
 
     # -- check if user exists
     row = fetchRow(db, table="users", where="username=?", values=params["username"])
     if not row:
         res = {"message": "user does not exist", "username": params["username"]}
-        return clean(res)
+        return checkType(res)
 
     # -- check user submitted password against the one retrieved from the database
     if not checkPassword(params["password"], row["password"]):
         res = {"message": "incorrect password", "password": params["password"]}
-        return clean(res)
+        return checkType(res)
 
     # -- send response message
     user = User()
     user.login(str(row["user_id"]))
     res = {"message": "user login success", "user_id": row["user_id"], "username": row["username"]}
     res.update({"token": genToken("user_id", str(row["user_id"]), secret_key)})
-    return clean(res)
+    return checkType(res)
 
 @route("/logout", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 def logout(db):
     user_id = request.get_cookie("user_id", secret=secret_key)
     res = {"message": "user logged out", "user_id": user_id}
     response.delete_cookie("user_id")
-    return clean(res)
+    return checkType(res)
 
 @route("/uploadImageUrl", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @route("/uploadImageUrl/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
@@ -211,11 +219,11 @@ def uploadImageUrl(url_paths=""):
     # -- check for required parameters
     if any(k not in params.keys() for k in required_columns):
         res = {"message": "missing parameters", "required": [required_columns], "submitted": [params]}
-        return clean(res)
+        return checkType(res)
 
     # -- fetch raw image data and save image
     res = uploadImage(url=params.get("url"))
-    return clean(res)
+    return checkType(res)
 
 ###############################################################################
 #                          Database Admin Functions                           #
@@ -239,12 +247,12 @@ def createTable(db, table_name="", url_paths=""):
                         "column_name": "column_type",
                         "available_types": ["INTEGER", "DOUBLE", "TEXT", "DATETIME"]}
     if (not table_name):
-        return clean({"message": "active tables in the database", "tables": getTables(db)})
+        return checkType({"message": "active tables in the database", "tables": getTables(db)})
     if ((not url_paths) and (not request.params)):
         res = {"message": "missing paramaters", "required": [required_columns],
                "available_types": ["INTEGER", "DOUBLE", "TEXT", "DATETIME"],
                "Exception": "\"{ref}_id\" not required when creating \"users\" table", "submitted": []}
-        return clean(res)
+        return checkType(res)
 
     # -- parse "params" and "url_paths" from HTTP request
     params, columns = mapUrlPaths(url_paths, request.params, table_name)
@@ -252,12 +260,12 @@ def createTable(db, table_name="", url_paths=""):
     # if not checkCreateTable(params, columns):
     #     res = {"message": "missing paramaters", "required": [required_columns],
     #            "missing": [missing_params], "submitted": [params]}
-    #     return clean(res)
+    #     return checkType(res)
 
     # -- CREATE TABLE <table>
     res = addTable(db, table=table_name, columns=columns)
     res.update({"table": table_name})
-    return clean(res)
+    return checkType(res)
 
 @route("/deleteTable")
 @route("/deleteTable/<table_name>")
@@ -276,12 +284,12 @@ def dropTable(db, table_name=""):
     tables = getTables(db)
     table = getTable(db, tables, table_name)
     if not table:
-        return clean({"message": "active tables in the database", "tables": tables})
+        return checkType({"message": "active tables in the database", "tables": tables})
 
     # -- DROP TABLE <table>
     res = deleteTable(db, table=table_name)
     res.update({"table": table_name})
-    return clean(res)
+    return checkType(res)
 
 ###############################################################################
 #                   Core Function /add - Add Data to a Table                  #
@@ -306,7 +314,7 @@ def add(db, table_name="", url_paths=""):
     tables = getTables(db)
     table = getTable(db, tables, table_name)
     if not table:
-        return clean({"message": "active tables in the database", "tables": tables})
+        return checkType({"message": "active tables in the database", "tables": tables})
 
     # -- parse "params" and "filters" from HTTP request
     required_columns = getColumns(db, table, required=True)
@@ -318,14 +326,14 @@ def add(db, table_name="", url_paths=""):
     if missing_params:
         res = {"message": "missing paramaters", "required": [required_columns],
                "missing": [missing_params], "submitted": [params]}
-        return clean(res)
+        return checkType(res)
 
     # -- the users table requires additional formatting and checking
     if table_name == "users":
         params.update({"password": securePassword(params["password"])})
         if fetchRow(db, table=table, where="username=?", values=params["username"]):
             res = {"message": "user exists", "username": params["username"]}
-            return clean(res)
+            return checkType(res)
 
     # -- define "columns" to edit and "values" to insert
     edit_items = {k: params[k] for k in required_columns if params.get(k)}
@@ -335,7 +343,7 @@ def add(db, table_name="", url_paths=""):
     col_id = insertRow(db, table=table, columns=columns, col_values=col_values)
     if isinstance(col_id, dict):
         if col_id.get('Error'):
-            return clean(col_id)
+            return checkType(col_id)
 
     # -- send response message
     col_ref = getColumns(db, table, ref=True)  # -- get (.*_id) name for table
@@ -343,7 +351,7 @@ def add(db, table_name="", url_paths=""):
     for r in re.findall(r"(\w*_id)", " ".join(required_columns)):
         res[r] = params.get(r)
 
-    return clean(res)
+    return checkType(res)
 
 ###############################################################################
 #                 Core Function /get - Fetch Data From a Table                #
@@ -367,7 +375,7 @@ def get(db, table_name="", url_paths=""):
     tables = getTables(db)
     table = getTable(db, tables, table_name)
     if not table:
-        return clean({"message": "active tables in the database", "tables": tables})
+        return checkType({"message": "active tables in the database", "tables": tables})
 
     # -- parse "params" and "filters" from HTTP request
     params, filters = parseUrlPaths(url_paths, request.params, table["columns"])
@@ -382,7 +390,7 @@ def get(db, table_name="", url_paths=""):
     rows = fetchRows(db, table=table, where=conditions, values=values)
     if isinstance(rows, dict):
         if rows.get('Error'):
-            return clean(rows)
+            return checkType(rows)
         message = f"1 {table_name.rstrip('s')} entry found"
     elif isinstance(rows, list):
         message = f"found {len(rows)} {table_name.rstrip('s')} entries"
@@ -392,7 +400,7 @@ def get(db, table_name="", url_paths=""):
 
     # -- send response message
     res = {"message": message, "data": rows}
-    return clean(res)
+    return checkType(res)
 
 ###############################################################################
 #                  Core Function /edit - Edit Data in a Table                 #
@@ -416,7 +424,7 @@ def edit(db, table_name="", url_paths=""):
     tables = getTables(db)
     table = getTable(db, tables, table_name)
     if not table:
-        return clean({"message": "active tables in the database", "tables": tables})
+        return checkType({"message": "active tables in the database", "tables": tables})
 
     # -- parse "params" and "filters" from HTTP request
     editable_columns = getColumns(db, table, editable=True)
@@ -433,7 +441,7 @@ def edit(db, table_name="", url_paths=""):
         submitted = {**{"filter": filters}, **params} if filters else params
         res = {"message": "missing a parameter to edit", "editable": [editable_columns],
                "submitted": [submitted]}
-        return clean(res)
+        return checkType(res)
 
     # -- at least 1 query parameter required
     # TODO: add try except for (submitted)
@@ -441,7 +449,7 @@ def edit(db, table_name="", url_paths=""):
     query_params = {**non_edit_columns, **{"filter": filters}}
     if not (submitted.keys() & query_params.keys()):
         res = {"message": "missing a query parameter", "query_params": [query_params], "submitted": [submitted]}
-        return clean(res)
+        return checkType(res)
 
     # -- define "columns" to edit and "values" to insert (parsed from params in HTTP request)
     edit_items = {k: params[k] for k in editable_columns if params.get(k)}
@@ -461,7 +469,7 @@ def edit(db, table_name="", url_paths=""):
     num_edits = updateRow(db, **args)
     if isinstance(num_edits, dict):
         if num_edits.get('Error'):
-            return clean(num_edits)
+            return checkType(num_edits)
     elif num_edits:
         if num_edits == 1:
             message = f"edited 1 {table_name.rstrip('s')} entry"
@@ -472,7 +480,7 @@ def edit(db, table_name="", url_paths=""):
 
     # -- send response message
     res = {"message": message, "submitted": [submitted]}
-    return clean(res)
+    return checkType(res)
 
 ###############################################################################
 #             Core Function /delete - Delete Data from a Table                #
@@ -496,7 +504,7 @@ def delete(db, table_name="", url_paths=""):
     tables = getTables(db)
     table = getTable(db, tables, table_name)
     if not table:
-        return clean({"message": "active tables in the database", "tables": tables})
+        return checkType({"message": "active tables in the database", "tables": tables})
 
     # -- parse "params" and "filters" from HTTP request
     params, filters = parseUrlPaths(url_paths, request.params, table["columns"])
@@ -507,7 +515,7 @@ def delete(db, table_name="", url_paths=""):
     query_params = {**table["columns"], **{"filter": filters}}
     if not (submitted.keys() & query_params.keys()):
         res = {"message": "missing a query param(s)", "query_params": [query_params], "submitted": [submitted]}
-        return clean(res)
+        return checkType(res)
 
     # -- build "conditions" string and "values" string/array for "updateRow()"
     conditions = " AND ".join([f"{param}=?" for param in table["columns"] if params.get(param)])
@@ -519,7 +527,7 @@ def delete(db, table_name="", url_paths=""):
     num_deletes = deleteRow(db, table=table, where=conditions, values=values)
     if isinstance(num_deletes, dict):
         if num_deletes.get('Error'):
-            return clean(num_deletes)
+            return checkType(num_deletes)
     elif num_deletes:
         if num_deletes == 1:
             message = f"1 {table_name.rstrip('s')} entry deleted"
@@ -530,7 +538,7 @@ def delete(db, table_name="", url_paths=""):
 
     # -- send response message
     res = {"message": message, "submitted": [submitted]}
-    return clean(res)
+    return checkType(res)
 
 ###############################################################################
 #                                 Static Files                                #
@@ -550,17 +558,17 @@ def send_root_img(filename):
     dirname = sys.path[0]
     return static_file(filename, root=f'{dirname}/static/img/')
 
-@route('/test_html')
-def test_html():
-    res = {"message":"user login success","user_id":1,"username":"admin","token":"IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09"}
-    df = pd.DataFrame.from_records([res])
-    return template(df.to_html().replace('class="dataframe"', 'id="response" class="display" styles="width:100%"'))
+# @route('/test_html')
+# def test_html():
+#     res = {"message":"user login success","user_id":1,"username":"admin","token":"IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09"}
+#     df = pd.DataFrame.from_records([res])
+#     return template(df.to_html().replace('class="dataframe"', 'id="response" class="display" styles="width:100%"'))
 
-@route('/test_ajax')
-def test_ajax():
-    res = {"message":"user login success","user_id":1,"username":"admin","token":"IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09"}
-    df = pd.DataFrame.from_records([res])
-    return df.to_json(orient='split', index=False)
+# @route('/test_ajax')
+# def test_ajax():
+#     res = {"message":"user login success","user_id":1,"username":"admin","token":"IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09"}
+#     df = pd.DataFrame.from_records([res])
+#     return df.to_json(orient='split', index=False)
 
 
 ###############################################################################
