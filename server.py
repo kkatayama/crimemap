@@ -54,7 +54,7 @@ def genTable(records, caption, count=0):
     table = s.to_html()
     html = re.sub(r'( id="(T_[_a-z0-9]+)"| class="([_a-z0-9 ]+)" |<style.*</style>\n)', '', table, flags=re.DOTALL)
     html = html.replace('<th>&nbsp;</th>', '<th>index</th>')
-    html = html.replace('<table>', f'<table table_id="{table_id}" class="display" style="width:100%">')
+    html = html.replace('<table>', f'<table id="{table_id}" class="display" style="width:100%">')
     # html = re.sub(r'table id="(T_[a-z0-9]+)"', f'table id="{table_id}"', table)
     # html = re.sub(r'( id="(T_[_a-z0-9]+)"| class="([_a-z0-9 ]+)" )', '', html)
     # html = re.sub(r'<style.*</style>\n', '', html, flags=re.DOTALL)
