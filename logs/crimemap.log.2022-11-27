@@ -1,0 +1,46 @@
+162.142.125.211 2022-11-27 13:29:40.675712 GET http://www.crimemap.hopto.org/ None
+{"request.params": {}}
+{
+  "message": "running..."
+}
+162.142.125.211 2022-11-27 13:29:40.751572 GET http://www.crimemap.hopto.org/ None
+{"request.params": {}}
+{
+  "message": "running..."
+}
+<method-wrapper '__str__' of HTTPError object at 0x7f542ddc6a60>
+162.142.125.211 2022-11-27 13:29:41.180647 GET http://www.crimemap.hopto.org/favicon.ico None
+{
+  "message": "File does not exist.",
+  "Error": {
+    "exception": null,
+    "traceback": null,
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "text/html; charset=UTF-8"
+      ]
+    },
+    "body": "File does not exist.",
+    "_status_code": 404,
+    "_status_line": "404 Not Found"
+  }
+}
+<method-wrapper '__str__' of HTTPError object at 0x7f542ddc68e0>
+162.142.125.211 2022-11-27 13:29:41.336930 GET http://www.crimemap.hopto.org/favicon.ico None
+{
+  "message": "File does not exist.",
+  "Error": {
+    "exception": null,
+    "traceback": null,
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "text/html; charset=UTF-8"
+      ]
+    },
+    "body": "File does not exist.",
+    "_status_code": 404,
+    "_status_line": "404 Not Found"
+  }
+}

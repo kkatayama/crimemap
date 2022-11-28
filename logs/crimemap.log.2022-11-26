@@ -1,0 +1,728 @@
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542ddb9dc0>
+140.82.115.116 2022-11-26 16:47:31.702811 GET http://crimemap.hopto.org/w_main_left.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_left.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "113893"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 03:47:51 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_left.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542de78d60>
+140.82.115.112 2022-11-26 16:47:31.879448 GET http://crimemap.hopto.org/23.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/23.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "8229"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 01:56:09 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/23.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542de78d60>
+140.82.115.87 2022-11-26 16:47:31.883520 GET http://crimemap.hopto.org/w_main_right.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_right.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "107586"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 03:51:42 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_right.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542de78d60>
+140.82.115.117 2022-11-26 16:48:18.284854 GET http://crimemap.hopto.org/w_main_left.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_left.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "113893"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 03:47:51 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_left.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542de78d60>
+140.82.115.117 2022-11-26 16:48:18.287094 GET http://crimemap.hopto.org/23.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/23.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "8229"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 01:56:09 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/23.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542de78d60>
+140.82.115.102 2022-11-26 16:48:18.354804 GET http://crimemap.hopto.org/w_main_right.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_right.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "107586"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 03:51:42 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_right.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542de78d60>
+140.82.115.146 2022-11-26 16:48:45.189651 GET http://crimemap.hopto.org/w_main_right.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_right.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "107586"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 03:51:42 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_right.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542de78d60>
+140.82.115.145 2022-11-26 16:48:45.195178 GET http://crimemap.hopto.org/23.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/23.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "8229"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 01:56:09 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/23.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542de78d60>
+140.82.115.145 2022-11-26 16:48:45.350521 GET http://crimemap.hopto.org/w_main_left.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_left.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "113893"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 03:47:51 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_left.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542de78d60>
+140.82.115.116 2022-11-26 16:49:37.930675 GET http://crimemap.hopto.org/w_main_left.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_left.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "113893"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 03:47:51 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_left.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542de78d60>
+140.82.115.116 2022-11-26 16:49:37.946418 GET http://crimemap.hopto.org/23.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/23.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "8229"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 01:56:09 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/23.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542de78d60>
+140.82.115.109 2022-11-26 16:49:38.020748 GET http://crimemap.hopto.org/w_main_right.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_right.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "107586"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 03:51:42 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_right.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+172.56.216.139 2022-11-26 16:49:47.731232 GET http://crimemap.hopto.org/ None
+{"request.params": {}}
+{
+  "message": "running..."
+}
+<method-wrapper '__str__' of HTTPError object at 0x7f542ddc6880>
+172.56.216.139 2022-11-26 16:49:49.304484 GET http://crimemap.hopto.org/favicon.ico None
+{
+  "message": "File does not exist.",
+  "Error": {
+    "exception": null,
+    "traceback": null,
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "text/html; charset=UTF-8"
+      ]
+    },
+    "body": "File does not exist.",
+    "_status_code": 404,
+    "_status_line": "404 Not Found"
+  }
+}
+172.56.216.139 2022-11-26 16:50:07.282302 GET http://crimemap.hopto.org/ None
+{"request.params": {}}
+{
+  "message": "running..."
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542ddc6880>
+140.82.115.116 2022-11-26 16:50:15.882305 GET http://crimemap.hopto.org/23.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/23.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "8229"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 01:56:09 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/23.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542ddc69a0>
+140.82.115.248 2022-11-26 16:50:15.884163 GET http://crimemap.hopto.org/w_main_left.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_left.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "113893"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 03:47:51 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_left.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542ddc6880>
+140.82.115.86 2022-11-26 16:50:15.968427 GET http://crimemap.hopto.org/w_main_right.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_right.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "107586"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 03:51:42 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_right.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542ddc69a0>
+140.82.115.96 2022-11-26 16:50:46.909012 GET http://crimemap.hopto.org/w_main_right.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_right.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "107586"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 03:51:42 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_right.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542ddc6880>
+140.82.115.251 2022-11-26 16:50:46.923427 GET http://crimemap.hopto.org/23.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/23.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "8229"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 01:56:09 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/23.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542ddc69a0>
+140.82.115.117 2022-11-26 16:50:46.931406 GET http://crimemap.hopto.org/w_main_left.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_left.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "113893"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 03:47:51 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_left.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542ddc6880>
+140.82.115.242 2022-11-26 16:53:26.906332 GET http://crimemap.hopto.org/23.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/23.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "8229"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 01:56:09 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/23.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542ddc69a0>
+140.82.115.88 2022-11-26 16:53:26.911905 GET http://crimemap.hopto.org/w_main_left.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_left.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "113893"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 03:47:51 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_left.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542ddc6880>
+140.82.115.248 2022-11-26 16:53:26.930946 GET http://crimemap.hopto.org/w_main_right.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_right.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "107586"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 03:51:42 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_right.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542ddc69a0>
+140.82.115.110 2022-11-26 17:19:33.085595 GET http://crimemap.hopto.org/23.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/23.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "8229"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 01:56:09 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/23.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542ddc6880>
+140.82.115.110 2022-11-26 17:19:33.088874 GET http://crimemap.hopto.org/w_main_left.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_left.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "113893"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 03:47:51 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_left.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542ddc69a0>
+140.82.115.117 2022-11-26 17:19:33.166446 GET http://crimemap.hopto.org/w_main_right.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_right.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "107586"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 03:51:42 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_right.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542ddc6880>
+140.82.115.116 2022-11-26 22:55:52.338742 GET http://crimemap.hopto.org/w_main_left.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_left.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "113893"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 03:47:51 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_left.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542ddc69a0>
+140.82.115.153 2022-11-26 22:55:52.418435 GET http://crimemap.hopto.org/w_main_right.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_right.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "107586"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 03:51:42 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_right.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542ddc6880>
+140.82.115.248 2022-11-26 22:55:53.136904 GET http://crimemap.hopto.org/w_main_left.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_left.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "113893"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 03:47:51 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_left.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
+<method-wrapper '__str__' of HTTPResponse object at 0x7f542ddc69a0>
+140.82.115.153 2022-11-26 22:55:53.141600 GET http://crimemap.hopto.org/w_main_right.png None
+{
+  "message": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_right.png'>",
+  "Error": {
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "image/png"
+      ],
+      "Content-Length": [
+        "107586"
+      ],
+      "Last-Modified": [
+        "Wed, 23 Nov 2022 03:51:42 GMT"
+      ],
+      "Accept-Ranges": [
+        "bytes"
+      ]
+    },
+    "body": "<_io.BufferedReader name='/home/katayama/Documents/CrimeMap/crimemap/static/img/w_main_right.png'>",
+    "_status_code": 200,
+    "_status_line": "200 OK"
+  }
+}
