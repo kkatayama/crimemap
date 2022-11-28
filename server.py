@@ -47,15 +47,18 @@ print(f'get_py_path: {get_py_path()}')
 
 # -- helper function to return Pandas generated HTML Table when expected in request...
 def genTable(records, caption, count=0):
-    table_id = 'response' if not count else f'response{count}'
+    table_id = f'response{count}'
     styles = [dict(selector="caption", props=[("text-align", "center"), ("font-size", "150%"), ("color", 'black')])]
     df = pd.DataFrame.from_records(records)
     s = df.style.set_caption(caption).set_table_styles(styles)
     table = s.to_html()
-    html = re.sub(r'table id="(T_[a-z0-9]+)"', f'table id="{table_id}"', table)
-    html = re.sub(r'( id="(T_[_a-z0-9]+)"| class="([_a-z0-9 ]+)" )', '', html)
-    html = re.sub(r'<style.*</style>\n', '', html, flags=re.DOTALL)
-    return html.replace('<th>&nbsp;</th>', '<th>index</th>')
+    html = re.sub(r'( id="(T_[_a-z0-9]+)"| class="([_a-z0-9 ]+)" |<style.*</style>\n)', '', table, flags=re.DOTALL)
+    html = html.replace('<th>&nbsp;</th>', '<th>index</th>')
+    html = html.replace('<table>', f'<table table_id="{table_id}" class="display" style="width:100%">')
+    # html = re.sub(r'table id="(T_[a-z0-9]+)"', f'table id="{table_id}"', table)
+    # html = re.sub(r'( id="(T_[_a-z0-9]+)"| class="([_a-z0-9 ]+)" )', '', html)
+    # html = re.sub(r'<style.*</style>\n', '', html, flags=re.DOTALL)
+    return html
 
 def checkType(res):
     if 'x-table' in request.headers.get('Accept'):
