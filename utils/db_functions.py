@@ -796,9 +796,12 @@ def log_to_logger(fn):
         elif response.status == 200 or isinstance(actual_response, str):
             status = 200
             logger.info('%s %s %s %s %s' % (ip_address, request_time, request.method, request.url, status))
+        elif actual_response._status_code == 200:
+            status = 200
+            logger.info('%s %s %s %s %s' % (ip_address, request_time, request.method, request.url, status))
         else:
             try:
-                # logger.info("=== ATTEMPT TO CLEAN ERROR ===")
+                logger.info("=== ATTEMPT TO CLEAN ERROR ===")
                 logger.debug(actual_response.__str__)
                 if not dict(actual_response.headers):
                     for k,v in actual_response.headerlist:
