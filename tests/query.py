@@ -82,7 +82,8 @@ def parseQuery(query):
         "restaurant_photos",
         "restaurant_profile",
         "restaurant_requests",
-        "restaurant_schedule"
+        "restaurant_schedule",
+        "tables"
     ]
     regex = rf"""
     /({'|'.join(commands)})/({'|'.join(tables)}) |  # catch /<cmd>/<table_name
@@ -114,7 +115,7 @@ def parseQuery(query):
         return f"filter = {filters}"
     return arguments
 
-def executeQuery(base_url, query, short=True, stdout=True):
+def executeQuery(base_url, query, short=True, stdout=True, customtype=False):
     base_url = base_url.strip('/')
     url = f'{base_url}{query}'
 
@@ -126,7 +127,19 @@ def executeQuery(base_url, query, short=True, stdout=True):
     s = requests.Session()
     s.headers.update(load_headers(py_path=py_path))
     s.cookies.update(load_cookies(py_path=py_path))
+
+    if customtype:
+        s.headers.update({'Accept': 'application/x-table, */*; q=0.01'})
+        stdout=False
+
     r = s.get(url)
+    info_headers = {k:v for k,v in r.headers.items() if k in {'Server', 'Date', 'Content-Type', 'Content-Length'}}
+    print(r.status_code, info_headers, '\n')
+
+    if 'table' in r.headers.get('Content-Type'):
+        res = r.text
+        print(res)
+        return res
     res = r.json() if r.status_code == 200 or 'json' in r.headers.get('Content-Type') else r.text
 
     if '/usage' in query:
@@ -200,6 +213,7 @@ def main(py_path):
     ap.add_argument('-l', '--login', default=False, action="store_true", help="login and save session cookies...")
     ap.add_argument('--username', default='admin', help="used with [--login]")
     ap.add_argument('--password', default='admin', help="used with [--login]")
+    ap.add_argument('-x', '--xtable', default=False, action="store_true", help="request with custom dataType: application/x-table")
     args = ap.parse_args()
 
     if args.login:
@@ -210,9 +224,10 @@ def main(py_path):
         args.query = f"/login/username/{args.username}/password/{args.password}"
 
     # print(args.url)
-    executeQuery(base_url=args.url, query=args.query, short=args.short, stdout=args.stdout)
+    return executeQuery(base_url=args.url, query=args.query, short=args.short, stdout=args.stdout, customtype=args.xtable)
     # print(out)
 
 py_path = get_py_path()
 if __name__ == '__main__':
-    sys.exit(main(py_path))
+    # sys.exit(main(py_path))
+    r = main(py_path)
