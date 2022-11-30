@@ -75,7 +75,7 @@ def genTable(records, caption, count=0):
     s = df.style.set_caption(caption).set_table_styles(styles)
     table = s.to_html()
     html = re.sub(r'( id="(T_[_a-z0-9]+)"| class="([_a-z0-9 ]+)" |<style.*</style>\n)', '', table, flags=re.DOTALL)
-    html = re.sub(r'([_0-9a-zA-Z]+\.[a-z]+)', r'<img class="img-fluid" src="https://crimemap.hopto.org/\1"></img>', html)
+    html = re.sub(r'([_0-9a-zA-Z]+\.(png|jpg|jpeg|svg|bmp|gif|tiff))', r'<img src="https://crimemap.hopto.org/\1" height="100"></img>', html)
     html = html.replace('<th>&nbsp;</th>', '<th>index</th>')
     html = html.replace('<table>', f'<table id="{table_id}" class="table caption-top table-striped table-hover" style="width:100%">')
 
