@@ -191,6 +191,7 @@ def register(db, url_paths=""):
     # -- parse "params" and "filters" from HTTP request
     table = getTable(db, table_name="users")
     required_columns = getColumns(db, table, required=True)
+    required_columns.update({'password2': 'TEXT'})
     params, filters = parseUrlPaths(url_paths, request.params, required_columns)
     params.update(dict(request.params))
     print(f"request.params = {dict(request.params)}\nparams = {params}\nfilters = '{filters}'")
