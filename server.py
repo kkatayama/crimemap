@@ -299,8 +299,8 @@ def uploadImageUrl(url_paths=""):
 ###############################################################################
 #                          Database Admin Functions                           #
 ###############################################################################
-@route("/createTable")
-@route("/createTable/<table_name>")
+@route("/createTable", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+@route("/createTable/<table_name>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @route("/createTable/<table_name>/<url_paths:path>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @require_uid
 def createTable(db, table_name="", url_paths=""):
@@ -338,8 +338,8 @@ def createTable(db, table_name="", url_paths=""):
     res.update({"table": table_name})
     return checkType(res)
 
-@route("/deleteTable")
-@route("/deleteTable/<table_name>")
+@route("/deleteTable", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+@route("/deleteTable/<table_name>", method=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
 @require_uid
 def dropTable(db, table_name=""):
     # -- usage info
