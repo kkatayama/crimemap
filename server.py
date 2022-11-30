@@ -274,13 +274,6 @@ def uploadImageUrl(url_paths=""):
     if url_paths == 'usage':
         return usage_uploadImageUrl
 
-    # # -- only logged in users can access this endpoint
-    # user_id = request.get_cookie("user_id", secret=secret_key)
-    # if not user_id:
-    #     return({'message': 'invalid token'})
-    # if request.params.get('token'):
-    #     del request.params["token"]
-
     # -- parse "params" and "filters" from HTTP request
     required_columns = {"url": "TEXT"}
     p = map(str, url_paths.split('/', maxsplit=1))
@@ -307,12 +300,6 @@ def createTable(db, table_name="", url_paths=""):
     # -- usage info
     if table_name == 'usage':
         return usage_create_table
-
-    # user_id = request.get_cookie("user_id", secret=secret_key)
-    # if not user_id:
-    #     return {'message': 'invalid token'}
-    # if request.params.get('token'):
-    #     del request.params["token"]
 
     required_columns = {"user_id": "INTEGER", "{ref}_id": "INTEGER", "{ref}_time": "DATETIME",
                         "column_name": "column_type",
@@ -346,12 +333,6 @@ def dropTable(db, table_name=""):
     if table_name == 'usage':
         return usage_delete_table
 
-    # user_id = request.get_cookie("user_id", secret=secret_key)
-    # if not user_id:
-    #     return {'message': 'invalid token'}
-    # if request.params.get('token'):
-    #     del request.params["token"]
-
     tables = getTables(db)
     table = getTable(db, tables, table_name)
     if not table:
@@ -373,13 +354,6 @@ def add(db, table_name="", url_paths=""):
     # -- usage info
     if table_name == 'usage':
         return usage_add
-
-    # # -- only logged in users can access this endpoint
-    # user_id = request.get_cookie("user_id", secret=secret_key)
-    # if not user_id:
-    #     return({'message': 'invalid token'})
-    # if request.params.get('token'):
-    #     del request.params["token"]
 
     # -- if no table is supplied or the table does not exist, return all active tables
     tables = getTables(db)
@@ -435,13 +409,6 @@ def get(db, table_name="", url_paths=""):
     # -- usage info
     if table_name == 'usage':
         return usage_get
-
-    # # -- only logged in users can access this endpoint
-    # user_id = request.get_cookie("user_id", secret=secret_key)
-    # if not user_id:
-    #     return {'message': 'invalid token'}
-    # if request.params.get('token'):
-    #     del request.params["token"]
 
     tables = getTables(db)
     table = getTable(db, tables, table_name)
@@ -565,13 +532,6 @@ def delete(db, table_name="", url_paths=""):
     if table_name == 'usage':
         return usage_delete
 
-    # # -- only logged in users can access this endpoint
-    # user_id = request.get_cookie("user_id", secret=secret_key)
-    # if not user_id:
-    #     return {'message': 'invalid token'}
-    # if request.params.get('token'):
-    #     del request.params["token"]
-
     tables = getTables(db)
     table = getTable(db, tables, table_name)
     if not table:
@@ -628,18 +588,6 @@ def send_img(filename):
 def send_root_img(filename):
     dirname = sys.path[0]
     return static_file(filename, root=f'{dirname}/static/img/')
-
-# @route('/test_html')
-# def test_html():
-#     res = {"message":"user login success","user_id":1,"username":"admin","token":"IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09"}
-#     df = pd.DataFrame.from_records([res])
-#     return template(df.to_html().replace('class="dataframe"', 'id="response" class="display" styles="width:100%"'))
-
-# @route('/test_ajax')
-# def test_ajax():
-#     res = {"message":"user login success","user_id":1,"username":"admin","token":"IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09"}
-#     df = pd.DataFrame.from_records([res])
-#     return df.to_json(orient='split', index=False)
 
 
 ###############################################################################

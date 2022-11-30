@@ -23,11 +23,7 @@ These functions
 # -- clean()            - sanitize data for json delivery
 """
 
-from bottle import (
-    request, response, redirect,
-    FormsDict, WSGIHeaderDict, json_dumps, JSONPlugin,
-    template, cookie_decode, cookie_encode, HTTPError
-)
+from bottle import request, response, FormsDict, WSGIHeaderDict, json_dumps, JSONPlugin, template, cookie_decode, cookie_encode, HTTPError
 from base64 import b64decode, b64encode
 from datetime import datetime
 from bs4 import BeautifulSoup
