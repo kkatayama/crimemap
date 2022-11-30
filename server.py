@@ -33,6 +33,27 @@ import sys
 import os
 import re
 
+
+
+# class EnableCors(object):
+#     name = 'enable_cors'
+#     api = 2
+
+#     def apply(self, fn, context):
+#         def _enable_cors(*args, **kwargs):
+#             # set CORS headers
+#             response.headers['Access-Control-Allow-Origin'] = '*'
+#             response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, OPTIONS'
+#             response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
+
+#             if bottle.request.method != 'OPTIONS':
+#                 # actual request; reply with the actual response
+#                 return fn(*args, **kwargs)
+
+#         return _enable_cors
+
+
+
 # -- app setup
 app = bottle.app()
 db_file = Path.cwd().joinpath('db', 'backend.db')
@@ -40,6 +61,7 @@ plugin = SQLitePlugin(dbfile=db_file, detect_types=sqlite3.PARSE_DECLTYPES|sqlit
 app.install(plugin)
 app.install(log_to_logger)
 app.install(ErrorsRestPlugin())
+# app.install(EnableCors())
 #app.catchall = False
 
 print(f'py_path: {py_path}')
@@ -82,6 +104,7 @@ def checkType(res):
             caption = key + ': ' + res.pop(key)
         print(f'caption = {caption}')
 
+        html = ""
         if res.get('data') and len(res.keys()) == 1:
             print('parsing: data')
             res = res.pop('data')
@@ -109,6 +132,7 @@ def strip_path():
 def enable_cors():
     response.headers['Access-Control-Allow-Origin'] = '*'
     response.headers['Access-Control-Allow-Methods'] = 'PUT, GET, POST, DELETE, OPTIONS'
+    # response.headers['Access-Control-Allow-Headers'] = '*'
     response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
 
 # -- index - response: running
@@ -177,7 +201,8 @@ def register(db, url_paths=""):
         plaintext = params["password"]
         password2 = params["password2"]
     except KeyError:
-        res = {"message": "missing parameter", "required params": ["username", "password", "password2"]}
+        # res = {"message": "missing parameter", "required params": ["username", "password", "password2"]}
+        res = {"message": "missing parameter", "required": [required_columns], "submitted": [params]}
         return checkType(res)
 
     if plaintext != password2:
@@ -256,7 +281,7 @@ def uploadImageUrl(url_paths=""):
     #     del request.params["token"]
 
     # -- parse "params" and "filters" from HTTP request
-    required_columns = ["url"]
+    required_columns = {"url": "TEXT"}
     p = map(str, url_paths.split('/', maxsplit=1))
     params = dict(request.params)
     params.update(dict(zip(p, p)))
