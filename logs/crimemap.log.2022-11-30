@@ -1,0 +1,555 @@
+cookie_info = ('user_id', '1')
+74.103.158.35 2022-11-30 00:17:33.786639 GET http://crimemap.hopto.org/get?token=IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09 request
+SELECT name,type FROM sqlite_schema WHERE type = ? AND name NOT LIKE ?;
+74.103.158.35 2022-11-30 00:17:33.786897 GET http://crimemap.hopto.org/get?token=IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09 request
+['table', 'sqlite_%']
+74.103.158.35 2022-11-30 00:17:33.786564 GET http://crimemap.hopto.org/get?token=IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09 None
+{"request.params": {"token": "IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09"}}
+{
+  "message": "active tables in the database",
+  "tables": [
+    {
+      "name": "users",
+      "type": "table",
+      "columns": [
+        {
+          "name": "user_id",
+          "type": "INTEGER PRIMARY KEY"
+        },
+        {
+          "name": "username",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "password",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "create_time",
+          "type": "DATETIME NOT NULL DEFAULT (strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime'))"
+        }
+      ]
+    },
+    {
+      "name": "incidents",
+      "type": "table",
+      "columns": [
+        {
+          "name": "entry_id",
+          "type": "INTEGER PRIMARY KEY"
+        },
+        {
+          "name": "tier",
+          "type": "INTEGER NOT NULL"
+        },
+        {
+          "name": "type",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "type_img",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "description",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "location",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "latitude",
+          "type": "DOUBLE NOT NULL"
+        },
+        {
+          "name": "longitude",
+          "type": "DOUBLE NOT NULL"
+        },
+        {
+          "name": "agency",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "report_date",
+          "type": "DATETIME NOT NULL"
+        },
+        {
+          "name": "entry_time",
+          "type": "DATETIME NOT NULL DEFAULT (strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime'))"
+        }
+      ]
+    },
+    {
+      "name": "sex_offenders",
+      "type": "table",
+      "columns": [
+        {
+          "name": "entry_id",
+          "type": "INTEGER PRIMARY KEY"
+        },
+        {
+          "name": "tier",
+          "type": "INTEGER NOT NULL"
+        },
+        {
+          "name": "name",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "dob",
+          "type": "DATETIME NOT NULL"
+        },
+        {
+          "name": "arrest_description",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "arrest_date",
+          "type": "DATETIME NOT NULL"
+        },
+        {
+          "name": "victim_age",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "home_address",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "home_latitude",
+          "type": "DOUBLE NOT NULL"
+        },
+        {
+          "name": "home_longitude",
+          "type": "DOUBLE NOT NULL"
+        },
+        {
+          "name": "work_name",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "work_address",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "work_latitude",
+          "type": "DOUBLE NOT NULL"
+        },
+        {
+          "name": "work_longitude",
+          "type": "DOUBLE NOT NULL"
+        },
+        {
+          "name": "entry_time",
+          "type": "DATETIME NOT NULL DEFAULT (strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime'))"
+        }
+      ]
+    },
+    {
+      "name": "user_profiles",
+      "type": "table",
+      "columns": [
+        {
+          "name": "entry_id",
+          "type": "INTEGER PRIMARY KEY"
+        },
+        {
+          "name": "user_id",
+          "type": "INTEGER NOT NULL"
+        },
+        {
+          "name": "name",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "email",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "profile_pic",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "entry_time",
+          "type": "DATETIME NOT NULL DEFAULT (strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime'))"
+        }
+      ]
+    }
+  ]
+}
+cookie_info = ('user_id', '1')
+74.103.158.35 2022-11-30 00:17:33.804669 GET http://crimemap.hopto.org/delete/users?token=IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09 request
+SELECT name,type FROM sqlite_schema WHERE type = ? AND name NOT LIKE ?;
+74.103.158.35 2022-11-30 00:17:33.805107 GET http://crimemap.hopto.org/delete/users?token=IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09 request
+['table', 'sqlite_%']
+74.103.158.35 2022-11-30 00:17:33.804542 GET http://crimemap.hopto.org/delete/users?token=IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09 None
+{"request.params": {"token": "IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09"}}
+{
+  "message": "missing a query param(s)",
+  "query_params": [
+    {
+      "user_id": "INTEGER",
+      "username": "TEXT",
+      "password": "TEXT",
+      "create_time": "DATETIME",
+      "filter": ""
+    }
+  ],
+  "submitted": [
+    {}
+  ]
+}
+cookie_info = ('user_id', '1')
+74.103.158.35 2022-11-30 00:23:54.983981 POST http://crimemap.hopto.org/get/users request
+SELECT name,type FROM sqlite_schema WHERE type = ? AND name NOT LIKE ?;
+74.103.158.35 2022-11-30 00:23:54.984461 POST http://crimemap.hopto.org/get/users request
+['table', 'sqlite_%']
+74.103.158.35 2022-11-30 00:23:54.985202 POST http://crimemap.hopto.org/get/users request
+SELECT * FROM users WHERE 1;
+74.103.158.35 2022-11-30 00:23:54.985368 POST http://crimemap.hopto.org/get/users request
+SELECT * FROM users WHERE 1;
+74.103.158.35 2022-11-30 00:23:54.983907 POST http://crimemap.hopto.org/get/users 200
+cookie_info = ('user_id', '1')
+74.103.158.35 2022-11-30 00:24:44.801010 POST http://crimemap.hopto.org/get/users request
+SELECT name,type FROM sqlite_schema WHERE type = ? AND name NOT LIKE ?;
+74.103.158.35 2022-11-30 00:24:44.801680 POST http://crimemap.hopto.org/get/users request
+['table', 'sqlite_%']
+74.103.158.35 2022-11-30 00:24:44.803455 POST http://crimemap.hopto.org/get/users request
+SELECT * FROM users WHERE 1;
+74.103.158.35 2022-11-30 00:24:44.803646 POST http://crimemap.hopto.org/get/users request
+SELECT * FROM users WHERE 1;
+74.103.158.35 2022-11-30 00:24:44.800834 POST http://crimemap.hopto.org/get/users 200
+cookie_info = ('user_id', '1')
+74.103.158.35 2022-11-30 00:24:48.074214 GET http://crimemap.hopto.org/delete/incidents?token=IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09 request
+SELECT name,type FROM sqlite_schema WHERE type = ? AND name NOT LIKE ?;
+74.103.158.35 2022-11-30 00:24:48.074802 GET http://crimemap.hopto.org/delete/incidents?token=IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09 request
+['table', 'sqlite_%']
+74.103.158.35 2022-11-30 00:24:48.074058 GET http://crimemap.hopto.org/delete/incidents?token=IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09 None
+{"request.params": {"token": "IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09"}}
+{
+  "message": "missing a query param(s)",
+  "query_params": [
+    {
+      "entry_id": "INTEGER",
+      "tier": "INTEGER",
+      "type": "TEXT",
+      "type_img": "TEXT",
+      "description": "TEXT",
+      "location": "TEXT",
+      "latitude": "DOUBLE",
+      "longitude": "DOUBLE",
+      "agency": "TEXT",
+      "report_date": "DATETIME",
+      "entry_time": "DATETIME",
+      "filter": ""
+    }
+  ],
+  "submitted": [
+    {}
+  ]
+}
+cookie_info = ('user_id', '1')
+74.103.158.35 2022-11-30 00:24:48.814420 POST http://crimemap.hopto.org/get/incidents request
+SELECT name,type FROM sqlite_schema WHERE type = ? AND name NOT LIKE ?;
+74.103.158.35 2022-11-30 00:24:48.815099 POST http://crimemap.hopto.org/get/incidents request
+['table', 'sqlite_%']
+74.103.158.35 2022-11-30 00:24:48.817108 POST http://crimemap.hopto.org/get/incidents request
+SELECT * FROM incidents WHERE 1;
+74.103.158.35 2022-11-30 00:24:48.817574 POST http://crimemap.hopto.org/get/incidents request
+SELECT * FROM incidents WHERE 1;
+74.103.158.35 2022-11-30 00:24:48.814271 POST http://crimemap.hopto.org/get/incidents 200
+cookie_info = ('user_id', '1')
+74.103.158.35 2022-11-30 00:24:54.583288 GET http://crimemap.hopto.org/delete/sex_offenders?token=IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09 request
+SELECT name,type FROM sqlite_schema WHERE type = ? AND name NOT LIKE ?;
+74.103.158.35 2022-11-30 00:24:54.583927 GET http://crimemap.hopto.org/delete/sex_offenders?token=IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09 request
+['table', 'sqlite_%']
+74.103.158.35 2022-11-30 00:24:54.583133 GET http://crimemap.hopto.org/delete/sex_offenders?token=IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09 None
+{"request.params": {"token": "IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09"}}
+{
+  "message": "missing a query param(s)",
+  "query_params": [
+    {
+      "entry_id": "INTEGER",
+      "tier": "INTEGER",
+      "name": "TEXT",
+      "dob": "DATETIME",
+      "arrest_description": "TEXT",
+      "arrest_date": "DATETIME",
+      "victim_age": "TEXT",
+      "home_address": "TEXT",
+      "home_latitude": "DOUBLE",
+      "home_longitude": "DOUBLE",
+      "work_name": "TEXT",
+      "work_address": "TEXT",
+      "work_latitude": "DOUBLE",
+      "work_longitude": "DOUBLE",
+      "entry_time": "DATETIME",
+      "filter": ""
+    }
+  ],
+  "submitted": [
+    {}
+  ]
+}
+cookie_info = ('user_id', '1')
+74.103.158.35 2022-11-30 00:24:55.938565 POST http://crimemap.hopto.org/get/sex_offenders request
+SELECT name,type FROM sqlite_schema WHERE type = ? AND name NOT LIKE ?;
+74.103.158.35 2022-11-30 00:24:55.939267 POST http://crimemap.hopto.org/get/sex_offenders request
+['table', 'sqlite_%']
+74.103.158.35 2022-11-30 00:24:55.941124 POST http://crimemap.hopto.org/get/sex_offenders request
+SELECT * FROM sex_offenders WHERE 1;
+74.103.158.35 2022-11-30 00:24:55.941527 POST http://crimemap.hopto.org/get/sex_offenders request
+SELECT * FROM sex_offenders WHERE 1;
+74.103.158.35 2022-11-30 00:24:55.938424 POST http://crimemap.hopto.org/get/sex_offenders 200
+cookie_info = ('user_id', '1')
+74.103.158.35 2022-11-30 00:59:10.864210 GET http://crimemap.hopto.org/get?token=IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09 request
+SELECT name,type FROM sqlite_schema WHERE type = ? AND name NOT LIKE ?;
+74.103.158.35 2022-11-30 00:59:10.864748 GET http://crimemap.hopto.org/get?token=IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09 request
+['table', 'sqlite_%']
+74.103.158.35 2022-11-30 00:59:10.864085 GET http://crimemap.hopto.org/get?token=IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09 None
+{"request.params": {"token": "IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09"}}
+{
+  "message": "active tables in the database",
+  "tables": [
+    {
+      "name": "users",
+      "type": "table",
+      "columns": [
+        {
+          "name": "user_id",
+          "type": "INTEGER PRIMARY KEY"
+        },
+        {
+          "name": "username",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "password",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "create_time",
+          "type": "DATETIME NOT NULL DEFAULT (strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime'))"
+        }
+      ]
+    },
+    {
+      "name": "incidents",
+      "type": "table",
+      "columns": [
+        {
+          "name": "entry_id",
+          "type": "INTEGER PRIMARY KEY"
+        },
+        {
+          "name": "tier",
+          "type": "INTEGER NOT NULL"
+        },
+        {
+          "name": "type",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "type_img",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "description",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "location",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "latitude",
+          "type": "DOUBLE NOT NULL"
+        },
+        {
+          "name": "longitude",
+          "type": "DOUBLE NOT NULL"
+        },
+        {
+          "name": "agency",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "report_date",
+          "type": "DATETIME NOT NULL"
+        },
+        {
+          "name": "entry_time",
+          "type": "DATETIME NOT NULL DEFAULT (strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime'))"
+        }
+      ]
+    },
+    {
+      "name": "sex_offenders",
+      "type": "table",
+      "columns": [
+        {
+          "name": "entry_id",
+          "type": "INTEGER PRIMARY KEY"
+        },
+        {
+          "name": "tier",
+          "type": "INTEGER NOT NULL"
+        },
+        {
+          "name": "name",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "dob",
+          "type": "DATETIME NOT NULL"
+        },
+        {
+          "name": "arrest_description",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "arrest_date",
+          "type": "DATETIME NOT NULL"
+        },
+        {
+          "name": "victim_age",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "home_address",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "home_latitude",
+          "type": "DOUBLE NOT NULL"
+        },
+        {
+          "name": "home_longitude",
+          "type": "DOUBLE NOT NULL"
+        },
+        {
+          "name": "work_name",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "work_address",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "work_latitude",
+          "type": "DOUBLE NOT NULL"
+        },
+        {
+          "name": "work_longitude",
+          "type": "DOUBLE NOT NULL"
+        },
+        {
+          "name": "entry_time",
+          "type": "DATETIME NOT NULL DEFAULT (strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime'))"
+        }
+      ]
+    },
+    {
+      "name": "user_profiles",
+      "type": "table",
+      "columns": [
+        {
+          "name": "entry_id",
+          "type": "INTEGER PRIMARY KEY"
+        },
+        {
+          "name": "user_id",
+          "type": "INTEGER NOT NULL"
+        },
+        {
+          "name": "name",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "email",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "profile_pic",
+          "type": "TEXT NOT NULL"
+        },
+        {
+          "name": "entry_time",
+          "type": "DATETIME NOT NULL DEFAULT (strftime('%Y-%m-%d %H:%M:%f', 'now', 'localtime'))"
+        }
+      ]
+    }
+  ]
+}
+cookie_info = ('user_id', '1')
+74.103.158.35 2022-11-30 00:59:10.878089 GET http://crimemap.hopto.org/delete/users?token=IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09 request
+SELECT name,type FROM sqlite_schema WHERE type = ? AND name NOT LIKE ?;
+74.103.158.35 2022-11-30 00:59:10.878311 GET http://crimemap.hopto.org/delete/users?token=IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09 request
+['table', 'sqlite_%']
+74.103.158.35 2022-11-30 00:59:10.878038 GET http://crimemap.hopto.org/delete/users?token=IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09 None
+{"request.params": {"token": "IVBDcEovRGtzL0RhOUdrUFdjaDZuQ0E9PT9nQVdWRVFBQUFBQUFBQUNNQjNWelpYSmZhV1NVakFFeGxJYVVMZz09"}}
+{
+  "message": "missing a query param(s)",
+  "query_params": [
+    {
+      "user_id": "INTEGER",
+      "username": "TEXT",
+      "password": "TEXT",
+      "create_time": "DATETIME",
+      "filter": ""
+    }
+  ],
+  "submitted": [
+    {}
+  ]
+}
+82.145.215.206 2022-11-30 01:23:53.572530 GET http://crimemap.hopto.org/ None
+{
+  "message": "Internal Server Error",
+  "Python_Error": {
+    "exception": "argument of type 'NoneType' is not iterable",
+    "traceback": [
+      "Traceback (most recent call last):",
+      "  File \"/home/katayama/.local/lib/python3.9/site-packages/bottle.py\", line 868, in _handle",
+      "    return route.call(**args)",
+      "  File \"/home/katayama/.local/lib/python3.9/site-packages/bottle.py\", line 1748, in wrapper",
+      "    rv = callback(*a, **ka)",
+      "  File \"/home/katayama/Documents/CrimeMap/crimemap/utils/db_functions.py\", line 783, in _log_to_logger",
+      "    actual_response = fn(*args, **kwargs)",
+      "  File \"/home/katayama/Documents/CrimeMap/crimemap/server.py\", line 142, in index",
+      "    return checkType(res)",
+      "  File \"/home/katayama/Documents/CrimeMap/crimemap/server.py\", line 88, in checkType",
+      "    if 'x-table' in request.headers.get('Accept'):",
+      "TypeError: argument of type 'NoneType' is not iterable"
+    ],
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "body": "Internal Server Error",
+    "_status_code": 500,
+    "_status_line": "500 Internal Server Error"
+  }
+}
+=== ATTEMPT TO CLEAN ERROR ===
+<method-wrapper '__str__' of HTTPError object at 0x7f2cb5984e20>
+82.145.215.206 2022-11-30 01:23:53.823239 GET http://crimemap.hopto.org/apple-touch-icon.png None
+{
+  "message": "File does not exist.",
+  "Error": {
+    "exception": null,
+    "traceback": null,
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "text/html; charset=UTF-8"
+      ]
+    },
+    "body": "File does not exist.",
+    "_status_code": 404,
+    "_status_line": "404 Not Found"
+  }
+}
