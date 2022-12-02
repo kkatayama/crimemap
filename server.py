@@ -1,6 +1,7 @@
 # -- bottle framework & plugins
 from bottle import hook, route, run, request, response, template, static_file, HTTPError, json_dumps
 from bottle_sqlite import SQLitePlugin, sqlite3
+from bottle_cors_plugin import cors_plugin
 import bottle
 import requests
 import mimetypes
@@ -34,26 +35,6 @@ import os
 import re
 
 
-
-# class EnableCors(object):
-#     name = 'enable_cors'
-#     api = 2
-
-#     def apply(self, fn, context):
-#         def _enable_cors(*args, **kwargs):
-#             # set CORS headers
-#             response.headers['Access-Control-Allow-Origin'] = '*'
-#             response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, OPTIONS'
-#             response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
-
-#             if bottle.request.method != 'OPTIONS':
-#                 # actual request; reply with the actual response
-#                 return fn(*args, **kwargs)
-
-#         return _enable_cors
-
-
-
 # -- app setup
 app = bottle.app()
 db_file = Path.cwd().joinpath('db', 'backend.db')
@@ -61,6 +42,12 @@ plugin = SQLitePlugin(dbfile=db_file, detect_types=sqlite3.PARSE_DECLTYPES|sqlit
 app.install(plugin)
 app.install(log_to_logger)
 app.install(ErrorsRestPlugin())
+app.install(cors_plugin([
+    'https://crimemap.hopto.org',
+    'http://localhost:3000', 'http:/127.0.0.1:3000', 'http://0.0.0.0:3000',
+    'http://localhost:8080', 'http:/127.0.0.1:8080', 'http://0.0.0.0:8080',
+    'http://localhost:8888', 'http:/127.0.0.1:8888', 'http://0.0.0.0:8888',
+    'null']))
 # app.install(EnableCors())
 #app.catchall = False
 
