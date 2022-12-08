@@ -541,7 +541,7 @@ def delete(db, table_name="", url_paths=""):
     # -- query database -- DELETE FROM users WHERE (user_id=?);
     num_deletes = deleteRow(db, table=table, where=conditions, values=values)
     if isinstance(num_deletes, dict):
-        if num_deletes.get('Error'):
+        if num_deletes.get('Error') or 'Error' in ''.join(list(num_deletes.keys())):
             return checkType(num_deletes)
     elif num_deletes:
         if num_deletes == 1:

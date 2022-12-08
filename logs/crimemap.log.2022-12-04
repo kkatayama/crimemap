@@ -1,0 +1,32 @@
+82.145.215.206 2022-12-04 22:51:33.435445 GET http://crimemap.hopto.org/ None
+{
+  "message": "Internal Server Error",
+  "Python_Error": {
+    "exception": "argument of type 'NoneType' is not iterable",
+    "traceback": [
+      "Traceback (most recent call last):",
+      "  File \"/home/katayama/.local/lib/python3.9/site-packages/bottle.py\", line 868, in _handle",
+      "    return route.call(**args)",
+      "  File \"/home/katayama/.local/lib/python3.9/site-packages/bottle.py\", line 1748, in wrapper",
+      "    rv = callback(*a, **ka)",
+      "  File \"/home/katayama/Documents/CrimeMap/crimemap/utils/db_functions.py\", line 783, in _log_to_logger",
+      "    actual_response = fn(*args, **kwargs)",
+      "  File \"/home/katayama/.local/lib/python3.9/site-packages/bottle_cors_plugin.py\", line 27, in _enable_cors",
+      "    return fn(*args, **kwargs)",
+      "  File \"/home/katayama/Documents/CrimeMap/crimemap/server.py\", line 126, in index",
+      "    return checkType(res)",
+      "  File \"/home/katayama/Documents/CrimeMap/crimemap/server.py\", line 75, in checkType",
+      "    if 'x-table' in request.headers.get('Accept'):",
+      "TypeError: argument of type 'NoneType' is not iterable"
+    ],
+    "_cookies": null,
+    "_headers": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "body": "Internal Server Error",
+    "_status_code": 500,
+    "_status_line": "500 Internal Server Error"
+  }
+}
