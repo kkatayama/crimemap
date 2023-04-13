@@ -49,12 +49,12 @@ To see all of the available `tables` along with the `column_names` and the `colu
 
 Request:
 ```ruby
-https://crimemap.hopto.org/add
-https://crimemap.hopto.org/get
-https://crimemap.hopto.org/edit
-https://crimemap.hopto.org/delete
-https://crimemap.hopto.org/createTable
-https://crimemap.hopto.org/deleteTable
+https://api.crimemap.hopto.org/add
+https://api.crimemap.hopto.org/get
+https://api.crimemap.hopto.org/edit
+https://api.crimemap.hopto.org/delete
+https://api.crimemap.hopto.org/createTable
+https://api.crimemap.hopto.org/deleteTable
 ```
 
 Response:
@@ -159,8 +159,8 @@ Response:
 
 ### When using `curl`, add `-b` and `-c` to save and read session cookies
 ``` ruby
-curl -XPOST -b cookie.txt -c cookie.txt 'http://crimemap.hopto.org/login' -d '{"username": "admin", "password": "admin"}'
-curl -b cookie.txt -c cookie.txt 'http://crimemap.hopto.org/get/users'
+curl -XPOST -b cookie.txt -c cookie.txt 'http://api.crimemap.hopto.org/login' -d '{"username": "admin", "password": "admin"}'
+curl -b cookie.txt -c cookie.txt 'http://api.crimemap.hopto.org/get/users'
 ```
 </p>
 </details>
@@ -171,7 +171,7 @@ curl -b cookie.txt -c cookie.txt 'http://crimemap.hopto.org/get/users'
 Follow the [Setup Guide](SERVER_SETUP.md) to install and configure the framework. <br />
 
 You can choose to run the server locally or connect with the server all ready running at: <br />
-[https://crimemap.hopto.org](https://crimemap.hopto.org)
+[https://api.crimemap.hopto.org](https://api.crimemap.hopto.org)
 
 To interact with the framework (locally or remote) you will need to first login. <br />
 
@@ -352,7 +352,7 @@ password = admin
 
 POST Request:
 ```ruby
-POST(url='https://crimemap.hopto.org/login', data={"username": "admin", "password": "admin"})
+POST(url='https://api.crimemap.hopto.org/login', data={"username": "admin", "password": "admin"})
 ```
 
 Response:
@@ -370,7 +370,7 @@ Response:
 ### Verify session by making a request to `/status`
 Request:
 ```jq
-https://crimemap.hopto.org/status
+https://api.crimemap.hopto.org/status
 ```
 
 Response:
@@ -675,7 +675,7 @@ password2 = alice
 
 Request:
 ```jq
-https://crimemap.hopto.org/register/username/alice/password/alice/password2/alice
+https://api.crimemap.hopto.org/register/username/alice/password/alice/password2/alice
 ```
 
 Response:
@@ -693,7 +693,7 @@ password2 = bob
 
 Request:
 ```jq
-https://crimemap.hopto.org/register/username/bob/password/bob/password2/bob
+https://api.crimemap.hopto.org/register/username/bob/password/bob/password2/bob
 ```
 
 Response:
@@ -711,7 +711,7 @@ password2 = anna
 
 Request:
 ```jq
-https://crimemap.hopto.org/register/username/anna/password/anna/password2/anna
+https://api.crimemap.hopto.org/register/username/anna/password/anna/password2/anna
 ```
 
 Response:
@@ -729,7 +729,7 @@ password2 = steve
 
 Request:
 ```jq
-https://crimemap.hopto.org/register/username/steve/password/steve/password2/steve
+https://api.crimemap.hopto.org/register/username/steve/password/steve/password2/steve
 ```
 
 Response:
@@ -1075,7 +1075,7 @@ user_profiles = entry_id/INTEGER/INTEGER/TEXT/TEXT/TEXT/DATETIME
 
 Request:
 ```jq
-https://crimemap.hopto.org/createTable/user_profiles/entry_id/INTEGER/user_id/INTEGER/name/TEXT/email/TEXT/profile_pic/TEXT/entry_time/DATETIME
+https://api.crimemap.hopto.org/createTable/user_profiles/entry_id/INTEGER/user_id/INTEGER/name/TEXT/email/TEXT/profile_pic/TEXT/entry_time/DATETIME
 ```
 
 Response:
@@ -1112,7 +1112,7 @@ entry_time = DATETIME
 
 Request:
 ```jq
-https://crimemap.hopto.org/createTable/incidents/entry_id/INTEGER/tier/INTEGER/type/TEXT/type_img/TEXT/description/TEXT/location/TEXT/latitude/DOUBLE/longitude/DOUBLE/agency/TEXT/report_date/DATETIME/entry_time/DATETIME
+https://api.crimemap.hopto.org/createTable/incidents/entry_id/INTEGER/tier/INTEGER/type/TEXT/type_img/TEXT/description/TEXT/location/TEXT/latitude/DOUBLE/longitude/DOUBLE/agency/TEXT/report_date/DATETIME/entry_time/DATETIME
 ```
 
 Response:
@@ -1159,7 +1159,7 @@ entry_time = DATETIME
 
 Request:
 ```jq
-https://crimemap.hopto.org/createTable/sex_offenders/entry_id/INTEGER/tier/INTEGER/name/TEXT/dob/DATETIME/arrest_description/TEXT/arrest_date/DATETIME/victim_age/TEXT/home_address/TEXT/home_latitude/DOUBLE/home_longitude/DOUBLE/work_name/TEXT/work_address/TEXT/work_latitude/DOUBLE/work_longitude/DOUBLE/entry_time/DATETIME
+https://api.crimemap.hopto.org/createTable/sex_offenders/entry_id/INTEGER/tier/INTEGER/name/TEXT/dob/DATETIME/arrest_description/TEXT/arrest_date/DATETIME/victim_age/TEXT/home_address/TEXT/home_latitude/DOUBLE/home_longitude/DOUBLE/work_name/TEXT/work_address/TEXT/work_latitude/DOUBLE/work_longitude/DOUBLE/entry_time/DATETIME
 ```
 
 Response:
@@ -1606,7 +1606,7 @@ First, let's examine the `users` table:
 
 Request:
 ```jq
-https://crimemap.hopto.org/get/users
+https://api.crimemap.hopto.org/get/users
 ```
 
 Response:
@@ -1631,7 +1631,7 @@ url = https://www.shutterstock.com/image-vector/user-icon-vector-260nw-393536320
 
 Request:
 ```erlang
-https://crimemap.hopto.org/uploadImageUrl?url=https://www.shutterstock.com/image-vector/user-icon-vector-260nw-393536320.jpg
+https://api.crimemap.hopto.org/uploadImageUrl?url=https://www.shutterstock.com/image-vector/user-icon-vector-260nw-393536320.jpg
 ```
 
 Response:
@@ -1657,7 +1657,7 @@ profile_pic = 19.jpg
 
 Request:
 ```jq
-https://crimemap.hopto.org/add/user_profiles/user_id/1/name/Administrator/email/admin@udel.edu/profile_pic/19.jpg
+https://api.crimemap.hopto.org/add/user_profiles/user_id/1/name/Administrator/email/admin@udel.edu/profile_pic/19.jpg
 ```
 
 Response:
@@ -1677,7 +1677,7 @@ url = https://www.w3schools.com/w3images/avatar4.png
 
 Request:
 ```erlang
-https://crimemap.hopto.org/uploadImageUrl?url=https://www.w3schools.com/w3images/avatar4.png
+https://api.crimemap.hopto.org/uploadImageUrl?url=https://www.w3schools.com/w3images/avatar4.png
 ```
 
 Response:
@@ -1700,7 +1700,7 @@ profile_pic = 20.png
 
 Request:
 ```jq
-https://crimemap.hopto.org/add/user_profiles/user_id/2/name/Alice Smith/email/alice@udel.edu/profile_pic/20.png
+https://api.crimemap.hopto.org/add/user_profiles/user_id/2/name/Alice Smith/email/alice@udel.edu/profile_pic/20.png
 ```
 
 Response:
@@ -1720,7 +1720,7 @@ url = https://www.w3schools.com/w3images/avatar2.png
 
 Request:
 ```erlang
-https://crimemap.hopto.org/uploadImageUrl?url=https://www.w3schools.com/w3images/avatar2.png
+https://api.crimemap.hopto.org/uploadImageUrl?url=https://www.w3schools.com/w3images/avatar2.png
 ```
 
 Response:
@@ -1743,7 +1743,7 @@ profile_pic = 21.png
 
 Request:
 ```jq
-https://crimemap.hopto.org/add/user_profiles/user_id/3/name/Bob Smith/email/bob@udel.edu/profile_pic/21.png
+https://api.crimemap.hopto.org/add/user_profiles/user_id/3/name/Bob Smith/email/bob@udel.edu/profile_pic/21.png
 ```
 
 Response:
@@ -1763,7 +1763,7 @@ url = https://www.w3schools.com/w3images/avatar5.png
 
 Request:
 ```erlang
-https://crimemap.hopto.org/uploadImageUrl?url=https://www.w3schools.com/w3images/avatar5.png
+https://api.crimemap.hopto.org/uploadImageUrl?url=https://www.w3schools.com/w3images/avatar5.png
 ```
 
 Response:
@@ -1786,7 +1786,7 @@ profile_pic = 22.png
 
 Request:
 ```jq
-https://crimemap.hopto.org/add/user_profiles/user_id/4/name/Anna Williams/email/anna@udel.edu/profile_pic/22.png
+https://api.crimemap.hopto.org/add/user_profiles/user_id/4/name/Anna Williams/email/anna@udel.edu/profile_pic/22.png
 ```
 
 Response:
@@ -1806,7 +1806,7 @@ url = https://www.w3schools.com/w3images/avatar3.png
 
 Request:
 ```erlang
-https://crimemap.hopto.org/uploadImageUrl?url=https://www.w3schools.com/w3images/avatar3.png
+https://api.crimemap.hopto.org/uploadImageUrl?url=https://www.w3schools.com/w3images/avatar3.png
 ```
 
 Response:
@@ -1829,7 +1829,7 @@ profile_pic = 23.png
 
 Request:
 ```jq
-https://crimemap.hopto.org/add/user_profiles/user_id/5/name/Steve Williams/email/steve@udel.edu/profile_pic/23.png
+https://api.crimemap.hopto.org/add/user_profiles/user_id/5/name/Steve Williams/email/steve@udel.edu/profile_pic/23.png
 ```
 
 Response:
@@ -1917,7 +1917,7 @@ python3 crimemapping_to_pandas.py
 ```
 outputs:
 ```rexx
-https://crimemap.hopto.org/get/incidents
+https://api.crimemap.hopto.org/get/incidents
 
 message: found 753 incident entries
 
@@ -1970,7 +1970,7 @@ report_date = 2022-11-22 01:57:00
 
 Request:
 ```erlang
-https://crimemap.hopto.org/add/incidents?tier=1&type=Vandalism&type_img=13.svg&description=LARCENY/SHOPLIFTING&location=200 BLOCK S. MAIN ST&latitude=39.67787000000004&longitude=-75.76204999999997&agency=Newark
+https://api.crimemap.hopto.org/add/incidents?tier=1&type=Vandalism&type_img=13.svg&description=LARCENY/SHOPLIFTING&location=200 BLOCK S. MAIN ST&latitude=39.67787000000004&longitude=-75.76204999999997&agency=Newark
 Police&report_date=2022-11-22 01:57:00
 ```
 
@@ -2043,7 +2043,7 @@ python3 sexoffender_to_pandas.py
 ```
 outputs:
 ```rexx
-https://crimemap.hopto.org/get/sex_offenders
+https://api.crimemap.hopto.org/get/sex_offenders
 
 message: found 61 sex_offender entries
 
@@ -2100,7 +2100,7 @@ work_longitude = -75.746505
 
 Request:
 ```erlang
-https://crimemap.hopto.org/add/sex_offenders?tier=2&name=MATTHEW OGRADY&dob=1980-09-16 00:00:00&arrest_description=RAPE FOURTH DEGREE SEXUAL INTERCOURSE VICTIM LESS THAN 16 YEARS OLD&arrest_date=2002-07-08
+https://api.crimemap.hopto.org/add/sex_offenders?tier=2&name=MATTHEW OGRADY&dob=1980-09-16 00:00:00&arrest_description=RAPE FOURTH DEGREE SEXUAL INTERCOURSE VICTIM LESS THAN 16 YEARS OLD&arrest_date=2002-07-08
 00:00:00&victim_age=12-15yr&home_address=104 N Brownleaf RD&home_latitude=39.678394&home_longitude=-75.686106&work_name=F.L. GIANNONE ELECTRICAL&work_address=134 Register DR&work_latitude=39.695876&work_longitude=-75.746505
 ```
 
@@ -2914,7 +2914,7 @@ Response:
 #### Let's fetch all users in the `users` table:
 Request:
 ```jq
-https://crimemap.hopto.org/get/users
+https://api.crimemap.hopto.org/get/users
 ```
 
 Response:
@@ -2936,7 +2936,7 @@ Response:
 #### Let's fetch all profiles in the `user_profiles` table:
 Request:
 ```jq
-https://crimemap.hopto.org/get/user_profiles
+https://api.crimemap.hopto.org/get/user_profiles
 ```
 
 Response:
@@ -2963,7 +2963,7 @@ filter = (user_id = 5)
 
 Request:
 ```erlang
-https://crimemap.hopto.org/get/user_profiles?filter=(user_id = 5)
+https://api.crimemap.hopto.org/get/user_profiles?filter=(user_id = 5)
 ```
 
 Response:
@@ -2974,8 +2974,8 @@ Response:
 }
 ```
 
-Note: the `profile_pic` can be fetched directly: [https://crimemap.hopto.org/23.png](https://crimemap.hopto.org/23.png) <br />
-![https://crimemap.hopto.org/23.png](https://crimemap.hopto.org/23.png)
+Note: the `profile_pic` can be fetched directly: [https://api.crimemap.hopto.org/23.png](https://api.crimemap.hopto.org/23.png) <br />
+![https://api.crimemap.hopto.org/23.png](https://api.crimemap.hopto.org/23.png)
 
 ### Investigating the `incidents` table
 
@@ -2987,7 +2987,7 @@ filter = (entry_id >= 1) LIMIT 10
 
 Request:
 ```erlang
-https://crimemap.hopto.org/get/incidents?filter=(entry_id >= 1) LIMIT 10
+https://api.crimemap.hopto.org/get/incidents?filter=(entry_id >= 1) LIMIT 10
 ```
 
 Response:
@@ -3019,7 +3019,7 @@ filter = (report_date >= "2022-11-21")
 
 Request:
 ```erlang
-https://crimemap.hopto.org/get/incidents?filter=(report_date >= "2022-11-21")
+https://api.crimemap.hopto.org/get/incidents?filter=(report_date >= "2022-11-21")
 ```
 
 Response:
@@ -3038,10 +3038,10 @@ Response:
 #### Let's fetch all incidents along `Main Street` between `South College Ave` and `Deer Park Tavern`
 
 ##### Latitude=39.682800, Longitude-75.756200
-![https://crimemap.hopto.org/w_main_left.png](https://crimemap.hopto.org/w_main_left.png)
+![https://api.crimemap.hopto.org/w_main_left.png](https://api.crimemap.hopto.org/w_main_left.png)
 
 ##### Latitude=39.683100, Longitude-75.753600
-![https://crimemap.hopto.org/w_main_right.png](https://crimemap.hopto.org/w_main_right.png)
+![https://api.crimemap.hopto.org/w_main_right.png](https://api.crimemap.hopto.org/w_main_right.png)
 
 Arguments:
 ```rexx
@@ -3050,7 +3050,7 @@ filter = (latitude >= 39.682800 AND latitude <= 39.683100 AND longitude >= -75.7
 
 Request:
 ```erlang
-https://crimemap.hopto.org/get/incidents?filter=(latitude >= 39.682800 AND latitude <= 39.683100 AND longitude >= -75.756200 AND longitude <= -75.753600)
+https://api.crimemap.hopto.org/get/incidents?filter=(latitude >= 39.682800 AND latitude <= 39.683100 AND longitude >= -75.756200 AND longitude <= -75.753600)
 ```
 
 Response:
@@ -3083,7 +3083,7 @@ filter = (tier = 3 AND victim_age = "1-11yr")
 
 Request:
 ```erlang
-https://crimemap.hopto.org/get/sex_offenders?filter=(tier = 3 AND victim_age = "1-11yr")
+https://api.crimemap.hopto.org/get/sex_offenders?filter=(tier = 3 AND victim_age = "1-11yr")
 ```
 
 Response:
@@ -3499,7 +3499,7 @@ Response:
 #### Query the `users` table to see all of the current `users`:
 Request:
 ```jq
-https://crimemap.hopto.org/get/users
+https://api.crimemap.hopto.org/get/users
 ```
 
 Response:
@@ -3524,7 +3524,7 @@ filter = (user_id = 4)
 
 Request:
 ```erlang
-https://crimemap.hopto.org/get/user_profiles?filter=(user_id = 4)
+https://api.crimemap.hopto.org/get/user_profiles?filter=(user_id = 4)
 ```
 
 Response:
@@ -3544,7 +3544,7 @@ filter = (user_id=4)
 
 Request:
 ```erlang
-https://crimemap.hopto.org/edit/user_profiles/email/anna@gmail.com?filter=(user_id=4)
+https://api.crimemap.hopto.org/edit/user_profiles/email/anna@gmail.com?filter=(user_id=4)
 ```
 
 Response:
@@ -3563,7 +3563,7 @@ filter = (user_id = 4)
 
 Request:
 ```erlang
-https://crimemap.hopto.org/get/user_profiles?filter=(user_id = 4)
+https://api.crimemap.hopto.org/get/user_profiles?filter=(user_id = 4)
 ```
 
 Response:
@@ -3583,7 +3583,7 @@ filter = (user_id = 4)
 
 Request:
 ```erlang
-https://crimemap.hopto.org/edit/users?password=Anna1234&filter=(user_id = 4)
+https://api.crimemap.hopto.org/edit/users?password=Anna1234&filter=(user_id = 4)
 ```
 
 Response:
@@ -3603,7 +3603,7 @@ password = Anna1234
 
 Request:
 ```erlang
-https://crimemap.hopto.org/login?username=anna&password=Anna1234
+https://api.crimemap.hopto.org/login?username=anna&password=Anna1234
 ```
 
 Response:
@@ -3833,7 +3833,7 @@ password2 = test
 
 Request:
 ```jq
-https://crimemap.hopto.org/register/username/test/password/test/password2/test
+https://api.crimemap.hopto.org/register/username/test/password/test/password2/test
 ```
 
 Response:
@@ -3847,7 +3847,7 @@ Response:
 ### Verify by fetching all users in the `users` table
 Request:
 ```jq
-https://crimemap.hopto.org/get/users
+https://api.crimemap.hopto.org/get/users
 ```
 
 Response:
@@ -3873,7 +3873,7 @@ filter = (username = "test")
 
 Request:
 ```erlang
-https://crimemap.hopto.org/delete/users?filter=(username = "test")
+https://api.crimemap.hopto.org/delete/users?filter=(username = "test")
 ```
 
 Response:
@@ -3887,7 +3887,7 @@ Response:
 ### Verify by fetching all users in the `users` table
 Request:
 ```jq
-https://crimemap.hopto.org/get/users
+https://api.crimemap.hopto.org/get/users
 ```
 
 Response:
@@ -3996,7 +3996,7 @@ the full url path of the image you wish to upload and save into the backend
 ### Investigating the Endpoint: `/uploadImageUrl`
 Request:
 ```jq
-https://crimemap.hopto.org/uploadImageUrl
+https://api.crimemap.hopto.org/uploadImageUrl
 ```
 
 Response:
@@ -4059,12 +4059,12 @@ Response:
 
 Arguments:
 ```Mpython
-url = "https://crimemap.hopto.org/uploadImageUrl/url/https://www.ironhillbrewery.com/assets/craft/TAPHOUSE_LOGO.png"
+url = "https://api.crimemap.hopto.org/uploadImageUrl/url/https://www.ironhillbrewery.com/assets/craft/TAPHOUSE_LOGO.png"
 ```
 
 Request:
 ```ruby
-https://crimemap.hopto.org/uploadImageUrl/url/https://www.ironhillbrewery.com/assets/craft/TAPHOUSE_LOGO.png
+https://api.crimemap.hopto.org/uploadImageUrl/url/https://www.ironhillbrewery.com/assets/craft/TAPHOUSE_LOGO.png
 ```
 
 Response:
